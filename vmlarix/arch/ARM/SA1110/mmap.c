@@ -28,6 +28,10 @@ first_level_page_table __attribute__ ((aligned (16*1024))) kernel_page_table[0x1
    array of coarse page table entries.  */
 #define KMALLOC_NUM_PAGE_TABLES 64
 
+// ===============
+// = BANNNNNNNER =
+// ===============
+
 #define KMALLOC_PT_SIZE (KMALLOC_NUM_PAGE_TABLES << 10)
 
 second_level_page_table __attribute__ ((aligned (4*1024))) 
