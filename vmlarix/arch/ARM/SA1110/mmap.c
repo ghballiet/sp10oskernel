@@ -111,9 +111,6 @@ phys_mem_t setup_kernel_page_table()
 
 
   /* Outer and inner cache WB, no write allocate */
-  /* no domain access checking */
-
-  /* bufferable */
   
   /* Create a section entry for our minicache flush area.  The linker gives
      us the virtual address as __minicacheflush_start__.  We look at our
