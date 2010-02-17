@@ -108,9 +108,6 @@ phys_mem_t setup_kernel_page_table()
 
   /* bufferable */
   kernel_page_table[entry].section.B = 1;
-
-
-  /* Outer and inner cache WB, no write allocate */
   
   /* Create a section entry for our minicache flush area.  The linker gives
      us the virtual address as __minicacheflush_start__.  We look at our
@@ -130,6 +127,24 @@ phys_mem_t setup_kernel_page_table()
      and we want a direct mapping, just like the kernel code.
      I/O registers should not be buffered or cached.
   */
+
+
+  for(entry = (((phys_mem_t)0x80000000)>>20);
+      entry <= (((phys_mem_t)0xBFFFFFFF)>>20); 
+      entry++)
+    {
+      kernel_page_table[entry].section.key=2;
+      kernel_page_table[entry].section.SBZ=0;
+      kernel_page_table[entry].section.SBZ_2=0;
+      kernel_page_table[entry].section.IMP=0;
+      kernel_page_table[entry].section.TEX=0;
+      kernel_page_table[entry].section.base_address = entry;
+      /* no domain access checking */
+      kernel_page_table[entry].section.domain = 3;
+      kernel_page_table[entry].section.AP = AP_ANYONE;
+      kernel_page_table[entry].section.C = 0;
+      kernel_page_table[entry].section.B = 0;
+    }
   
   /* insert your code here */
   
