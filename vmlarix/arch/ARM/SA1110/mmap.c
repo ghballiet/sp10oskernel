@@ -5,7 +5,9 @@
 #include <linker_vars.h>
 #include <mmu.h>
 #include <kprintf.h>
-#include <phys_mem.h>
+#include <bitmap.h>
+
+extern static bitmap_t bitmap[(1 << 20)/(sizeof(bitmap_t)<<3)];
 
 /* Define a top level page table dividing our 4Gb virtual memory into chunks of
    1M each.  A top level page table requires 16Kb of memory and must be aligned
@@ -45,7 +47,8 @@ phys_mem_t setup_kernel_page_table()
   void *t;
   uint32_t entry;
   uint32_t i,j;
-  int page_bits = 12;
+  int page_bits = 12; /* probably a bad way to do this, but can't access the
+			 DEFINEd PAGE_BITS from phys_mem.c */
 
   /* initialize the top level page table */
   for (entry=0;entry<4096;entry++)
@@ -181,7 +184,7 @@ phys_mem_t setup_kernel_page_table()
 
   /* Mark the corresponding pages in the physical memory bitmap */
   j = ((phys_mem_t)__kernel_ram_end__ + 1);
-  for(i=j >> PAGE_BITS; i<((j+(1<<20)) >> PAGE_BITS); i++)
+  for(i=j >> page_bits; i<((j+(1<<20)) >> page_bits); i++)
     clear_bit(bitmap, i);
 
 
