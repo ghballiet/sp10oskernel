@@ -108,7 +108,7 @@ phys_mem_t setup_kernel_page_table()
      zeros page. Choose an address that does not overlap the cache flush
      area chosen above. This area is used for clearing the minicache.  We
      clear the minicache by filling it with data from this part of memory.
-     Very clunky way to clear a cache.  Newer ARMs have better methods.
+     Very clunky way to clear a cache.  Newer A RMs have better methods.
      (B=0,C=0) */
   entry =  ((phys_mem_t)__minicacheflush_start__)>>20;
   /* Looks like above, but no loop (we just make a single entry */
@@ -131,7 +131,7 @@ phys_mem_t setup_kernel_page_table()
   /* Create sections for mapping our I/O registers.  The linker
      Does not tell us about these.  We have to look at the manual
      and the memory map that we have designed.  For the SA1110,
-     the I/O registers that are in the region from 80000000 through BFFFFFFF,
+     the I/O registers are in the region from 80000000 through BFFFFFFF,
      and we want a direct mapping, just like the kernel code.
      I/O registers should not be buffered or cached.
   */
@@ -159,8 +159,23 @@ phys_mem_t setup_kernel_page_table()
      OS stacks and the Interrupt Vector Table. MAKE SURE PHYS_MEM knows
      these pages are used. 
   */
+  entry = ((phys_mem_t)__stack_start__)>>20;
   
-  /* insert your code here */
+  kernel_page_table[entry].section.key=2;
+  kernel_page_table[entry].section.SBZ=0;
+  kernel_page_table[entry].section.SBZ_2=0;
+  kernel_page_table[entry].section.IMP=0;
+  kernel_page_table[entry].section.TEX=0;
+
+  kernel_page_table[entry].section.base_address = ((phys_mem_t)__kernel_ram_end__ + 1)>>20;
+  /* TODO: look into this... */
+  /* no domain access checking */
+  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.AP = AP_ANYONE;
+  /* cacheable */
+  kernel_page_table[entry].section.C = 1;
+  /* bufferable */
+  kernel_page_table[entry].section.B = 1;
 
   /* Now, it is time to set up the second level page tables that
      kmalloc will use to manage kernel heap space.  */
