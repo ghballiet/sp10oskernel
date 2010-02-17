@@ -33,4 +33,8 @@ void phys_mem_free_page(phys_mem_t address, uint32_t pages);
 /* get the number of free physical pages */
 uint32_t phys_mem_count_free();
 
+/* mark the pages corresponding to a range of addresses in the physical memory
+   bitmap as in use */
+void phys_mem_mark_range(phys_mem_t address, uint32_t size);
+
 #endif
