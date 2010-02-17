@@ -177,6 +177,12 @@ phys_mem_t setup_kernel_page_table()
   /* bufferable */
   kernel_page_table[entry].section.B = 1;
 
+  /* Mark the corresponding pages in the physical memory bitmap */
+  j = ((phys_mem_t)__kernel_ram_end__ + 1);
+  for(i=j >> PAGE_BITS; i<((j+(1<<20)) >> PAGE_BITS); i++)
+    clear_bit(bitmap, i);
+
+
   /* Now, it is time to set up the second level page tables that
      kmalloc will use to manage kernel heap space.  */
   /* First, Set all second level page table entries to "fault" (key = 0) */
