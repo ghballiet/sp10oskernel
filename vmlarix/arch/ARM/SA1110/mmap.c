@@ -5,6 +5,7 @@
 #include <linker_vars.h>
 #include <mmu.h>
 #include <kprintf.h>
+#include <phys_mem.h>
 
 /* Define a top level page table dividing our 4Gb virtual memory into chunks of
    1M each.  A top level page table requires 16Kb of memory and must be aligned
@@ -44,6 +45,7 @@ phys_mem_t setup_kernel_page_table()
   void *t;
   uint32_t entry;
   uint32_t i,j;
+  int page_bits = 12;
 
   /* initialize the top level page table */
   for (entry=0;entry<4096;entry++)
