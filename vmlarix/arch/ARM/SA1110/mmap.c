@@ -7,7 +7,7 @@
 #include <kprintf.h>
 #include <bitmap.h>
 
-extern static bitmap_t bitmap[(1 << 20)/(sizeof(bitmap_t)<<3)];
+extern bitmap_t bitmap[(1 << 20)/(sizeof(bitmap_t)<<3)];
 
 /* Define a top level page table dividing our 4Gb virtual memory into chunks of
    1M each.  A top level page table requires 16Kb of memory and must be aligned
