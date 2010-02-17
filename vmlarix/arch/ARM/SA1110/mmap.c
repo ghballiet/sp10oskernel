@@ -69,7 +69,7 @@ phys_mem_t setup_kernel_page_table()
       kernel_page_table[entry].section.base_address = entry;
       /* Outer and inner cache WB, no write allocate */
       /* no domain access checking */
-      kernel_page_table[entry].section.domain = 3;
+      kernel_page_table[entry].section.Domain = 3;
       kernel_page_table[entry].section.AP = AP_ANYONE;
       /* cacheable */
       kernel_page_table[entry].section.C = 1;
@@ -95,7 +95,7 @@ phys_mem_t setup_kernel_page_table()
   /* set physical address to E00 */
   kernel_page_table[entry].section.base_address = 0xE00;
   /* no domain access checking */
-  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.Domain = 3;
   kernel_page_table[entry].section.AP = AP_ANYONE;
   /* not cacheable */
   kernel_page_table[entry].section.C = 0;
@@ -121,7 +121,7 @@ phys_mem_t setup_kernel_page_table()
   kernel_page_table[entry].section.base_address = 0xE01;
   /* TODO: look into this... */
   /* no domain access checking */
-  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.Domain = 3;
   kernel_page_table[entry].section.AP = AP_ANYONE;
   /* not cacheable */
   kernel_page_table[entry].section.C = 0;
@@ -148,7 +148,7 @@ phys_mem_t setup_kernel_page_table()
       kernel_page_table[entry].section.TEX=0;
       kernel_page_table[entry].section.base_address = entry;
       /* no domain access checking */
-      kernel_page_table[entry].section.domain = 3;
+      kernel_page_table[entry].section.Domain = 3;
       kernel_page_table[entry].section.AP = AP_ANYONE;
       kernel_page_table[entry].section.C = 0;
       kernel_page_table[entry].section.B = 0;
@@ -170,7 +170,7 @@ phys_mem_t setup_kernel_page_table()
   kernel_page_table[entry].section.base_address = ((phys_mem_t)__kernel_ram_end__ + 1)>>20;
   /* TODO: look into this... */
   /* no domain access checking */
-  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.Domain = 3;
   kernel_page_table[entry].section.AP = AP_ANYONE;
   /* cacheable */
   kernel_page_table[entry].section.C = 1;
