@@ -6,28 +6,26 @@
 #include <mmu.h>
 #include <kprintf.h>
 
-/* Define a top level page table dividing our 4Gb virtual memory into
-   chunks of 1M each.  A top level page table requires 16Kb of memory
-   and must be aligned on a 16 Kb boundary. The first entry in the table
-   maps virtual addresses 0x00000000 to 0x000FFFFF.  The second entry
-   in the table maps virtual addresses 0x00100000 through 0x001FFFFF, and
-   so on, up to entry 4095 (0xFFF), which maps addresses 0xFFF00000 through 
-   0xFFFFFFFF */
+/* Define a top level page table dividing our 4Gb virtual memory into chunks of
+   1M each.  A top level page table requires 16Kb of memory and must be aligned
+   on a  16 Kb boundary.  The first entry  in the table maps  virtual addresses
+   0x00000000  to 0x000FFFFF.   The  second  entry in  the  table maps  virtual
+   addresses  0x00100000  through 0x001FFFFF,  and  so  on,  up to  entry  4095
+   (0xFFF), which maps addresses 0xFFF00000 through 0xFFFFFFFF */
 first_level_page_table __attribute__ ((aligned (16*1024))) kernel_page_table[0x1000];
 
-/* Define the second level page tables that kmalloc will use for managing
-   pages in the kernel heap space.  A second level page table has 1024
-   entries, requiring 4Kb of memory.  The second level page table must be
-   aligned on a 4K boundary. kmalloc will use 64 second level page tables to
-   manage 256 Mb of kernel virtual memory.  The page tables themselves will
-   consume 256 Kb. The linker will supply the starting and ending addresses
-   for the kernel heap space. That will tell us which entries in the top
-   level page table need to be set to point at second level page tables. 
-   Note that we have set up the kmalloc page tables so that they are 
-   a single array of page table entries.  Each entry can map a single
-   4 Kb page, and there is a total of 65536 entries. Which covers 256 Mbytes
-   of virtual memory with a single long array of coarse page table entries.
-*/
+/* Define the second level page tables that kmalloc will use for managing pages
+   in  the kernel  heap space.   A second  level page  table has  1024 entries,
+   requiring 4Kb of  memory.  The second level page table must  be aligned on a
+   4K boundary. kmalloc  will use 64 second level page tables  to manage 256 Mb
+   of  kernel virtual  memory.  The  page  tables themselves  will consume  256
+   Kb. The linker will supply the  starting and ending addresses for the kernel
+   heap space. That will tell us which entries in the top level page table need
+   to be set  to point at second level  page tables.  Note that we  have set up
+   the  kmalloc page  tables so  that they  are a  single array  of  page table
+   entries.  Each  entry can map a  single 4 Kb page,  and there is  a total of
+   65536 entries. Which covers 256 Mbytes  of virtual memory with a single long
+   array of coarse page table entries.  */
 #define KMALLOC_NUM_PAGE_TABLES 64
 
 #define KMALLOC_PT_SIZE (KMALLOC_NUM_PAGE_TABLES << 10)
@@ -35,13 +33,12 @@ first_level_page_table __attribute__ ((aligned (16*1024))) kernel_page_table[0x1
 second_level_page_table __attribute__ ((aligned (4*1024))) 
         kmalloc_page_table[KMALLOC_PT_SIZE];
 
-/* Set up the kernel page table.  Each process will get its own copy
-   of this page table, with extra entries for its data, stack, text,
-   bss, etc. Whenever we change the top level kernel page table, we
-   may have to copy the changes to the page table of every process.
-   With processors that support two page table base addresses, we
-   could set up the kernel page table pointer separately from the
-   process page tables.*/
+/* Set up the  kernel page table.  Each  process will get its own  copy of this
+   page table, with extra entries for its data, stack, text, bss, etc. Whenever
+   we change the top  level kernel page table, we may have  to copy the changes
+   to the page  table of every process.  With processors  that support two page
+   table  base  addresses,  we could  set  up  the  kernel page  table  pointer
+   separately from the process page tables.*/
 phys_mem_t setup_kernel_page_table()
 {
   void *t;
