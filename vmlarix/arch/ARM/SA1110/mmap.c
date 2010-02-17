@@ -86,26 +86,19 @@ phys_mem_t setup_kernel_page_table()
   */
 
   entry =  ((phys_mem_t)__cacheflush_start__)>>20;
-
   /* Looks like above, but no loop (we just make a single entry */
-  
-  /* insert your code here */
   kernel_page_table[entry].section.key=2;
   kernel_page_table[entry].section.SBZ=0;
   kernel_page_table[entry].section.SBZ_2=0;
   kernel_page_table[entry].section.IMP=0;
   kernel_page_table[entry].section.TEX=0;
-  
   /* set physical address to E00 */
   kernel_page_table[entry].section.base_address = 0xE00;
-
   /* no domain access checking */
   kernel_page_table[entry].section.domain = 3;
   kernel_page_table[entry].section.AP = AP_ANYONE;
-
   /* not cacheable */
   kernel_page_table[entry].section.C = 0;
-
   /* bufferable */
   kernel_page_table[entry].section.B = 1;
   
@@ -117,8 +110,23 @@ phys_mem_t setup_kernel_page_table()
      clear the minicache by filling it with data from this part of memory.
      Very clunky way to clear a cache.  Newer ARMs have better methods.
      (B=0,C=0) */
-
-  /* insert your code here*/
+  entry =  ((phys_mem_t)__minicacheflush_start__)>>20;
+  /* Looks like above, but no loop (we just make a single entry */
+  kernel_page_table[entry].section.key=2;
+  kernel_page_table[entry].section.SBZ=0;
+  kernel_page_table[entry].section.SBZ_2=0;
+  kernel_page_table[entry].section.IMP=0;
+  kernel_page_table[entry].section.TEX=0;
+  /* set physical address to E00 */
+  kernel_page_table[entry].section.base_address = 0xE01;
+  /* TODO: look into this... */
+  /* no domain access checking */
+  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.AP = AP_ANYONE;
+  /* not cacheable */
+  kernel_page_table[entry].section.C = 0;
+  /* bufferable */
+  kernel_page_table[entry].section.B = 1;
   
   /* Create sections for mapping our I/O registers.  The linker
      Does not tell us about these.  We have to look at the manual
@@ -146,13 +154,13 @@ phys_mem_t setup_kernel_page_table()
       kernel_page_table[entry].section.B = 0;
     }
   
-  /* insert your code here */
-  
   /* Take 1 meg of physical memory from directly after __kernel_ram_end__ 
      and map it to __stack_start__. This section will hold the
      OS stacks and the Interrupt Vector Table. MAKE SURE PHYS_MEM knows
      these pages are used. 
   */
+  
+  /* insert your code here */
 
   /* Now, it is time to set up the second level page tables that
      kmalloc will use to manage kernel heap space.  */
