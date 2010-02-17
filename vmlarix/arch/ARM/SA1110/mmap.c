@@ -88,12 +88,31 @@ phys_mem_t setup_kernel_page_table()
   entry =  ((phys_mem_t)__cacheflush_start__)>>20;
 
   /* Looks like above, but no loop (we just make a single entry */
-
+  
   /* insert your code here */
+  kernel_page_table[entry].section.key=2;
+  kernel_page_table[entry].section.SBZ=0;
+  kernel_page_table[entry].section.SBZ_2=0;
+  kernel_page_table[entry].section.IMP=0;
+  kernel_page_table[entry].section.TEX=0;
+  
   /* set physical address to E00 */
+  kernel_page_table[entry].section.base_address = 0xE00;
+
+  /* no domain access checking */
+  kernel_page_table[entry].section.domain = 3;
+  kernel_page_table[entry].section.AP = AP_ANYONE;
+
+  /* not cacheable */
+  kernel_page_table[entry].section.C = 0;
+
+  /* bufferable */
+  kernel_page_table[entry].section.B = 1;
+
+
   /* Outer and inner cache WB, no write allocate */
   /* no domain access checking */
-  /* not cacheable */
+
   /* bufferable */
   
   /* Create a section entry for our minicache flush area.  The linker gives
