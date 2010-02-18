@@ -44,8 +44,8 @@ void phys_mem_init()
       clear_bit(bitmap,i);
 
   /* Also mark the pages the kernel is using. */
-  phys_mem_mark_range(__kernel_ram_start__, 
-		      (__kernel_ram_end__ - __kernel_ram_start__));
+  phys_mem_mark_range((phys_mem_t)__kernel_ram_start__, 
+		      ((uint_32_t)(__kernel_ram_end__ - __kernel_ram_start__));
 
   /* check all remaining pages! */
   int counter=0;
