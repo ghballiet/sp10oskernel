@@ -3,7 +3,7 @@
 #include <mem_list.h>
 #include <kprintf.h>
 #include <sys/types.h>
-#include <mmap.h>
+#include <arch/ARM/SA1110/mmap.h>
 #include <linker_vars.h>
 /* TODO: phys_mem_t is defined in sys/types.h, but even first including that before linker_vars still fails because linker_vars can't find mmap.h ? */
 
