@@ -45,7 +45,7 @@ void phys_mem_init()
 
   /* Also mark the pages the kernel is using. */
   phys_mem_mark_range((phys_mem_t)__kernel_ram_start__, 
-		      ((uint_32_t)(__kernel_ram_end__ - __kernel_ram_start__));
+		      ((uint32_t)(__kernel_ram_end__ - __kernel_ram_start__));
 
   /* check all remaining pages! */
   int counter=0;
