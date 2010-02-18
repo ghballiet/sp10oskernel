@@ -198,14 +198,10 @@ phys_mem_t setup_kernel_page_table()
 
   /* OK, now the base kernel page table is set up....  Make sure that you
      marked the pages that were used as NOT free in the physical memory
-     bitmap.
+     bitmap. */
 
-     In the no_probe_list, we reserved a bunch of pages for the kernel, but
-     the kernel did not use them all.  Instead of reserving 8 Meg of kernel
-     memory in the no_probe_list, phys_mem_init() should mark kernel pages
-     by using __kernel_ram_start__ and __kernel_ram__ end.  Make that change
-     and see how many pages become available.
-  */
+  /*  After changing phys_mem_init() to use __kernel_ram_start__ and
+     __kernel_ram_end__, 228 more pages are free. */
 
   /* We will add some more mappings to this file when we start working on
      the Memory Manager, but to enable the MMU and get kmalloc working

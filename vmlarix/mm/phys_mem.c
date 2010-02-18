@@ -158,8 +158,13 @@ uint32_t phys_mem_count_free()
 
    'size' is the number of addresses in the range.  */
 void phys_mem_mark_range(phys_mem_t address, uint32_t size) {
-  int i;
-  for(i=(address >> PAGE_BITS); i < ((address + size) >> PAGE_BITS); i++)
-    clear_bit(bitmap, i);
-  num_free -= ((address + size) >> PAGE_BITS) - (address >> PAGE_BITS);
+  uint32_t i;
+  uint32_t count=0;
+  for(i=(address >> PAGE_BITS); i < ((address + size) >> PAGE_BITS); i++) {
+    if(get_bit(bitmap, i)) {
+      clear_bit(bitmap, i);
+      count++;
+    }
+  }
+  num_free -= count;
 }
