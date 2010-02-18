@@ -2,6 +2,7 @@
 #include <bitmap.h>
 #include <mem_list.h>
 #include <kprintf.h>
+#include <linker_vars.h>
 
 /* the following is for the SA1110, and should be
    defined somewhere else.  I'm open for suggestions. */
