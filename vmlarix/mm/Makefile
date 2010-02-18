@@ -9,7 +9,7 @@ OBJS = $(C_OBJS) $(ASM_OBJS)
 #MAKE = make
 
 
-INCLUDES = -I. -I../util -I../include 
+INCLUDES = -I. -I../util -I../include -I../arch/ARM/SA1110
 
 all: libmm.a
 

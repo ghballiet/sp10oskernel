@@ -2,12 +2,8 @@
 #include <bitmap.h>
 #include <mem_list.h>
 #include <kprintf.h>
-//#include <sys/types.h>
-//#include <mmap.h>
-//#include <linker_vars.h>
-/* TODO: problems finding mmap.h are preventing the inclusion of linker_vars,
-   so we've manually duplicated the EXTERNs for __kernel_mem_start__ and
-   __kernel_mem_end__ below */
+#include <mmap.h>
+#include <linker_vars.h>
 
 /* the following is for the SA1110, and should be
    defined somewhere else.  I'm open for suggestions. */
@@ -27,9 +23,6 @@
 static bitmap_t bitmap[ARCH_NUM_PAGES/BITMAP_T_BITS];
 /* Declare a variable to track the number of free pages */
 static uint32_t num_free = 0;
-
-extern phys_mem_t __kernel_ram_start__[];
-extern phys_mem_t __kernel_ram_end__[];
 
 /* phys_mem_init scans memory and initializes a bit map to track all available
    physical pages. It uses information provided by the arch to know which pages
