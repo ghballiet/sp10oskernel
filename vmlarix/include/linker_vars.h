@@ -2,7 +2,7 @@
 
 #ifndef LINKER_VARS_H
 #define LINKER_VARS_H
-#include <../mmap.h> 
+//#include <mmap.h> 
 
 extern phys_mem_t __kernel_ram_start__[];
 extern phys_mem_t __kernel_ram_end__[];
