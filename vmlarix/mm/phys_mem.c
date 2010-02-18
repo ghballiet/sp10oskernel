@@ -22,10 +22,9 @@ static bitmap_t bitmap[ARCH_NUM_PAGES/BITMAP_T_BITS];
 /* Declare a variable to track the number of free pages */
 static uint32_t num_free = 0;
 
-/* phys_mem_init scans memory and initializes a bit 
-   map to track all available physical pages. It uses
-   information provided by the arch to know which
-   pages cannot have RAM and should not be scanned */
+/* phys_mem_init scans memory and initializes a bit map to track all available
+   physical pages. It uses information provided by the arch to know which pages
+   cannot have RAM and should not be scanned */
 void phys_mem_init()
 {
   phys_mem_t i;
@@ -42,6 +41,10 @@ void phys_mem_init()
 	i<=(noprobe_list[j].end>>PAGE_BITS);
 	i++ ) 
       clear_bit(bitmap,i);
+
+  /* Also mark the pages the kernel is using. */
+  phys_mem_mark_range(__kernel_ram_start__, 
+		      (__kernel_ram_end__ - __kernel_ram_start__));
 
   /* check all remaining pages! */
   int counter=0;
@@ -61,13 +64,11 @@ void phys_mem_init()
   num_free = counter;
 }
 
-/* phys_mem_get_pages allocates a given number of 
-   CONTIGUOUS pages of physical memory, returning the
-   physical address of the first page.  A return
-   value with the least significant bit set means
-   that there are not enough contiguous free pages. 
-   The 'align' parameter specifies alignment, in pages,
-   of the memory allocated.  
+/* phys_mem_get_pages allocates a given number of CONTIGUOUS pages of physical
+   memory, returning the physical address of the first page.  A return value
+   with the least significant bit set means that there are not enough
+   contiguous free pages.  The 'align' parameter specifies alignment, in pages,
+   of the memory allocated.
    align=1  means align on a one page boundary
    align=2  means align on a two page boundary
    align=3  means align on a FOUR page boundary
