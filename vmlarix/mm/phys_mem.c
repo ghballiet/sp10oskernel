@@ -2,7 +2,10 @@
 #include <bitmap.h>
 #include <mem_list.h>
 #include <kprintf.h>
-//#include <linker_vars.h
+#include <sys/types.h>
+#include <linker_vars.h>
+/* TODO: phys_mem_t is defined in sys/types.h, so first including sys.types.h
+   should fix the linker_vars.h include problem ? */
 
 /* the following is for the SA1110, and should be
    defined somewhere else.  I'm open for suggestions. */
@@ -23,8 +26,8 @@ static bitmap_t bitmap[ARCH_NUM_PAGES/BITMAP_T_BITS];
 /* Declare a variable to track the number of free pages */
 static uint32_t num_free = 0;
 
-extern phys_mem_t __kernel_ram_start__[];
-extern phys_mem_t __kernel_ram_end__[];
+//extern phys_mem_t __kernel_ram_start__[];
+//extern phys_mem_t __kernel_ram_end__[];
 
 /* phys_mem_init scans memory and initializes a bit map to track all available
    physical pages. It uses information provided by the arch to know which pages
