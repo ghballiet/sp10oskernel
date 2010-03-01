@@ -104,21 +104,70 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
   return num_items;
 }
 
+/* Adds an entry to a slab's available item item_rec linked list at the
+   specified address. 
+
+   The address must be within the slab, and there must not already be an
+   item_rec object allocated at that address. */
+void add_slab_item_rec(item_rec *avail, void *address) {
+  item_rec *current = avial;
+  /* find the end of the available item_rec list */
+  while(current->next != NULL)
+    current = current->next;
+  /* append a new entry for the given address */
+  current->next = (item_rec*)address;
+  current->next->next = NULL;
+}
+
+/* NOTE: a remove item function for slab item_rec lists isn't necessary since
+   we'll only be removing the first element, and we can easily do that by
+   simply setting avail = avail->next in the slab header. */
 
   
 void kmalloc_init()
 {
+  /* NOTE: I think we should also manage the first slab with item_rec objects */
 
+  /* How big do the items in the first slab need to be? */
+
+  /* Is it conceivable that we could run out of space in the first slab and
+     need to create a new one? */
+
+  /* We'll need add_row_header and add_slab helper functions */
+
+  /* add_row_header should add a new row header to the end of our row list for
+     items of a given size */
+
+  /* add_slab should allocate a new slab for items of the given size and add a
+     corresponding header entry (stored as an item in the first slab) to the
+     row for items of that size (if necessary, this should make the call to
+     add_row_header) */
+
+  /* THEN, create the first row -- but for items of what size? */
 }
 
 void *kmalloc(size_t size)
 {
+  /* Find (or allocate, if needed) the row for items of the given size */
 
+  /* Find (or allocate, if needed) a first slab in that row with items remaining */
+
+  /* Get a copy of the 'avail' address from that slab's header -- may as well
+     return the very first available block in that slab */
+
+  /* Set avail = avail-> next in that slab header, update items_remaining */
+
+  /* return the address of the block */
 }
 
 void kfree(void *p)
 {
+  /* Find the slab header the address belonged to (search all the rows...?) */
 
+  /* Call add_slab_item_rec with the avial list pointer from that slab header
+     and the given address p */
+
+  /* Update items_remaining in the slab header */
 }
 
 int kmalloc_free_some_pages()
