@@ -282,6 +282,7 @@ void kfree(void *p)
         sh = current_slab;
         break;
       }
+      current_slab = current_slab->next_head;
     }
     current = current->next_row;
   }
