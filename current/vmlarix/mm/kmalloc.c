@@ -133,6 +133,15 @@ void kmalloc_init()
   /* Is it conceivable that we could run out of space in the first slab and
      need to create a new one? */
 
+
+
+  /* THEN, create the first row -- but for items of what size? */
+}
+
+void *kmalloc(size_t size)
+{
+  /* Find (or allocate, if needed) the row for items of the given size */
+
   /* We'll need add_row_header and add_slab helper functions */
 
   /* add_row_header should add a new row header to the end of our row list for
@@ -142,13 +151,6 @@ void kmalloc_init()
      corresponding header entry (stored as an item in the first slab) to the
      row for items of that size (if necessary, this should make the call to
      add_row_header) */
-
-  /* THEN, create the first row -- but for items of what size? */
-}
-
-void *kmalloc(size_t size)
-{
-  /* Find (or allocate, if needed) the row for items of the given size */
 
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
   slab_header *sh = NULL; /* TODO: actually find it */
