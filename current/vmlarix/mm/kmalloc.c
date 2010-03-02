@@ -222,5 +222,41 @@ void kfree(void *p)
 
 int kmalloc_free_some_pages()
 {
-
+  int freed = 0;
+  slab_row_header *last_row = NULL;
+  slab_row_header *current_row = slabs;
+  while(current_row != NULL) {
+    slab_header *last_slab = NULL;
+    slab_header *current_slab = current_row->first_slab;
+    while(current_slab != NULL) {
+      if(current_slab->freeitems == current_slab->totalitems) {
+	freed++;
+	void *record_address = (void *)current_slab;
+	/* remove the slab header from the slab header list */
+	if(last_slab != NULL) {
+	  last_slab->next_head = current_slab->next_head;
+	} else {
+	  current_row->first_slab = current_slab->next_head;
+	}
+	/* destroy the now-unused slab */
+	slab_destroy((void *)current_slab, SLAB_PAGES);
+	/* and release the section of the first slab used to store the slab header */
+	add_slab_item_rec(slabs->first_slab->avail, record_address);
+      }
+      last_slab = current_slab;
+      current_slab = current_slab->next_head;
+    }
+    if(current_row->first_slab == NULL) {
+      /* if this row is now empty, remove the slab row header */
+      void *record_address = (void *)current_row;
+      if(last_row != NULL) {
+	/* we don't want to ever remove the record for the first row -- it
+	   should never be empty anyway, but we'll check here anyway... */
+	last_row->next_row = current_row->next_row;
+	add_slab_item_rec(slabs->first_slab->avail, record_address);
+      }
+    }
+    last_row = current_row;
+    current_row = current_row->next_row;
+  }
 }
