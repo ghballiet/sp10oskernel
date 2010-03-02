@@ -217,6 +217,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 void *kmalloc(size_t size)
 {
+  kprintf("Entered kmalloc for size %d\r\n", size);
   /* Find (or allocate, if needed) the row for items of the given size */
   slab_row_header *current = slabs;
   slab_row_header *srh = NULL;
