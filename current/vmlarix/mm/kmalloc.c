@@ -131,7 +131,7 @@ void kmalloc_init()
   char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
 
   /* Fill this slab with item_rec objects for the unused sections */
-  uint32_t itemsize = sizeof(slhead);
+  uint32_t itemsize = sizeof(slab_header);
   populate_slab_records(slab_start, slab_end, itemsize);
 
   /* Store the first row header as the first item in the first slab */
@@ -147,7 +147,7 @@ void kmalloc_init()
   first_slab_header->slab_end = slab_end;
   first_slab_header->next_head = NULL;
   /* Set the first available item pointer to the third item */
-  first_slab_header->avail = ((slab_header *)(slab_start + (2 * itemsize)));
+  first_slab_header->avail = ((item_rec *)(slab_start + (2 * itemsize)));
   /* Give the first row header a pointer to the first slab header */
   first_row_header->first_slab = first_slab_header;
 
