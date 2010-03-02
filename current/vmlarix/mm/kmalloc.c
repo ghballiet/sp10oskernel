@@ -179,10 +179,7 @@ slab_row_header *new_row(size_t size) {
 
 slab_header *new_slab(slab_row_header *row, size_t size) {
   /* Create a new slab for items of the given size */
-
-  //if(row == NULL) kprintf("In call to new_slab with NULL row.\r\n");
-
-  //kprintf("Creating new slab for size %d\r\n", size);
+  kprintf("Creating new slab for size %d\r\n", size);
 
   /* Get the memory for the first slab */
   char *slab_start = (char *)slab_create(SLAB_PAGES);
