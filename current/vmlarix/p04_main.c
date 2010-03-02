@@ -30,13 +30,14 @@ void kmalloc_test()
       *a2=kmalloc(2048);
       a2+=sizeof(int);
     }
+  kprintf("Cleared the first one.\n\r");
   a2=(int**)c;
   for(i=0;i<*a;i++)
     {
       kfree(*a2);
       a2+=sizeof(int);
     }
-
+  kprintf("Cleared the second loop.\n\r");
   b = kmalloc(4096);
   kprintf("%X\n\r",b);
   kfree(a);
