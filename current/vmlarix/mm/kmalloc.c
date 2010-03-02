@@ -217,18 +217,8 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 void *kmalloc(size_t size)
 {
-  slab_row_header *current = slabs;
   /* Find (or allocate, if needed) the row for items of the given size */
-
-  /* We'll need add_row_header and add_slab helper functions */
-
-  /* add_row_header should add a new row header to the end of our row list for
-     items of a given size */
-
-  /* add_slab should allocate a new slab for items of the given size and add a
-     corresponding header entry (stored as an item in the first slab) to the
-     row for items of that size (if necessary, this should make the call to
-     add_row_header) */
+  slab_row_header *current = slabs;
   slab_row_header *srh = NULL;
   while(current->next_row != NULL) {
     if(current->next_row->itemsize == (uint32_t)size) {
@@ -237,15 +227,19 @@ void *kmalloc(size_t size)
     }
     current = current->next_row;
   }
+  if(srh == NULL) srh = new_row(size);
+
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
-  slab_header *sh = NULL; /* TODO: actually find it */  
-  
-  while(srh->first_slab != NULL) {
-    if(srh->first_slab->freeitems > 0) {
-      sh = srh->first_slab;
+  slab_header current_slab = srh->first_slab;
+  slab_header *sh = NULL;
+  while(current_slab != NULL) {
+    if(current_slab->freeitems > 0) {
+      sh = current_slab;
       break;
     }
+    current_slab = current_slab->next_head;
   }
+  if(sh == NULL) sh = new_slab(srh, size);
 
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
