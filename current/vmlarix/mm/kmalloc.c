@@ -90,7 +90,7 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
   unsigned char *current = slab;
   uint32_t i;
 
-  kprintf("Populating slab with %d item blocks\r\n", num_items);
+  //kprintf("Populating slab with %d item blocks\r\n", num_items);
 
   for(i=0; i<(num_items-1); i++) {
     ((item_rec*)current)->next = (item_rec*)(current + item_size);
@@ -179,7 +179,7 @@ slab_row_header *new_row(size_t size) {
 
 slab_header *new_slab(slab_row_header *row, size_t size) {
   /* Create a new slab for items of the given size */
-  kprintf("Creating new slab for size %d\r\n", size);
+  //kprintf("Creating new slab for size %d\r\n", size);
 
   /* Get the memory for the first slab */
   char *slab_start = (char *)slab_create(SLAB_PAGES);
@@ -256,10 +256,8 @@ void *kmalloc(size_t size)
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
   item_rec *address = sh->avail;
-  kprintf("freeitems count is %d\r\n", sh->freeitems);
-  if(address == NULL) {
-    kprintf("ADDRESS IS NULL!\r\n");
-  }
+  //kprintf("freeitems count is %d\r\n", sh->freeitems);
+  
   /* Set avail = avail-> next in that slab header, update items_remaining */
   sh->avail = sh->avail->next;
   sh->freeitems--;
