@@ -270,7 +270,7 @@ void *kmalloc(size_t size)
 
 void kfree(void *p)
 {
-  //kprintf("In kfree\n\r");
+  kprintf("kfree: In kfree\n\r");
 
   /* Find the slab header based upon the slab start and end addresses */
   slab_row_header *current = slabs;
@@ -284,6 +284,7 @@ void kfree(void *p)
       }
     }
   }
+  kprintf("kfree: found slab header");
 
   /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
@@ -291,7 +292,7 @@ void kfree(void *p)
   /* Update items_remaining in the slab header */
   sh->freeitems++;
 
-  //kprintf("done with kfree\r\n");
+  kprintf("kfree: done with kfree\r\n");
 }
 
 int kmalloc_free_some_pages()
