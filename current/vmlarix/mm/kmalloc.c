@@ -217,6 +217,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 void *kmalloc(size_t size)
 {
+  slab_row_header *current = slabs;
   /* Find (or allocate, if needed) the row for items of the given size */
 
   /* We'll need add_row_header and add_slab helper functions */
@@ -229,12 +230,12 @@ void *kmalloc(size_t size)
      row for items of that size (if necessary, this should make the call to
      add_row_header) */
   slab_row_header *srh = NULL;
-  while(slabs->next_row != NULL) {
-    slabs = slabs->next_row;
-    if(slabs->next_row->itemsize == (uint32_t)size) {
-      srh = slabs->next_row;
+  while(current->next_row != NULL) {
+    if(current->next_row->itemsize == (uint32_t)size) {
+      srh = current->next_row;
       break;
     }
+    current = current->next_row;
   }
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
   slab_header *sh = NULL; /* TODO: actually find it */  
@@ -259,12 +260,13 @@ void *kmalloc(size_t size)
 void kfree(void *p)
 {
   /* Find the slab header based upon the slab start and end addresses */
+  slab_row_header *current = slabs;
   slab_header *sh = NULL;
-  while(slabs->next_row != NULL) {
-    slabs = slabs->next_row;
-    while(slabs->first_slab != NULL) {
-      if(slabs->first_slab->slab <= (char *)p && slabs->first_slab->slab_end >= (char *)p) {
-        sh = slabs->first_slab;
+  while(current->next_row != NULL) {
+    current = current->next_row;
+    while(current->first_slab != NULL) {
+      if(current->first_slab->slab <= (char *)p && current->first_slab->slab_end >= (char *)p) {
+        sh = current->first_slab;
         break;
       }
     }
