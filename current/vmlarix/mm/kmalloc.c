@@ -154,6 +154,8 @@ void *kmalloc(size_t size)
 
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
   slab_header *sh = NULL; /* TODO: actually find it */
+  
+  
 
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
@@ -168,7 +170,19 @@ void *kmalloc(size_t size)
 void kfree(void *p)
 {
   /* Find the slab header the address belonged to (search all the rows...?) */
+  
+  /* Find the slab header based upon the end address */
   slab_header *sh = NULL; /* TODO: actually find it */
+  
+  while(slabs->next_row != NULL) {
+    slabs = slabs->next_row;
+    while(slabs->first_slab != NULL) {
+      if(slabs->first_slab->slab <= p && slabs->first_slab->slab_end >= p) {
+        sh = slabs->first_slab;
+        break;
+      }
+    }
+  }
 
   /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
