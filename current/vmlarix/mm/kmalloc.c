@@ -195,7 +195,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
   /* Set up the slab record */
   sh->itemsize = size;
-  sh->freeitems = SLAB_BYTES/size - 1; /* TODO: why is this fixing it??? */
+  sh->freeitems = SLAB_BYTES/size; /* TODO: why is this fixing it??? */
   sh->totalitems = sh->freeitems;
   sh->slab = slab_start;
   sh->slab_end = slab_end;
