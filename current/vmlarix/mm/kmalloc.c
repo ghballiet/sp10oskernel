@@ -212,10 +212,12 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   sh->next_head = NULL;
   
   /* Add a pointer to this slab at the end of the row */
+  kprintf("Starting to search for end of row\r\n");
   slab_header *current = row->first_slab;
   while(current->next_head != NULL) {
     current = current->next_head; /* find the last row entry */
   }
+  kprintf("Finished search for end of row\r\n");
   current->next_head = sh;
 
   return sh;
