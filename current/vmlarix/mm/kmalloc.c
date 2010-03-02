@@ -151,23 +151,28 @@ void *kmalloc(size_t size)
   /* Find (or allocate, if needed) the row for items of the given size */
 
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
+  slab_header *sh = NULL; /* TODO: actually find it */
 
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
-
+  item_rec *address = sh->avail;
   /* Set avail = avail-> next in that slab header, update items_remaining */
-
+  sh->avail = sh->avail->next;
+  sh->freeitems--;
   /* return the address of the block */
+  return (void*)address;
 }
 
 void kfree(void *p)
 {
   /* Find the slab header the address belonged to (search all the rows...?) */
+  slab_header *sh = NULL; /* TODO: actually find it */
 
-  /* Call add_slab_item_rec with the avial list pointer from that slab header
+  /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
-
+  add_slab_item_rec(sh->avail, p);
   /* Update items_remaining in the slab header */
+  sh->freeitems++;
 }
 
 int kmalloc_free_some_pages()
