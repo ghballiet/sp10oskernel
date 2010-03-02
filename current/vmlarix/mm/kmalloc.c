@@ -110,7 +110,7 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
    The address must be within the slab, and there must not already be an
    item_rec object allocated at that address. */
 void add_slab_item_rec(item_rec *avail, void *address) {
-  item_rec *current = avial;
+  item_rec *current = avail;
   /* find the end of the available item_rec list */
   while(current->next != NULL)
     current = current->next;
@@ -131,7 +131,7 @@ void kmalloc_init()
   char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
 
   /* Fill this slab with item_rec objects for the unused sections */
-  itemsize = sizeof(slhead);
+  uint32_t itemsize = sizeof(slhead);
   populate_slab_records(slab_start, slab_end, itemsize);
 
   /* Store the first row header as the first item in the first slab */
@@ -189,15 +189,12 @@ void *kmalloc(size_t size)
 
 void kfree(void *p)
 {
-  /* Find the slab header the address belonged to (search all the rows...?) */
-  
-  /* Find the slab header based upon the end address */
-  slab_header *sh = NULL; /* TODO: actually find it */
-  
+  /* Find the slab header based upon the slab start and end addresses */
+  slab_header *sh = NULL;
   while(slabs->next_row != NULL) {
     slabs = slabs->next_row;
     while(slabs->first_slab != NULL) {
-      if(slabs->first_slab->slab <= p && slabs->first_slab->slab_end >= p) {
+      if(slabs->first_slab->slab <= (char *)p && slabs->first_slab->slab_end >= (char *)p) {
         sh = slabs->first_slab;
         break;
       }
