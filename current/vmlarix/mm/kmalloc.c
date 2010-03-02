@@ -161,7 +161,7 @@ void kmalloc_init()
 slab_row_header *new_row(size_t size) {
   /* Create a new row for items of the given size */
   
-  kprintf("Creating new row for size %d\r\n", size);
+  //kprintf("Creating new row for size %d\r\n", size);
 
   /* Place the slab row header for this row in the first available block in the
      first slab */
@@ -187,9 +187,9 @@ slab_row_header *new_row(size_t size) {
 slab_header *new_slab(slab_row_header *row, size_t size) {
   /* Create a new slab for items of the given size */
 
-  if(row == NULL) kprintf("In call to new_slab with NULL row.\r\n");
+  if(row == NULL) //kprintf("In call to new_slab with NULL row.\r\n");
 
-  kprintf("Creating new slab for size %d\r\n", size);
+  //kprintf("Creating new slab for size %d\r\n", size);
 
   /* Get the memory for the first slab */
   char *slab_start = (char *)slab_create(SLAB_PAGES);
@@ -212,7 +212,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   sh->next_head = NULL;
   
   /* Add a pointer to this slab at the end of the row */
-  kprintf("Starting to search for end of row\r\n");
+  //kprintf("Starting to search for end of row\r\n");
   slab_header *current = row->first_slab;
   /* If this will be the first slab in the row, we don't have to search, but
      instead need to set the row's pointer */
@@ -222,7 +222,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
     while(current->next_head != NULL) {
       current = current->next_head; /* find the last row entry */
     }
-    kprintf("Finished search for end of row\r\n");
+    //kprintf("Finished search for end of row\r\n");
     current->next_head = sh;
   }
 
@@ -231,9 +231,9 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 void *kmalloc(size_t size)
 {
-  kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
+  //kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
   /* Find (or allocate, if needed) the row for items of the given size */
-  kprintf("Looking for row.\r\n");
+  //kprintf("Looking for row.\r\n");
   slab_row_header *current = slabs;
   slab_row_header *srh = NULL;
   while(current->next_row != NULL) {
@@ -245,7 +245,7 @@ void *kmalloc(size_t size)
   }
   if(srh == NULL) srh = new_row(size);
 
-  kprintf("Kmalloc: Looking for slab.\r\n");
+  //kprintf("Kmalloc: Looking for slab.\r\n");
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
   slab_header *current_slab = srh->first_slab;
   slab_header *sh = NULL;
@@ -258,7 +258,7 @@ void *kmalloc(size_t size)
   }
   if(sh == NULL) sh = new_slab(srh, size);
 
-  kprintf("Kmalloc: getting the address\r\n");
+  //kprintf("Kmalloc: getting the address\r\n");
 
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
@@ -271,7 +271,7 @@ void *kmalloc(size_t size)
   sh->avail = sh->avail->next;
   sh->freeitems--;
 
-  kprintf("Done with kmalloc\r\n");
+  //kprintf("Done with kmalloc\r\n");
 
   /* return the address of the block */
   return (void*)address;
@@ -279,7 +279,7 @@ void *kmalloc(size_t size)
 
 void kfree(void *p)
 {
-  kprintf("In kfree\n\r");
+  //kprintf("In kfree\n\r");
 
   /* Find the slab header based upon the slab start and end addresses */
   slab_row_header *current = slabs;
@@ -300,7 +300,7 @@ void kfree(void *p)
   /* Update items_remaining in the slab header */
   sh->freeitems++;
 
-  kprintf("done with kfree\r\n");
+  //kprintf("done with kfree\r\n");
 }
 
 int kmalloc_free_some_pages()

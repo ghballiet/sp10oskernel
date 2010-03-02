@@ -15,7 +15,7 @@ uint16_t console_minor;
 void kmalloc_test()
 {
   int *a,*b,*c,**a2,i,freed;
-
+  
   a = kmalloc(sizeof(int));
   *a=1000;                 
   c = kmalloc((*a)*sizeof(int));
