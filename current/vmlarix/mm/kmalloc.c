@@ -279,6 +279,8 @@ void kfree(void *p)
 {
   //kprintf("kfree: In kfree\n\r");
 
+  if(p==NULL) kprintf("kfree: trying to free a NULL\r\n");
+
   /* Find the slab header based upon the slab start and end addresses */
   slab_row_header *current = slabs;
   slab_header *sh = NULL;
@@ -294,7 +296,7 @@ void kfree(void *p)
     current = current->next_row;
   }
   //kprintf("kfree: found slab header\r\n");
-  if(sh==NULL) kprintf("Failed to find slab for address.\r\n");
+  if(sh==NULL) kprintf("kfree: failed to find slab for address.\r\n");
 
   /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
