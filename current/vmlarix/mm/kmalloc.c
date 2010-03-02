@@ -230,7 +230,7 @@ void *kmalloc(size_t size)
   if(srh == NULL) srh = new_row(size);
 
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
-  slab_header current_slab = srh->first_slab;
+  slab_header *current_slab = srh->first_slab;
   slab_header *sh = NULL;
   while(current_slab != NULL) {
     if(current_slab->freeitems > 0) {
