@@ -171,11 +171,23 @@ void *kmalloc(size_t size)
      corresponding header entry (stored as an item in the first slab) to the
      row for items of that size (if necessary, this should make the call to
      add_row_header) */
-
+  slab_row_header *srh = NULL;
+  while(slabs->next_row != NULL) {
+    slabs = slabs->next_row;
+    if(slabs->next_row->itemsize == (uint32_t*)size) {
+      srh = slabs->next_row;
+      break;
+    }
+  }
   /* Find (or allocate, if needed) a first slab in that row with items remaining */
-  slab_header *sh = NULL; /* TODO: actually find it */
+  slab_header *sh = NULL; /* TODO: actually find it */  
   
-  
+  while(srh->first_slab != NULL) {
+    if(srh->first_slab->freeitems > 0) {
+      sh = srh->first_slab;
+      break;
+    }
+  }
 
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
