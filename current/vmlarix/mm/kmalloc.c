@@ -128,7 +128,7 @@ void kmalloc_init()
 {
   /* Get the memory for the first slab */
   char *slab_start = (char *)slab_create(SLAB_PAGES);
-  char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
+  char *slab_end = slab_start + SLAB_BYTES - 1;
 
   /* Fill this slab with item_rec objects for the unused sections */
   uint32_t itemsize = sizeof(slab_header);
@@ -157,6 +157,63 @@ void kmalloc_init()
 
 /* TODO: it's conceivable that we could run out of space in the first slab and
      need to create a new one... try to make it so we can handle this */
+
+slab_row_header *new_row(size_t size) {
+  /* Create a new row for items of the given size */
+  
+  /* Place the slab row header for this row in the first available block in the
+     first slab */
+  slab_row_header *srh = (slab_row_header*)slabs->first_slab->avail;
+  /* TODO: as discussed above, this might be NULL if we're out of space... */
+  slabs->first_slab->avail = slabs->first_slab->avail->next;
+  slabs->first_slab->freeitems--;
+
+  /* Set up the slab row record */
+  srh->itemsize = size;
+  srh->next_row = NULL;
+  srh->first_slab = NULL;
+
+  /* Add a pointer to this row at the end of our slab row list */
+  slab_row_header *current = slabs;
+  while(current->next_row != NULL) {
+    current = current->next_row; /* find the last row entry */
+  }
+  current->next_row = srh;
+  return srh;
+}
+
+slab_header *new_slab(slab_row_header *row, size_t size) {
+  /* Create a new slab for items of the given size */
+
+  /* Get the memory for the first slab */
+  char *slab_start = (char *)slab_create(SLAB_PAGES);
+  char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
+
+  /* Place the slab header for this row in the first available block in the
+     first slab */
+  slab_header *sh = (slab_header*)slabs->first_slab->avail;
+  /* TODO: as discussed above, this might be NULL if we're out of space... */
+  slabs->first_slab->avail = slabs->first_slab->avail->next;
+  slabs->first_slab->freeitems--;
+
+  /* Set up the slab record */
+  sh->itemsize = size;
+  sh->freeitems = SLAB_BYTES/size;
+  sh->totalitems = sh->freeitems;
+  sh->slab = slab_start;
+  sh->slab_end = slab_end;
+  sh->avail = (item_rec*)slab_start;
+  sh->next_head = NULL;
+  
+  /* Add a pointer to this slab at the end of the row */
+  slab_header *current = row->first_slab;
+  while(current->next_head != NULL) {
+    current = current->next_head; /* find the last row entry */
+  }
+  current->next_head = sh;
+
+  return sh;
+}
 
 void *kmalloc(size_t size)
 {
@@ -242,6 +299,7 @@ int kmalloc_free_some_pages()
 	slab_destroy((void *)current_slab, SLAB_PAGES);
 	/* and release the section of the first slab used to store the slab header */
 	add_slab_item_rec(slabs->first_slab->avail, record_address);
+	slabs->first_slab->freeitems++;
       }
       last_slab = current_slab;
       current_slab = current_slab->next_head;
@@ -254,6 +312,7 @@ int kmalloc_free_some_pages()
 	   should never be empty anyway, but we'll check here anyway... */
 	last_row->next_row = current_row->next_row;
 	add_slab_item_rec(slabs->first_slab->avail, record_address);
+	slabs->first_slab->freeitems++;
       }
     }
     last_row = current_row;
