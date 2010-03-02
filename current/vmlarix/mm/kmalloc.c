@@ -174,7 +174,7 @@ void *kmalloc(size_t size)
   slab_row_header *srh = NULL;
   while(slabs->next_row != NULL) {
     slabs = slabs->next_row;
-    if(slabs->next_row->itemsize == (uint32_t*)size) {
+    if(slabs->next_row->itemsize == (uint32_t)size) {
       srh = slabs->next_row;
       break;
     }
