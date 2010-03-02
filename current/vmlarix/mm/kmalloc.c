@@ -126,17 +126,37 @@ void add_slab_item_rec(item_rec *avail, void *address) {
   
 void kmalloc_init()
 {
-  /* NOTE: I think we should also manage the first slab with item_rec objects */
+  /* Get the memory for the first slab */
+  char *slab_start = (char *)slab_create(SLAB_PAGES);
+  char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
 
-  /* How big do the items in the first slab need to be? */
+  /* Fill this slab with item_rec objects for the unused sections */
+  itemsize = sizeof(slhead);
+  populate_slab_records(slab_start, slab_end, itemsize);
 
-  /* Is it conceivable that we could run out of space in the first slab and
-     need to create a new one? */
+  /* Store the first row header as the first item in the first slab */
+  slab_row_header *first_row_header = ((slab_row_header *)slab_start);
+  first_row_header->itemsize = itemsize;
+  first_row_header->next_row = NULL;
+  /* Set up the first slab's slab header as the second item in the first slab */
+  slab_header *first_slab_header = ((slab_header *)(slab_start + itemsize));
+  first_slab_header->itemsize = itemsize;
+  first_slab_header->totalitems = SLAB_BYTES / itemsize;
+  first_slab_header->freeitems = first_slab_header->totalitems - 2;
+  first_slab_header->slab = slab_start;
+  first_slab_header->slab_end = slab_end;
+  first_slab_header->next_head = NULL;
+  /* Set the first available item pointer to the third item */
+  first_slab_header->avail = ((slab_header *)(slab_start + (2 * itemsize)));
+  /* Give the first row header a pointer to the first slab header */
+  first_row_header->first_slab = first_slab_header;
 
-
-
-  /* THEN, create the first row -- but for items of what size? */
+  /* And set the global row header pointer to point to the first row header */
+  slabs = first_row_header;
 }
+
+/* TODO: it's conceivable that we could run out of space in the first slab and
+     need to create a new one... try to make it so we can handle this */
 
 void *kmalloc(size_t size)
 {
