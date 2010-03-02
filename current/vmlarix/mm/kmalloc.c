@@ -92,7 +92,7 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
 
   kprintf("Populating slab with %d item blocks\r\n", num_items);
 
-  for(i=0; i<num_items; i++) {
+  for(i=0; i<(num_items-1); i++) {
     ((item_rec*)current)->next = (item_rec*)(current + item_size);
     current = (unsigned char *)((item_rec*)current)->next;
   }
@@ -192,9 +192,12 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   slabs->first_slab->avail = slabs->first_slab->avail->next;
   slabs->first_slab->freeitems--;
 
+  /* Populate the slab with item_rec objects */
+  populate_slab_records(slab_start, slab_end, size);
+
   /* Set up the slab record */
   sh->itemsize = size;
-  sh->freeitems = SLAB_BYTES/size; /* TODO: why is this fixing it??? */
+  sh->freeitems = SLAB_BYTES/size; 
   sh->totalitems = sh->freeitems;
   sh->slab = slab_start;
   sh->slab_end = slab_end;
