@@ -28,6 +28,7 @@ void kmalloc_test()
   for(i=0;i<*a;i++)
     {
       *a2=kmalloc(2048);
+      if(*a2==NULL) kprintf("Iteration: %d/%d got a NULL address\n\r",i+1,*a);
       a2+=sizeof(int);
       if(i%100==0) kprintf("Iteration: %d/%d\n\r",i+1,*a);
     }
