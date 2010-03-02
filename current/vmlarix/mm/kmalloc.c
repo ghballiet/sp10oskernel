@@ -259,4 +259,5 @@ int kmalloc_free_some_pages()
     last_row = current_row;
     current_row = current_row->next_row;
   }
+  return freed;
 }
