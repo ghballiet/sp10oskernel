@@ -104,12 +104,13 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
 /* Adds an entry to a slab's available item item_rec linked list at the
    specified address. 
 
-   The address must be within the slab, and there must not already be an
+   The address must be within th
+e slab, and there must not already be an
    item_rec object allocated at that address. */
 void add_slab_item_rec(slab_header *slab, void *address) {
   item_rec *current = slab->avail;
   /* check if there are any items in the available list */
-  if(current=NULL) {
+  if(current==NULL) {
     slab->avail = (item_rec*)address;
     slab->avail->next = NULL;
   } else {
