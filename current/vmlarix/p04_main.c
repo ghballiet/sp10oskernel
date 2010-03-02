@@ -29,7 +29,7 @@ void kmalloc_test()
     {
       *a2=kmalloc(2048);
       a2+=sizeof(int);
-      kprintf("Iteration: %d/%d\n\r",i,*a);
+      kprintf("Iteration: %d/%d\n\r",i+1,*a);
     }
   kprintf("Cleared the first one.\n\r");
   a2=(int**)c;
@@ -37,6 +37,7 @@ void kmalloc_test()
     {
       kfree(*a2);
       a2+=sizeof(int);
+      kprintf("Iteration: %d/%d\n\r",i+1,*a);
     }
   kprintf("Cleared the second loop.\n\r");
   b = kmalloc(4096);
