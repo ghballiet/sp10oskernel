@@ -286,7 +286,8 @@ void kfree(void *p)
     }
     current = current->next_row;
   }
-  kprintf("kfree: found slab header");
+  kprintf("kfree: found slab header\r\n");
+  if(sh==NULL) kprintf("but it was null\r\n");
 
   /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
