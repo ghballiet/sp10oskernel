@@ -80,22 +80,17 @@ static special_slab *special_slabs;
 
 /* You may need to define some helper functions here */
 
-/* TODO: create a similar populate_first_slab function that will store slab and
-   row headers. **How do we manage storing row/column headers?** */
-
 /* Fills a slab with a linked list of item_rec objects for the given item size
    (in bytes). Returns the number of item_rec objects created.
 
    The address of the first item_rec item in the slab will initially be the
    start address of the slab itself.*/
 uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
-  /* TODO: do I need to take *slab_end as an argument too, or could I figure
-     that out from SLAB_BYTES? (Do I even need it at all?)*/
   uint32_t num_items = SLAB_BYTES / item_size;
   unsigned char *current = slab;
   uint32_t i;
 
-  for(i=0; i<(num_items-1); i++) {
+  for(i=0; i<num_items; i++) {
     ((item_rec*)current)->next = (item_rec*)(current + item_size);
     current = (unsigned char *)((item_rec*)current)->next;
   }
@@ -118,10 +113,6 @@ void add_slab_item_rec(item_rec *avail, void *address) {
   current->next = (item_rec*)address;
   current->next->next = NULL;
 }
-
-/* NOTE: a remove item function for slab item_rec lists isn't necessary since
-   we'll only be removing the first element, and we can easily do that by
-   simply setting avail = avail->next in the slab header. */
 
   
 void kmalloc_init()
@@ -193,7 +184,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
   /* Get the memory for the first slab */
   char *slab_start = (char *)slab_create(SLAB_PAGES);
-  char *slab_end = slab_start + SLAB_BYTES - 1; /* TODO: should the -1 be there or not? */
+  char *slab_end = slab_start + SLAB_BYTES; /* TODO: should the -1 be there or not? */
 
   /* Place the slab header for this row in the first available block in the
      first slab */
@@ -263,7 +254,7 @@ void *kmalloc(size_t size)
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
   item_rec *address = sh->avail;
-  // kprintf("freeitems count is %d\r\n", sh->freeitems);
+  kprintf("freeitems count is %d\r\n", sh->freeitems);
   //   if(address == NULL) {
   //     kprintf("ADDRESS IS NULL!\r\n");
   //   }
