@@ -36,6 +36,7 @@ void kmalloc_test()
   a2=(int**)c;
   for(i=0;i<*a;i++)
     {
+      if(*a2==NULL) kprintf("Iteration: %d/%d has a NULL address\n\r",i+1,*a);
       kfree(*a2);
       a2+=sizeof(int);
       if(i%100==0) kprintf("Iteration: %d/%d\n\r",i+1,*a);
