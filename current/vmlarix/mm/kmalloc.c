@@ -263,10 +263,10 @@ void *kmalloc(size_t size)
   /* Get a copy of the 'avail' address from that slab's header -- may as well
      return the very first available block in that slab */
   item_rec *address = sh->avail;
-  kprintf("freeitems count is %d\r\n", sh->freeitems);
-  if(address == NULL) {
-    kprintf("ADDRESS IS NULL!\r\n");
-  }
+  // kprintf("freeitems count is %d\r\n", sh->freeitems);
+  //   if(address == NULL) {
+  //     kprintf("ADDRESS IS NULL!\r\n");
+  //   }
   /* Set avail = avail-> next in that slab header, update items_remaining */
   sh->avail = sh->avail->next;
   sh->freeitems--;
