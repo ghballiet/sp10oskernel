@@ -90,6 +90,8 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
   unsigned char *current = slab;
   uint32_t i;
 
+  kprintf("Populating slab with %d item blocks\r\n", num_items);
+
   for(i=0; i<num_items; i++) {
     ((item_rec*)current)->next = (item_rec*)(current + item_size);
     current = (unsigned char *)((item_rec*)current)->next;
