@@ -275,14 +275,15 @@ void kfree(void *p)
   /* Find the slab header based upon the slab start and end addresses */
   slab_row_header *current = slabs;
   slab_header *sh = NULL;
-  while(current->next_row != NULL) {
-    current = current->next_row;
-    while(current->first_slab != NULL) {
-      if(current->first_slab->slab <= (char *)p && current->first_slab->slab_end >= (char *)p) {
-        sh = current->first_slab;
+  while(current != NULL) {
+    slab_header *current_slab = current->first_slab;
+    while(current_slab != NULL) {
+      if(current_slab->slab <= (char *)p && current_slab->slab_end >= (char *)p) {
+        sh = current_slab;
         break;
       }
     }
+    current = current->next_row;
   }
   kprintf("kfree: found slab header");
 
