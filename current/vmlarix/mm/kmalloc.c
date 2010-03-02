@@ -266,12 +266,17 @@ void *kmalloc(size_t size)
   /* Set avail = avail-> next in that slab header, update items_remaining */
   sh->avail = sh->avail->next;
   sh->freeitems--;
+
+  kprintf("Done with kmalloc\r\n");
+
   /* return the address of the block */
   return (void*)address;
 }
 
 void kfree(void *p)
 {
+  kprintf("In kfree\n\r");
+
   /* Find the slab header based upon the slab start and end addresses */
   slab_row_header *current = slabs;
   slab_header *sh = NULL;
@@ -290,6 +295,8 @@ void kfree(void *p)
   add_slab_item_rec(sh->avail, p);
   /* Update items_remaining in the slab header */
   sh->freeitems++;
+
+  kprintf("done with kfree\r\n");
 }
 
 int kmalloc_free_some_pages()
