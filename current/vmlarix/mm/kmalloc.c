@@ -106,14 +106,20 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
 
    The address must be within the slab, and there must not already be an
    item_rec object allocated at that address. */
-void add_slab_item_rec(item_rec *avail, void *address) {
-  item_rec *current = avail;
-  /* find the end of the available item_rec list */
-  while(current->next != NULL)
-    current = current->next;
-  /* append a new entry for the given address */
-  current->next = (item_rec*)address;
-  current->next->next = NULL;
+void add_slab_item_rec(slab_header *slab, void *address) {
+  item_rec *current = slab->avail;
+  /* check if there are any items in the available list */
+  if(current=NULL) {
+    slab->avail = (item_rec*)address;
+    slab->avail->next = NULL;
+  } else {
+    /* find the end of the available item_rec list */
+    while(current->next != NULL)
+      current = current->next;
+    /* append a new entry for the given address */
+    current->next = (item_rec*)address;
+    current->next->next = NULL;
+  }
 }
 
   
@@ -291,7 +297,7 @@ void kfree(void *p)
 
   /* Call add_slab_item_rec with the avail list pointer from that slab header
      and the given address p */
-  add_slab_item_rec(sh->avail, p);
+  add_slab_item_rec(sh, p);
   /* Update items_remaining in the slab header */
   sh->freeitems++;
 
@@ -319,7 +325,7 @@ int kmalloc_free_some_pages()
 	/* destroy the now-unused slab */
 	slab_destroy((void *)current_slab, SLAB_PAGES);
 	/* and release the section of the first slab used to store the slab header */
-	add_slab_item_rec(slabs->first_slab->avail, record_address);
+	add_slab_item_rec(slabs->first_slab, record_address);
 	slabs->first_slab->freeitems++;
       }
       last_slab = current_slab;
@@ -332,7 +338,7 @@ int kmalloc_free_some_pages()
 	/* we don't want to ever remove the record for the first row -- it
 	   should never be empty anyway, but we'll check here anyway... */
 	last_row->next_row = current_row->next_row;
-	add_slab_item_rec(slabs->first_slab->avail, record_address);
+	add_slab_item_rec(slabs->first_slab, record_address);
 	slabs->first_slab->freeitems++;
       }
     }
