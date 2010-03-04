@@ -241,7 +241,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 void *kmalloc(size_t size)
 {
   // check for special slabs
-  if(size > (SLAB_PAGES * SLAB_BYTES) {
+  if(size > (SLAB_PAGES * SLAB_BYTES)) {
       // find or allocate special slab
   }
  
