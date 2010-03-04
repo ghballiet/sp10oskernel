@@ -17,7 +17,7 @@ void kmalloc_test()
   int *a,*b,*c,**a2,i,freed;
   
   a = kmalloc(sizeof(int));
-  *a=1500;                 
+  *a=1000;                 
   c = kmalloc((*a)*sizeof(int));
   kprintf("Size of a and c %d\n\r",10*sizeof(int));
   kprintf(" value of a %d\n\r",*a);

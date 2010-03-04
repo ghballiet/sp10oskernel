@@ -200,11 +200,9 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
      first slab */
   slab_header *sh = (slab_header*)slabs->first_slab->avail;
   if(sh==NULL) {
-    kprintf("ERROR: no more space for new slabs; stuff won't work right\n\r");
+    kprintf("ERROR: no more space for new slabs; about to crash\n\r");
   } 
   slabs->first_slab->avail = slabs->first_slab->avail->next;
-  /* Note: if we were running out of space in the first slab, this would crash
-     on the above line */
   slabs->first_slab->freeitems--;
 
   /* Populate the slab with item_rec objects */
