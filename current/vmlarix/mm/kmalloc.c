@@ -201,12 +201,10 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   slab_header *sh = (slab_header*)slabs->first_slab->avail;
   if(sh==NULL) {
     kprintf("ERROR: no more space for new slabs; stuff won't work right\n\r");
-  } else {
-    kprintf("Free items in first slab before creating this slab: %d\r\n",
-	    slabs->first_slab->freeitems);
-  }
-  /* TODO: as discussed above, this might be NULL if we're out of space... */
+  } 
   slabs->first_slab->avail = slabs->first_slab->avail->next;
+  /* Note: if we were running out of space in the first slab, this would crash
+     on the above line */
   slabs->first_slab->freeitems--;
 
   /* Populate the slab with item_rec objects */
@@ -359,7 +357,7 @@ int kmalloc_free_some_pages()
     last_row = current_row;
     current_row = current_row->next_row;
   }
-  kprintf("Free items in first slab after freeing pages: %d\r\n",
-	  slabs->first_slab->freeitems);
+  /*kprintf("Free items in first slab after freeing pages: %d\r\n",
+            slabs->first_slab->freeitems);*/
   return freed;
 }
