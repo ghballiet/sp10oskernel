@@ -108,8 +108,8 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
 e slab, and there must not already be an
    item_rec object allocated at that address. */
 void add_slab_item_rec(slab_header *slab, void *address) {
-  kprintf("in add_slab_item_rec\r\n");
-  kprintf("first slab: %X, arg: %X\r\n", slabs->first_slab, slab);
+  //kprintf("in add_slab_item_rec\r\n");
+  //kprintf("first slab: %X, arg: %X\r\n", slabs->first_slab, slab);
   if(slab == slabs->first_slab)
     kprintf("in add_slab_item_rec\r\n");
   item_rec *current = slab->avail;
@@ -336,7 +336,7 @@ int kmalloc_free_some_pages()
 	  kprintf("this is the first slab in the row\r\n");
 	  current_row->first_slab = current_slab->next_head;
 	}
-	kprintf("calling slab destroy\r\n");
+	kprintf("calling slab destroy for slab at address %X\r\n", current_slab);
 	/* destroy the now-unused slab */
 	slab_destroy((void *)current_slab, SLAB_PAGES);
 	/* and release the section of the first slab used to store the slab header */
