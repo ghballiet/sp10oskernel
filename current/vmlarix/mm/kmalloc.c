@@ -304,7 +304,7 @@ void kfree(void *p)
   /* Update items_remaining in the slab header */
   sh->freeitems++;
 
-  //kprintf("kfree: done with kfree\r\n");
+vv  //kprintf("kfree: done with kfree\r\n");
 }
 
 int kmalloc_free_some_pages()
