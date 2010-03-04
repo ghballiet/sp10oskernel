@@ -78,6 +78,9 @@ static slab_row_header *slabs;
 static special_slab *special_slabs;
 
 
+/* Note: we are not currently handling special slabs at all */
+
+
 /* You may need to define some helper functions here */
 
 /* Fills a slab with a linked list of item_rec objects for the given item size
