@@ -238,11 +238,18 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   return sh;
 }
 
+/* Allocates a special slab (i.e. slab larger than SLAB_PAGES*SLAB_BYTES)  */
+void *kmalloc_special_slab(size_t size) {
+  kprintf("Special slab: %d\r\n",size);
+}
+
 void *kmalloc(size_t size)
 {
   // check for special slabs
   if(size > (SLAB_PAGES * SLAB_BYTES)) {
-      // find or allocate special slab
+    // find or allocate special slab
+    kmalloc_special_slab(size);
+    return;
   }
  
   //kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
