@@ -317,6 +317,7 @@ int kmalloc_free_some_pages()
     slab_header *current_slab = current_row->first_slab;
     while(current_slab != NULL) {
       if(current_slab->freeitems == current_slab->totalitems) {
+	kprintf("trying to free slab at %x\r\n",current_slab->slab);
 	freed++;
 	void *record_address = (void *)current_slab;
 	/* remove the slab header from the slab header list */
