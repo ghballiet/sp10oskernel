@@ -108,12 +108,15 @@ uint32_t populate_slab_records(char *slab, char *slab_end, uint32_t item_size) {
 e slab, and there must not already be an
    item_rec object allocated at that address. */
 void add_slab_item_rec(slab_header *slab, void *address) {
+  kprintf("in add_slab_item_rec\r\n");
   item_rec *current = slab->avail;
   /* check if there are any items in the available list */
   if(current==NULL) {
+    kprintf("currently no available spots in the slab header\r\n");
     slab->avail = (item_rec*)address;
     slab->avail->next = NULL;
   } else {
+    kprintf("already some available spots in the slab header\r\n");
     /* find the end of the available item_rec list */
     while(current->next != NULL)
       current = current->next;
