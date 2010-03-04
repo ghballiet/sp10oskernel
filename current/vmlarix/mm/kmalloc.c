@@ -335,8 +335,8 @@ int kmalloc_free_some_pages()
 		  current_slab);
 	  last_slab->next_head = current_slab->next_head;
 	} else {
+	  kprintf("freeing the first slab in this row (%X)\r\n", current_slab);
 	  current_row->first_slab = current_slab->next_head;
-	  kprintf("freeing the first slab in this row\r\n");
 	}
 	/* destroy the now-unused slab */
 	slab_destroy((void *)(current_slab->slab), SLAB_PAGES);
