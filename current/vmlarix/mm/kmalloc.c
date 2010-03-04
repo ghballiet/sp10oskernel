@@ -249,7 +249,6 @@ void *kmalloc(size_t size)
   if(size > SLAB_WORDS) {
     // find or allocate special slab
     kmalloc_special_slab(size);
-    return;
   }
  
   //kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
