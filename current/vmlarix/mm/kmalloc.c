@@ -336,9 +336,10 @@ int kmalloc_free_some_pages()
 	  kprintf("this is the first slab in the row\r\n");
 	  current_row->first_slab = current_slab->next_head;
 	}
-	kprintf("calling slab destroy for slab at address %X\r\n", current_slab);
+	kprintf("calling slab destroy for slab at address %X\r\n", current_slab->slab);
+	kprintf("first slab is at address %X\r\n", slabs->first_slab);
 	/* destroy the now-unused slab */
-	slab_destroy((void *)current_slab, SLAB_PAGES);
+	slab_destroy((void *)(current_slab->slab), SLAB_PAGES);
 	/* and release the section of the first slab used to store the slab header */
 	kprintf("Releasing the section of the first slab used to store the slab header\r\n");
 	add_slab_item_rec(slabs->first_slab, record_address);
