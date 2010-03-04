@@ -329,11 +329,12 @@ int kmalloc_free_some_pages()
 	freed++;
 	void *record_address = (void *)current_slab;
 	/* remove the slab header from the slab header list */
-	if(last_slab != NULL) {
+	//	if(last_slab != NULL) {
+	if(current_row->first_slab != current_slab)
 	  last_slab->next_head = current_slab->next_head;
 	} else {
-	  kprintf("Freeing the first slab in this row.\r\n");
 	  current_row->first_slab = current_slab->next_head;
+	  kprintf("freeing the first slab in this row\r\n");
 	}
 	/* destroy the now-unused slab */
 	slab_destroy((void *)(current_slab->slab), SLAB_PAGES);
