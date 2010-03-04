@@ -29,7 +29,7 @@ void kmalloc_test()
     {
       *a2=kmalloc(2048);
       if(*a2==NULL) kprintf("Iteration: %d/%d got a NULL address\n\r",i+1,*a);
-      if(i>630 && i<650) {
+      if(i>635 && i<645) {
 	kprintf("Iteration: %d/%d got address %X\n\r",i+1,*a, *a2);
       }
       a2+=sizeof(int);
@@ -41,7 +41,7 @@ void kmalloc_test()
   for(i=0;i<500;i++) /* only try to free the first 500 addresses due to bug in
 			storing some of the addresses */
     {
-      if(i>630 && i<650) {
+      if(i>635 && i<645) {
 	kprintf("Iteration: %d/%d has address %X\n\r",i+1,*a, *a2);
       }
       if(*a2==NULL) kprintf("Iteration: %d/%d has a NULL address\n\r",i+1,*a);
