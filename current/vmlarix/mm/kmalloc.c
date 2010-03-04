@@ -155,8 +155,12 @@ void kmalloc_init()
   slabs = first_row_header;
 }
 
-/* TODO: it's conceivable that we could run out of space in the first slab and
-     need to create a new one... try to make it so we can handle this */
+/* NOTE: it's conceivable that we could run out of space in the first slab and
+     need to create a new one... currently we do not handle that case, and so
+     it would fail if we tried to get too many slabs; however, this does not
+     seem to be related to our address-storing problem where we can't retrieve
+     the 641st addresss since we never run out of free items in the first slab
+     for the p04_main tests  */
 
 slab_row_header *new_row(size_t size) {
   /* Create a new row for items of the given size */
@@ -355,5 +359,7 @@ int kmalloc_free_some_pages()
     last_row = current_row;
     current_row = current_row->next_row;
   }
+  kprintf("Free items in first slab after freeing pages: %d\r\n",
+	  slabs->first_slab->freeitems);
   return freed;
 }
