@@ -325,26 +325,20 @@ int kmalloc_free_some_pages()
     slab_header *current_slab = current_row->first_slab;
     while(current_slab != NULL) {
       if(current_slab->freeitems == current_slab->totalitems) {
-	kprintf("trying to free slab at %X\r\n",current_slab->slab);
 	freed++;
 	void *record_address = (void *)current_slab;
 	/* remove the slab header from the slab header list */
 	if(last_slab != NULL) {
-	  kprintf("this is not the first slab in the row\r\n");
 	  last_slab->next_head = current_slab->next_head;
 	} else {
-	  kprintf("this is the first slab in the row\r\n");
+	  kprintf("Freeing the first slab in this row.\r\n");
 	  current_row->first_slab = current_slab->next_head;
 	}
-	kprintf("calling slab destroy for slab at address %X\r\n", current_slab->slab);
-	kprintf("first slab is at address %X\r\n", slabs->first_slab);
 	/* destroy the now-unused slab */
 	slab_destroy((void *)(current_slab->slab), SLAB_PAGES);
 	/* and release the section of the first slab used to store the slab header */
-	kprintf("Releasing the section of the first slab used to store the slab header\r\n");
 	add_slab_item_rec(slabs->first_slab, record_address);
 	slabs->first_slab->freeitems++;
-	kprintf("done with slab iteration block\r\n");
       }
       last_slab = current_slab;
       current_slab = current_slab->next_head;
