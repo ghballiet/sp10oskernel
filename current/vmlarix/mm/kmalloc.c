@@ -335,6 +335,7 @@ int kmalloc_free_some_pages()
 	kprintf("Releasing the section of the first slab used to store the slab header\r\n");
 	add_slab_item_rec(slabs->first_slab, record_address);
 	slabs->first_slab->freeitems++;
+	kprintf("done with slab iteration block\r\n");
       }
       last_slab = current_slab;
       current_slab = current_slab->next_head;
