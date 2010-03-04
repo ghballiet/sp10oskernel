@@ -203,6 +203,9 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
   /* Place the slab header for this row in the first available block in the
      first slab */
   slab_header *sh = (slab_header*)slabs->first_slab->avail;
+  if(sh==NULL) {
+    kprintf("ERROR: no more space for new slabs; stuff won't work right\n\r");
+  }
   /* TODO: as discussed above, this might be NULL if we're out of space... */
   slabs->first_slab->avail = slabs->first_slab->avail->next;
   slabs->first_slab->freeitems--;
