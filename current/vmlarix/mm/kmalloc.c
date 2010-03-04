@@ -246,7 +246,7 @@ void *kmalloc_special_slab(size_t size) {
 void *kmalloc(size_t size)
 {
   // check for special slabs
-  if(size > SLAB_BYTES) {
+  if(size > SLAB_WORDS) {
     // find or allocate special slab
     kmalloc_special_slab(size);
     return;
