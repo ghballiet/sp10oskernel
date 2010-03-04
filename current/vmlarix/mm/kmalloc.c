@@ -330,7 +330,7 @@ int kmalloc_free_some_pages()
 	void *record_address = (void *)current_slab;
 	/* remove the slab header from the slab header list */
 	//	if(last_slab != NULL) {
-	if(current_row->first_slab != current_slab)
+	if(current_row->first_slab != current_slab) {
 	  last_slab->next_head = current_slab->next_head;
 	} else {
 	  current_row->first_slab = current_slab->next_head;
