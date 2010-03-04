@@ -240,6 +240,11 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 void *kmalloc(size_t size)
 {
+  // check for special slabs
+  if(size > (SLAB_PAGES * SLAB_SIZE) {
+      // find or allocate special slab
+  }
+ 
   //kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
   /* Find (or allocate, if needed) the row for items of the given size */
   //kprintf("Looking for row.\r\n");
