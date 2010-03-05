@@ -241,6 +241,19 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 /* Allocates a special slab (i.e. slab larger than SLAB_PAGES*SLAB_BYTES)  */
 void *kmalloc_special_slab(size_t size) {
   kprintf("Special slab: %d\r\n",size);
+  special_slab *ss = kmalloc(sizeof(special_slab));
+  ss->next = null;
+  
+  /* TODO: get the actual block of memory, populate the structure */
+
+  if(special_slabs==NULL) {
+    /* if this is the first one we've allocated */
+    special_slabs = ss;
+  } else {
+    /* otherwise find the end of the list and add it on */
+    /* TODO: do this */
+  }
+  return ss->data;
 }
 
 void *kmalloc(size_t size)
