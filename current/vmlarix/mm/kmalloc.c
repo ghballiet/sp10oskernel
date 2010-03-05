@@ -245,13 +245,20 @@ void *kmalloc_special_slab(size_t size) {
   ss->next = null;
   
   /* TODO: get the actual block of memory, populate the structure */
+  void *addr = slab_create(size/PAGESIZE);
+  ss->data = addr;
+  ss->pages = size/PAGESIZE;
 
   if(special_slabs==NULL) {
     /* if this is the first one we've allocated */
     special_slabs = ss;
   } else {
     /* otherwise find the end of the list and add it on */
-    /* TODO: do this */
+    special_slab *current = special_slabs;
+    while(current->next != NULL) {
+      current = current->next;
+    }
+    current->next = ss;
   }
   return ss->data;
 }
