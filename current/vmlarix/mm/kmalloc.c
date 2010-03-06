@@ -399,7 +399,5 @@ int kmalloc_free_some_pages()
     last_row = current_row;
     current_row = current_row->next_row;
   }
-  /*kprintf("Free items in first slab after freeing pages: %d\r\n",
-            slabs->first_slab->freeitems);*/
-  return freed;
+  return freed*SLAB_PAGES;
 }
