@@ -18,7 +18,7 @@ void kmalloc_test()
   
   a = kmalloc(sizeof(int));
   *a=1000;                 
-  c = kmalloc((*a)*sizeof(int));
+  c = kmalloc(2*(*a)*sizeof(int));
   kprintf("Size of a and c %d\n\r",10*sizeof(int));
   kprintf(" value of a %d\n\r",*a);
   kprintf("%X\n\r",a);
@@ -37,8 +37,8 @@ void kmalloc_test()
     }
   kprintf("Cleared the first one.\n\r");
   a2=(int**)c;
-  //for(i=0;i<*a;i++)
-  for(i=0;i<500;i++) /* only try to free the first 500 addresses due to bug in
+  for(i=0;i<*a;i++)
+  /*for(i=0;i<500;i++) /* only try to free the first 500 addresses due to bug in
 			storing some of the addresses */
     {
       if(i>635 && i<645) {
