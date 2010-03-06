@@ -238,7 +238,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 /* Allocates a special slab (i.e. slab larger than SLAB_PAGES*SLAB_BYTES)  */
 void *kmalloc_special_slab(size_t size) {
-  //kprintf("Special slab: %d\r\n",size);
+  kprintf("Special slab: %d\r\n",size);
 
   /* get some memory to store the special slab header */
   special_slab *ss = kmalloc(sizeof(special_slab));
@@ -328,7 +328,11 @@ void kfree(void *p)
     ss_last = ss;
   }
   if(ss!=NULL) {    /* address p points to a special slab */
-    ss_last->next = ss->next; /* remove this header from the list */
+    /* remove this header from the list */
+    if(ss_last != NULL)
+      ss_last->next = ss->next;
+    else
+      special_slabs = ss->next;
     slab_destroy(p, ss->pages); /* destroy the special slab itself */
     kfree(ss); /* free the memory used for the header */
   } else { /* address p does not point to a special slab */
