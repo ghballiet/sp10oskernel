@@ -19,7 +19,7 @@ void kmalloc_test()
   a = kmalloc(sizeof(int));
   *a=1000;                 
   //c = kmalloc((*a)*sizeof(int));
-  c = kmalloc(8192); /* the address retrieval problem shows up even if we force
+  c = kmalloc(9000); /* the address retrieval problem shows up even if we force
 			c to be a special slab */
   kprintf("Size of a and c %d\n\r",10*sizeof(int));
   kprintf(" value of a %d\n\r",*a);
@@ -59,8 +59,8 @@ void kmalloc_test()
   kfree(b);
   kfree(c);
 
-  int *big = kmalloc(8192);
-  int *big2 = kmalloc(5550);
+  int *big = kmalloc(9000);
+  int *big2 = kmalloc(10000);
   kfree(big);
   kfree(big2);
 
