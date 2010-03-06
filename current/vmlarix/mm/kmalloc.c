@@ -78,8 +78,6 @@ static slab_row_header *slabs;
 static special_slab *special_slabs;
 
 
-/* Note: we are not currently handling special slabs at all */
-
 
 /* You may need to define some helper functions here */
 
@@ -323,30 +321,40 @@ void kfree(void *p)
 
   if(p==NULL) kprintf("kfree: trying to free a NULL\r\n");
 
-  /* Find the slab header based upon the slab start and end addresses */
-  slab_row_header *current = slabs;
-  slab_header *sh = NULL;
-  while(current != NULL) {
-    slab_header *current_slab = current->first_slab;
-    while(current_slab != NULL) {
-      if(current_slab->slab <= (char *)p && current_slab->slab_end >= (char *)p) {
-        sh = current_slab;
-        break;
-      }
-      current_slab = current_slab->next_head;
-    }
-    current = current->next_row;
+  special_slab *ss = special_slabs;
+  special_slab *ss_last = NULL;
+  while(ss != NULL && ss->data != p) {
+    ss = ss->next;
+    ss_last = ss;
   }
-  //kprintf("kfree: found slab header\r\n");
-  if(sh==NULL) kprintf("kfree: failed to find slab for address.\r\n");
-
-  /* Call add_slab_item_rec with the avail list pointer from that slab header
-     and the given address p */
-  add_slab_item_rec(sh, p);
-  /* Update items_remaining in the slab header */
-  sh->freeitems++;
-
-  //kprintf("kfree: done with kfree\r\n");
+  if(ss!=NULL) {    /* address p points to a special slab */
+    ss_last->next = ss->next; /* remove this header from the list */
+    slab_destroy(p, ss->pages); /* destroy the special slab itself */
+    kfree(ss); /* free the memory used for the header */
+  } else { /* address p does not point to a special slab */
+    /* Find the slab header based upon the slab start and end addresses */
+    slab_row_header *current = slabs;
+    slab_header *sh = NULL;
+    while(current != NULL) {
+      slab_header *current_slab = current->first_slab;
+      while(current_slab != NULL) {
+	if(current_slab->slab <= (char *)p && current_slab->slab_end >= (char *)p) {
+	  sh = current_slab;
+	  break;
+	}
+	current_slab = current_slab->next_head;
+      }
+      current = current->next_row;
+    }
+    //kprintf("kfree: found slab header\r\n");
+    if(sh==NULL) kprintf("kfree: failed to find slab for address.\r\n");
+    
+    /* Call add_slab_item_rec with the avail list pointer from that slab header
+       and the given address p */
+    add_slab_item_rec(sh, p);
+    /* Update items_remaining in the slab header */
+    sh->freeitems++;
+  }
 }
 
 int kmalloc_free_some_pages()
