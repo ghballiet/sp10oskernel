@@ -57,23 +57,15 @@ void kmalloc_test()
   kfree(b);
   kfree(c);
 
+  int *big = kmalloc(8192);
+  int *big2 = kmalloc(5550);
+  kfree(big);
+  kfree(big2);
+
+
   kprintf("About to free some pages\n\r");
   freed=kmalloc_free_some_pages();
   kprintf("I freeded the people and %d pages\n\r",freed);
-  /* do a lot more testing here */
-
-  int *big = kmalloc(8192);
-  int *big2 = kmalloc(5550);
-  //kfree(big);
-
-  freed=kmalloc_free_some_pages();
-  kprintf("Freed %d more pages\n\r",freed);
-
-  kfree(big2);
-
-  freed=kmalloc_free_some_pages();
-  kprintf("After freeing second special slab, freed %d more pages\n\r",freed);
-  
 
 }
 
