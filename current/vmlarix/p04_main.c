@@ -28,21 +28,22 @@ void kmalloc_test()
   for(i=0;i<*a;i++)
     {
       *a2=kmalloc(2048);
-      if(*a2==NULL) kprintf("Iteration: %d/%d got a NULL address\n\r",i+1,*a);
       if(i>635 && i<645) {
 	kprintf("Iteration: %d/%d got address %X\n\r",i+1,*a, *a2);
+	// apparently the addresses are being retrieved correctly at this point...
       }
       a2+=sizeof(int);
       if(i%100==0) kprintf("Iteration: %d/%d\n\r",i+1,*a);
     }
   kprintf("Cleared the first one.\n\r");
   a2=(int**)c;
-  //  for(i=0;i<*a;i++)
-  for(i=0;i<500;i++) /* only try to free the first 500 addresses due to bug in
+    for(i=0;i<*a;i++)
+      // for(i=0;i<500;i++) /* only try to free the first 500 addresses due to bug in
 			storing some of the addresses */
     {
       if(i>635 && i<645) {
 	kprintf("Iteration: %d/%d has address %X\n\r",i+1,*a, *a2);
+	// but at this point we get a null for iteration 641...
       }
       if(*a2==NULL) kprintf("Iteration: %d/%d has a NULL address\n\r",i+1,*a);
       kfree(*a2);
@@ -55,6 +56,9 @@ void kmalloc_test()
   kfree(a);
   kfree(b);
   kfree(c);
+
+  int *big = kmalloc(8192);
+  kfree(big);
 
   kprintf("About to free some pages\n\r");
   freed=kmalloc_free_some_pages();
