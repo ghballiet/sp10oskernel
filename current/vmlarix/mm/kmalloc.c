@@ -238,7 +238,7 @@ slab_header *new_slab(slab_row_header *row, size_t size) {
 
 /* Allocates a special slab (i.e. slab larger than SLAB_PAGES*SLAB_BYTES)  */
 void *kmalloc_special_slab(size_t size) {
-  kprintf("Special slab: %d\r\n",size);
+  //kprintf("Special slab: %d\r\n",size);
 
   /* get some memory to store the special slab header */
   special_slab *ss = kmalloc(sizeof(special_slab));
