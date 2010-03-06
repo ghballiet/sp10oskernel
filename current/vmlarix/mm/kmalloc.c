@@ -268,7 +268,7 @@ void *kmalloc(size_t size)
   // check for special slabs
   if(size > SLAB_BYTES) {
     // find or allocate special slab
-    kmalloc_special_slab(size);
+    return kmalloc_special_slab(size);
   }
  
   //kprintf("Kmalloc: Entered kmalloc for size %d\r\n", size);
