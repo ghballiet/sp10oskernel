@@ -247,7 +247,7 @@ void *kmalloc_special_slab(size_t size) {
   void *addr = slab_create(size/PAGESIZE);
   ss->data = addr;
   ss->pages = size/PAGESIZE;
-  ss->next = null;
+  ss->next = NULL;
 
   if(special_slabs==NULL) {
     /* if this is the first one we've allocated */
