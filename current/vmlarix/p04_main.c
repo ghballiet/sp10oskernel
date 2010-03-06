@@ -64,10 +64,10 @@ void kmalloc_test()
 
   int *big = kmalloc(8192);
   int *big2 = kmalloc(5550);
-  kfree(big);
+  //kfree(big);
 
   freed=kmalloc_free_some_pages();
-  kprintf("I freed %d more pages\n\r",freed);
+  kprintf("Freed %d more pages\n\r",freed);
 
   kfree(big2);
 
