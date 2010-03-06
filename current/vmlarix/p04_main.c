@@ -57,9 +57,6 @@ void kmalloc_test()
   kfree(b);
   kfree(c);
 
-  int *big = kmalloc(8192);
-  kfree(big);
-
   kprintf("About to free some pages\n\r");
   freed=kmalloc_free_some_pages();
   kprintf("I freeded the people and %d pages\n\r",freed);
