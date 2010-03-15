@@ -39,10 +39,19 @@ ramdisk_minor *minors;
 */
 int32_t ramdisk_attach(char *mem_start)
 {
+  kprintf("RAMDISK_LOCATION: %X\n\r",(uint32_t)__RAMDISK_LOCATION__);
+  /*  for loop checking through minors
+  
+      TODO: get address from minor #
+  */
 }
 
 void ramdisk_detach(uint16_t minor)
 {
+  /*  for loop checking through minors
+  
+      TODO: get address from minor #
+  */
 }
 
 int32_t ramdisk_read(uint16_t minor,
