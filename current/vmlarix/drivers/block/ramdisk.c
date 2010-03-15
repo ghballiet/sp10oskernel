@@ -88,6 +88,7 @@ int ramdisk_block_size(uint16_t minor)
 /* initialize the datastructures needed to manage ramdisks */
 void ramdisk_init(block_device *blk_dev)
 {
+  kprintf("Init: %s\n\r",blk_dev->name);
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
