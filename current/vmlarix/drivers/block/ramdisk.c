@@ -44,6 +44,14 @@ int32_t ramdisk_attach(char *mem_start)
   
       TODO: get address from minor #
   */
+  ramdisk_minor *current = minors;
+  while(current->next != NULL) {
+    current = current->next;
+    if(current->data == mem_start) {
+      kprintf("**** FOUND ONE: %d\n\r",current->num);
+      break;
+    }
+  }
 }
 
 void ramdisk_detach(uint16_t minor)
