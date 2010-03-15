@@ -44,14 +44,6 @@ int32_t ramdisk_attach(char *mem_start)
   
       TODO: get address from minor #
   */
-  ramdisk_minor *current = minors;
-  while(current->next != NULL) {
-    current = current->next;
-    if(current->data == mem_start) {
-      kprintf("**** FOUND ONE: %d\n\r",current->num);
-      break;
-    }
-  }
 }
 
 void ramdisk_detach(uint16_t minor)
@@ -88,7 +80,6 @@ int ramdisk_block_size(uint16_t minor)
 /* initialize the datastructures needed to manage ramdisks */
 void ramdisk_init(block_device *blk_dev)
 {
-  kprintf("Init: %s\n\r",blk_dev->name);
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
