@@ -39,7 +39,7 @@ ramdisk_minor *minors;
 */
 int32_t ramdisk_attach(char *mem_start)
 {
-  kprintf("calling ramdisk_attack with %X\n\r",(uint32_t)mem_start);
+  kprintf("**** calling ramdisk_attack with %X\n\r",(uint32_t)mem_start);
   /*  for loop checking through minors
   
       TODO: get address from minor #
@@ -48,7 +48,7 @@ int32_t ramdisk_attach(char *mem_start)
 
 void ramdisk_detach(uint16_t minor)
 {
-    kprintf("calling ramdisk_detach with %X\n\r",(uint32_t)minor);
+    kprintf("**** calling ramdisk_detach with %X\n\r",(uint32_t)minor);
   /*  for loop checking through minors
   
       TODO: get address from minor #
