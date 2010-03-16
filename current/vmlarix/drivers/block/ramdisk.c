@@ -3,7 +3,6 @@
 #include <ramdisk.h> 
 #include <stdint.h>
 #include <byteswap.h>
-#include <phys_mem.h>
 
 #ifndef _KERNEL_
 #include <stdlib.h>
@@ -117,7 +116,7 @@ void ramdisk_detach(uint16_t minor)
       }
     }
     kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data);
-    phys_mem_free(rd->data,(rd->blocksize*rd->length)/PAGESIZE);
+    phys_mem_free_page(rd->data,(rd->blocksize*rd->length)/PAGESIZE);
     kfree(rd);
 }
 
