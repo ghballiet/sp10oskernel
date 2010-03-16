@@ -98,6 +98,7 @@ void ramdisk_init(block_device *blk_dev)
   blk_dev->write_fn = (int (*)(uint16_t,uint32_t,char *,uint32_t))&ramdisk_write;
   blk_dev->num_blk = (int (*)(uint16_t))&ramdisk_num_blk;
   blk_dev->blk_size = (int (*)(uint16_t))&ramdisk_block_size;
+  blk_dev->registered = 1;
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
