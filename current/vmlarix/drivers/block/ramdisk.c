@@ -42,14 +42,11 @@ int32_t ramdisk_attach(char *mem_start)
   kprintf("Calling ramdisk_attach with %X\n\r",(uint32_t)mem_start);
   if(minors == NULL) {
     kprintf("Attaching FIRST ramdisk\n\r");
-    // int addr = (int)kmalloc(sizeof(ramdisk_minor));
+    
   } else {
     kprintf("Ramdisk already set up, looping...\n\r");
   }
-  /*  for loop checking through minors
-  
-      TODO: get address from minor #
-  */
+  /*  for loop checking through minors  */
 }
 
 void ramdisk_detach(uint16_t minor)
@@ -78,11 +75,13 @@ int ramdisk_write(uint16_t minor,
 
 int ramdisk_num_blk(uint16_t minor)
 {
+  kprintf("ramdisk_num_blk called with minor=%X\n\r",minor);
 }
 
 int ramdisk_block_size(uint16_t minor)
 {
   // powers of 2
+  kprintf("ramdisk_block_size called with minor=%X\n\r",minor);
 }
 
 /* initialize the datastructures needed to manage ramdisks */
@@ -92,10 +91,10 @@ void ramdisk_init(block_device *blk_dev)
   // store in bitshift
   // to get blocksize
   // take block #, shift by bitshift
-  // make *minors NULL
-  minors = NULL;
-  kprintf("Entering ramdisk_init\n\r");
-  kprintf("Blksize: %d\tNumblocks: %d\n\r",blk_dev->blk_size,blk_dev->num_blk);
+
+  // populating blk_dev device
+  // set registered, name and function pointers
+  blk_dev->read_fn = (int32_t (*)(uint16_t,uint32_t,char *,uint32_t))&ramdisk_read;
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
