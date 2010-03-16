@@ -42,7 +42,7 @@ ramdisk_minor *get_rd_record(int minor) {
 }
 
 
-void copy(void *dest, void *source, int bytes) {
+void copy(char *dest, char *source, int bytes) {
   int i;
   for(i=0; i<bytes; i++) {
     dest[i] = source[i];
