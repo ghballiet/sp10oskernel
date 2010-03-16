@@ -114,14 +114,15 @@ int32_t ramdisk_read(uint16_t minor,
 {
   
   ramdisk_minor *rd = get_rd_record(minor);
-  if(rd!=NULL) {
+  if(rd!=NULL && (block+nblocks) < rd->length) {
     char *source = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
+    kprintf("%X -> %X (%d)\n\r",source,buffer);
     copy(buffer, source, size);
     return size;
   }
   else
-    return 0;
+    return -1;
 }
 
 int ramdisk_write(uint16_t minor,
@@ -131,27 +132,27 @@ int ramdisk_write(uint16_t minor,
 {  
 
   ramdisk_minor *rd = get_rd_record(minor);
-  if(rd!=NULL) {
+  if(rd!=NULL && (block+nblocks) < rd->length) {
     char *dest = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
     copy(dest, buffer, size);
     return size;
   }
   else
-    return 0;
+    return -1;
 }
 
 int ramdisk_num_blk(uint16_t minor)
 {
-  kprintf("ramdisk_num_blk called with minor=%X\n\r",minor);
   ramdisk_minor *rd = get_rd_record(minor);
+  kprintf("num_blk(%d)=%d\n\r",minor,rd->length);
   return rd->length;
 }
 
 int ramdisk_block_size(uint16_t minor)
 {
-  kprintf("ramdisk_block_size called with minor=%X\n\r",minor);
   ramdisk_minor *rd = get_rd_record(minor);
+  kprintf("blk_size(%d)=%d\n\r",minor,rd->blocksize);
   return rd->blocksize;
 }
 
