@@ -40,13 +40,40 @@ ramdisk_minor *minors;
 int32_t ramdisk_attach(char *mem_start)
 {
   kprintf("Calling ramdisk_attach with %X\n\r",(uint32_t)mem_start);
+
+  ramdisk_minor *new_rd = malloc(sizeof(ramdisk_minor));
+  new_rd->next = NULL;
+
   if(minors == NULL) {
     kprintf("Attaching FIRST ramdisk\n\r");
-    
+    minors = new_rd;
+    new_rd->num = 0;
   } else {
     kprintf("Ramdisk already set up, looping...\n\r");
+    ramdisk_minor *current = minors;
+    while(current->next != NULL)
+      current = current->next;
+    current->next = new_rd;
+    new_rd->num = current->num + 1;
   }
-  /*  for loop checking through minors  */
+
+  int i;
+  for(i=0; i<strlen(ramdisk_magic)+1; i++) {
+    if(mem_start[i] != ramdisk_magic[i])
+      return 0;
+  }
+
+  while(i&3)
+    i++;
+
+  int *bptr = (int *)(mem_start+i);
+  new_rd->length = *bptr;
+  bptr++;
+  new_rd->blocksize = *bptr;
+  bptr++;
+  new_rd->bitshift = *bptr;
+
+  return (new_rd->length * new_rd->blocksize)
 }
 
 void ramdisk_detach(uint16_t minor)
