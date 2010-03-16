@@ -68,6 +68,12 @@ int32_t block_read(uint16_t major,uint16_t minor,uint32_t block,
   /* if so, call the driver's read method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
+
+  if(major>=BLK_DEV_MAX || major==0)
+    return BLK_MAJINVAL;
+  if(blk_dev[major].registered==0)
+    return BLK_NOTREG;
+  return blk_dev[major].read_fn(minor,block,buff,nblocks);
 }
 
 int32_t block_ioctl(uint16_t major,uint16_t minor,...)
