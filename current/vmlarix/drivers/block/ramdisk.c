@@ -116,7 +116,7 @@ int32_t ramdisk_read(uint16_t minor,
   if(rd) {
     char *source = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
-    memcpy(buffer, source, size);
+    copy(buffer, source, size);
     return size;
   }
   else
@@ -132,7 +132,7 @@ int ramdisk_write(uint16_t minor,
   if(rd) {
     char *dest = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
-    memcpy(dest, buffer, size);
+    copy(dest, buffer, size);
     return size;
   }
   else
