@@ -104,7 +104,15 @@ int32_t ramdisk_read(uint16_t minor,
 {
   kprintf("ramdisk_read **** \n\r");
   
-  //  memcpy(buffer, 
+  ramdisk_minor *rd = get_rd_record(minor);
+  if(rd) {
+    char *source = rd->data + (block << rd->bitshift);
+    int size = nblocks * rd->blocksize;
+    memcpy(buffer, source, size);
+    return size;
+  }
+  else
+    return 0;
 }
 
 int ramdisk_write(uint16_t minor,
