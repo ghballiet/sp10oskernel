@@ -3,6 +3,7 @@
 #include <ramdisk.h> 
 #include <stdint.h>
 #include <byteswap.h>
+#include <mmap.h>
 
 #ifndef _KERNEL_
 #include <stdlib.h>
@@ -100,16 +101,20 @@ void ramdisk_detach(uint16_t minor)
     kprintf("Calling ramdisk_detach with %X\n\r",(uint32_t)minor);
     ramdisk_minor *rd = NULL;
     ramdisk_minor *current = minors;
-    while(current->next != NULL) {
-      if(current->next->num == minor) {
-	rd = current->next;
-	current->next = rd->next;
-	break;
+    if(current->num == minor) {
+      rd = current;
+    } else {
+      while(current->next != NULL) {
+        if(current->next->num == minor) {
+      	  rd = current->next;
+    	    current->next = rd->next;
+    	    break;
+        }
+        current = current->next;
       }
-      current = current->next;
     }
-
-    kfree(rd->data);
+    kfree(rd);
+    kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data);
 }
 
 
