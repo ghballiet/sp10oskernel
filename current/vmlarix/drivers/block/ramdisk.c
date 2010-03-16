@@ -134,22 +134,20 @@ int ramdisk_write(uint16_t minor,
 int ramdisk_num_blk(uint16_t minor)
 {
   kprintf("ramdisk_num_blk called with minor=%X\n\r",minor);
+  ramdisk_minor *rd = get_rd_record(minor);
+  return rd->length;
 }
 
 int ramdisk_block_size(uint16_t minor)
 {
-  // powers of 2
   kprintf("ramdisk_block_size called with minor=%X\n\r",minor);
+  ramdisk_minor *rd = get_rd_record(minor);
+  return rd->blocksize;
 }
 
 /* initialize the datastructures needed to manage ramdisks */
 void ramdisk_init(block_device *blk_dev)
 {
-  // calculate amt of shift required in each block
-  // store in bitshift
-  // to get blocksize
-  // take block #, shift by bitshift
-
   // populating blk_dev device
   // set registered, name and function pointers
   blk_dev->read_fn = (int32_t (*)(uint16_t,uint32_t,char *,uint32_t))&ramdisk_read;
