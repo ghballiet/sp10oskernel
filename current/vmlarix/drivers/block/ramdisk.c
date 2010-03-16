@@ -95,6 +95,9 @@ void ramdisk_init(block_device *blk_dev)
   // populating blk_dev device
   // set registered, name and function pointers
   blk_dev->read_fn = (int32_t (*)(uint16_t,uint32_t,char *,uint32_t))&ramdisk_read;
+  blk_dev->write_fn = (int (*)(uint16_t,uint32_t,char *,uint32_t))&ramdisk_write;
+  blk_dev->num_blk = (int (*)(uint16_t))&ramdisk_num_blk;
+  blk_dev->blk_size = (int (*)(uint16_t))&ramdisk_block_size;
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
