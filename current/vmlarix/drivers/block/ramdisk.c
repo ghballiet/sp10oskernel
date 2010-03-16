@@ -104,6 +104,7 @@ void ramdisk_detach(uint16_t minor)
     ramdisk_minor *current = minors;
     if(current->num == minor) {
       rd = current;
+      minors = current->next;
     } else {
       while(current->next != NULL) {
         if(current->next->num == minor) {
@@ -114,9 +115,9 @@ void ramdisk_detach(uint16_t minor)
         current = current->next;
       }
     }
-    kfree(rd);
     kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data);
     phys_mem_free(rd->data,(rd->blocksize*rd->length)/PAGESIZE);
+    kfree(rd);
 }
 
 
