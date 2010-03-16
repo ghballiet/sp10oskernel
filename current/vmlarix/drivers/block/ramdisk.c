@@ -115,7 +115,8 @@ void ramdisk_detach(uint16_t minor)
       }
     }
     kfree(rd);
-    kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data); 
+    kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data);
+    phys_mem_free(rd->data,(rd->blocksize*rd->length)/PAGESIZE);
 }
 
 
