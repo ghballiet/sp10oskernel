@@ -50,7 +50,7 @@ int32_t ramdisk_attach(char *mem_start)
 {
   kprintf("Calling ramdisk_attach with %X\n\r",(uint32_t)mem_start);
 
-  ramdisk_minor *new_rd = malloc(sizeof(ramdisk_minor));
+  ramdisk_minor *new_rd = kmalloc(sizeof(ramdisk_minor));
   new_rd->next = NULL;
 
   if(minors == NULL) {
