@@ -52,11 +52,8 @@ int32_t block_write(uint16_t major,uint16_t minor,uint32_t block,
   /* if so, call the driver's write method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
-  
-  if(major>=BLK_DEV_MAX || major==0)
-    return BLK_MAJINVAL;
-  if(blk_dev[major].registered==0)
-    return BLK_NOTREG;
+  int e = check_major(major);
+  if(e!=1) return e;
   return blk_dev[major].write_fn(minor,block,buff,nblocks);
 }
 
@@ -68,11 +65,8 @@ int32_t block_read(uint16_t major,uint16_t minor,uint32_t block,
   /* if so, call the driver's read method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
-
-  if(major>=BLK_DEV_MAX || major==0)
-    return BLK_MAJINVAL;
-  if(blk_dev[major].registered==0)
-    return BLK_NOTREG;
+  int e = check_major(major);
+  if(e!=1) return e;
   return blk_dev[major].read_fn(minor,block,buff,nblocks);
 }
 
@@ -90,6 +84,9 @@ int32_t num_blk(uint16_t major,uint16_t minor)
   /* if so, call the driver's num_blk method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
+  int e = check_major(major);
+  if(e!=1) return e;
+  return blk_dev[major].num_blk(minor);
 }
 
 int32_t blk_size(uint16_t major,uint16_t minor)
@@ -98,6 +95,18 @@ int32_t blk_size(uint16_t major,uint16_t minor)
   /* if so, call the driver's blk_size method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
+  int e = check_major(major);
+  if(e!=1) return e;
+  return blk_dev[major].blk_size(minor);
+}
+
+/* examine blk_dev array and return appropriate error code */
+int32_t check_major(uint16_t major) {
+  if(major>=BLK_DEV_MAX || major==0)
+    return BLK_MAJINVAL;
+  if(blk_dev[major].registered==0)
+    return BLK_NOTREG;
+  return 1;
 }
 
 
