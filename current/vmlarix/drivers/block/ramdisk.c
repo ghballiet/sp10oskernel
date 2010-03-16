@@ -83,6 +83,8 @@ int32_t ramdisk_attach(char *mem_start)
   while(i&3)
     i++;
 
+  new_rd->data = mem_start;
+
   int *bptr = (int *)(mem_start+i);
   new_rd->length = *bptr;
   bptr++;
@@ -110,10 +112,9 @@ int32_t ramdisk_read(uint16_t minor,
 		     char *buffer,
 		     uint32_t nblocks)
 {
-  kprintf("ramdisk_read **** \n\r");
   
   ramdisk_minor *rd = get_rd_record(minor);
-  if(rd) {
+  if(rd!=NULL) {
     char *source = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
     copy(buffer, source, size);
@@ -128,8 +129,9 @@ int ramdisk_write(uint16_t minor,
 		   char *buffer,
 		   uint32_t nblocks)
 {  
+
   ramdisk_minor *rd = get_rd_record(minor);
-  if(rd) {
+  if(rd!=NULL) {
     char *dest = rd->data + (block << rd->bitshift);
     int size = nblocks * rd->blocksize;
     copy(dest, buffer, size);
