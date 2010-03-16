@@ -97,11 +97,19 @@ int32_t ramdisk_attach(char *mem_start)
 
 void ramdisk_detach(uint16_t minor)
 {
-    kprintf("**** calling ramdisk_detach with %X\n\r",(uint32_t)minor);
-  /*  for loop checking through minors
-  
-      TODO: get address from minor #
-  */
+    kprintf("Calling ramdisk_detach with %X\n\r",(uint32_t)minor);
+    ramdisk_minor *rd = NULL;
+    ramdisk_minor *current = minors;
+    while(current->next != NULL) {
+      if(current->next->num == minor) {
+	rd = current->next;
+	current->next = rd->next;
+	break;
+      }
+      current = current->next;
+    }
+
+    kfree(rd->data);
 }
 
 
