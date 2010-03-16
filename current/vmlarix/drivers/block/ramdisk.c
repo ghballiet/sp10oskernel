@@ -42,6 +42,14 @@ ramdisk_minor *get_rd_record(int minor) {
 }
 
 
+void copy(void *dest, void *source, int bytes) {
+  int i;
+  for(i=0; i<bytes; i++) {
+    dest[i] = source[i];
+  }
+}
+
+
 /* Takes a pointer and looks to see if there is a RAMdisk there.
    If so, return the size of the RAMdisk, in bytes. Returns 0 on
    failure.
