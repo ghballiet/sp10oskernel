@@ -119,7 +119,16 @@ int ramdisk_write(uint16_t minor,
 		   uint32_t block,
 		   char *buffer,
 		   uint32_t nblocks)
-{
+{  
+  ramdisk_minor *rd = get_rd_record(minor);
+  if(rd) {
+    char *dest = rd->data + (block << rd->bitshift);
+    int size = nblocks * rd->blocksize;
+    memcpy(dest, buffer, size);
+    return size;
+  }
+  else
+    return 0;
 }
 
 int ramdisk_num_blk(uint16_t minor)
