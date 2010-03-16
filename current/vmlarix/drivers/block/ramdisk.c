@@ -3,6 +3,7 @@
 #include <ramdisk.h> 
 #include <stdint.h>
 #include <byteswap.h>
+#include <phys_mem.h>
 
 #ifndef _KERNEL_
 #include <stdlib.h>
