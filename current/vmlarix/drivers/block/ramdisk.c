@@ -33,6 +33,15 @@ typedef struct rm{
 
 ramdisk_minor *minors;
 
+
+ramdisk_minor *get_rd_record(int minor) {
+  ramdisk_minor *current = minors;
+  while(current != NULL && current->num != minor)
+    current = current->next;
+  return current;
+}
+
+
 /* Takes a pointer and looks to see if there is a RAMdisk there.
    If so, return the size of the RAMdisk, in bytes. Returns 0 on
    failure.
@@ -73,7 +82,7 @@ int32_t ramdisk_attach(char *mem_start)
   bptr++;
   new_rd->bitshift = *bptr;
 
-  return (new_rd->length * new_rd->blocksize)
+  return (new_rd->length * new_rd->blocksize);
 }
 
 void ramdisk_detach(uint16_t minor)
@@ -85,12 +94,17 @@ void ramdisk_detach(uint16_t minor)
   */
 }
 
+
+
+
 int32_t ramdisk_read(uint16_t minor,
 		     uint32_t block,
 		     char *buffer,
 		     uint32_t nblocks)
 {
   kprintf("ramdisk_read **** \n\r");
+  
+  //  memcpy(buffer, 
 }
 
 int ramdisk_write(uint16_t minor,
