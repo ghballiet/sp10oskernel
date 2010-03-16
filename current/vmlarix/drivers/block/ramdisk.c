@@ -3,7 +3,6 @@
 #include <ramdisk.h> 
 #include <stdint.h>
 #include <byteswap.h>
-#include <mmap.h>
 
 #ifndef _KERNEL_
 #include <stdlib.h>
@@ -20,6 +19,8 @@ typedef uint64_t ptrint_t;
 #else
 typedef uint32_t ptrint_t;
 #endif
+
+#define PAGESIZE 4096
 
 char ramdisk_magic[]="VMLARIX RAMDISK";
 
@@ -114,7 +115,7 @@ void ramdisk_detach(uint16_t minor)
       }
     }
     kfree(rd);
-    kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data);
+    kprintf("I have to free %d pages starting at %X\n\r",(rd->blocksize*rd->length)/PAGESIZE,rd->data); 
 }
 
 
