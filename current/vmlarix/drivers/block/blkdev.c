@@ -44,6 +44,15 @@ uint32_t block_dev_init(devdef *block_dev_list)
     }
 }
 
+/* examine blk_dev array and return appropriate error code */
+int check_major(uint16_t major) {
+  if(major>=BLK_DEV_MAX || major==0)
+    return BLK_MAJINVAL;
+  if(blk_dev[major].registered==0)
+    return BLK_NOTREG;
+  return 1;
+}
+
 /* return the number of bytes successfully written */
 int32_t block_write(uint16_t major,uint16_t minor,uint32_t block,
 		    char *buff,uint32_t nblocks)
@@ -100,13 +109,6 @@ int32_t blk_size(uint16_t major,uint16_t minor)
   return blk_dev[major].blk_size(minor);
 }
 
-/* examine blk_dev array and return appropriate error code */
-int32_t check_major(uint16_t major) {
-  if(major>=BLK_DEV_MAX || major==0)
-    return BLK_MAJINVAL;
-  if(blk_dev[major].registered==0)
-    return BLK_NOTREG;
-  return 1;
-}
+
 
 
