@@ -35,7 +35,7 @@ uint32_t block_dev_init(devdef *block_dev_list)
 	    kprintf("RAMdisk attached\n\r"); 
 	  else
 	    kprintf("RAMdisk not found\n\r"); 
-	  break;
+ 	  break;
 	default:
 	  panic("Attempted to attach nonexistent device");
 	  break;
@@ -52,6 +52,12 @@ int32_t block_write(uint16_t major,uint16_t minor,uint32_t block,
   /* if so, call the driver's write method with the minor number and
      all other parameters. */
   /* if not,  return an error code */
+  
+  if(major>=BLK_DEV_MAX || major==0)
+    return BLK_MAJINVAL;
+  if(blk_dev[major].registered==0)
+    return BLK_NOTREG;
+  return blk_dev[major].write_fn(minor,block,buff,nblocks);
 }
 
 /* return the number of bytes successfully read */
