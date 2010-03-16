@@ -60,6 +60,7 @@ int32_t ramdisk_read(uint16_t minor,
 		     char *buffer,
 		     uint32_t nblocks)
 {
+  kprintf("ramdisk_read **** \n\r");
 }
 
 int ramdisk_write(uint16_t minor,
@@ -75,11 +76,16 @@ int ramdisk_num_blk(uint16_t minor)
 
 int ramdisk_block_size(uint16_t minor)
 {
+  // powers of 2
 }
 
 /* initialize the datastructures needed to manage ramdisks */
 void ramdisk_init(block_device *blk_dev)
 {
+  // calculate amt of shift required in each block
+  // store in bitshift
+  // to get blocksize
+  // take block #, shift by bitshift
   kprintf("RAMdisk driver initialized.\n\r");
 }
 
