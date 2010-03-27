@@ -20,6 +20,16 @@ pq *run_q;
 /* Initialize the process table entries, curr_proc, and run_q */
 void process_table_init()
 {
+  /* set up curr_proc pointer */
+  curr_proc = NULL;
+  /* initialize process table entries */
+  /* TODO: should this do more? */
+  int i;
+  for(i=0; i<PROCESS_TABLE_SIZE; i++)
+    p_tab[i] = NULL;
+  /* set up next_PID */
+  /* nothing should have PID 0, see comment for process_create */
+  next_PID = 1;
 }
 
 /* Create a process by allocating a process table entry and
@@ -27,7 +37,13 @@ void process_table_init()
    created, 0 means no free slots. */
 proc_rec* process_create(PID_t parent, void *start, void *stack)
 {
-  /* Find a process table entry. */  
+  /* Find a process table entry. */
+  int i;
+  while(i<PROCESS_TABLE_SIZE && p_tab[i] != NULL)
+    i++;
+  if(i==PROCESS_TABLE_SIZE) /* no free slots, return 0 */
+    return 0;
+  /* TODO: what's the relationship between PID and process table index? */
 
   /* Initialize the opaque architecture specific part of the process
      table entry. */
