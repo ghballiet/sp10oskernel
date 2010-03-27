@@ -17,16 +17,17 @@ proc_rec *curr_proc;
 /* Pointer to the run queue. (will be allocated with kmalloc) */
 pq *run_q;
 
+
+
 /* Initialize the process table entries, curr_proc, and run_q */
 void process_table_init()
 {
   /* set up curr_proc pointer */
   curr_proc = NULL;
   /* initialize process table entries */
-  /* TODO: should this do more? */
   int i;
   for(i=0; i<PROCESS_TABLE_SIZE; i++)
-    p_tab[i] = NULL;
+    p_tab[i].state = PROCESS_AVAILABLE;
   /* set up next_PID */
   /* nothing should have PID 0, see comment for process_create */
   next_PID = 1;
@@ -38,28 +39,34 @@ void process_table_init()
 proc_rec* process_create(PID_t parent, void *start, void *stack)
 {
   /* Find a process table entry. */
-  int i;
-  while(i<PROCESS_TABLE_SIZE && p_tab[i] != NULL)
+  int i = 0;
+  while(i<PROCESS_TABLE_SIZE && p_tab[i].state != PROCESS_AVAILABLE)
     i++;
   if(i==PROCESS_TABLE_SIZE) /* no free slots, return 0 */
     return 0;
-  /* TODO: what's the relationship between PID and process table index? */
 
+  /* Get a pointer to the process record */
+  proc_rec *proc = &(p_tab[i]); /* TODO: double check this syntax (we could
+				   just manipulate stuff like p_tab[i].PID, but
+				   eventually we do need the pointer to the
+				   record to return) */
   /* Initialize the opaque architecture specific part of the process
      table entry. */
-
+  proc->arch = process_arch_create(start, stack);
   /* Set the process state to STARTING. */
-
+  proc->state = PROCESS_STARTING;
   /* Assign a PID. We really should test to make sure next_PID is not
      already assigned to a process in the process table, but we can
      skip it for now. */
-
+  proc->PID = next_PID;
+  /* Update next_PID */
+  next_PID++;
   /* Set the PPID */
-
+  proc->PPID = parent;
   /* Put the process record on the run queue. */
-
+  pq_append(run_q, proc);
   /* Return a pointer to the process table entry */
-
+  return proc;
 }
 
 /* Called by a process when it exits. It should call the
@@ -72,11 +79,12 @@ void process_destroy()
 {
   /* destroy architecture specific part of current process and set to
      NULL */
-
+  process_arch_destroy(curr_proc->arch);
+  curr_proc->arch = NULL;
   /* Mark the current process table entry as AVAILABLE */
-
+  curr_proc->state = PROCESS_AVAILABLE;
   /* Call the scheduler to let some other process run */
-
+  schedule();
 }
 
 /* Puts a process on the ready queue. This function will be used by
@@ -93,17 +101,33 @@ void process_resume(proc_rec *p)
 void schedule()
 {
   int i;  
-  int  next;
+  int next;
+  /* TODO: what are we supposed to do with these i and next variables? I sent
+     an email about this on Sat, 3/27 */
 
-      /* Idle the CPU if no processes are ready. */
+  /* Idle the CPU if no processes are ready. */
+  /* TODO: implement this; assembly would be nice, but we could just do
+     busy-waiting for now; I sent an email about this on Sat, 3/27 */ 
 
-      /* If a process is running, then save it's state and 
-	 put it on the run queue. */
-
-      /* Get the next process from the run queue. */
-
-      /* Either start it, or resume it, depending on it's state */
-
+  /* If a process is running, then save it's state and put it on the run
+     queue. */
+  if(curr_proc->state == PROCESS_RUNNING) {
+    process_arch_save(curr_proc->arch);
+    curr_proc->state = PROCESS_WAITING;
+    pq_append(run_q, curr_proc);
+  }
+  /* Get the next process from the run queue. */
+  curr_proc = pq_pop(run_q);
+  /* Either start it, or resume it, depending on it's state */
+  if(curr_proc->state == PROCESS_STARTING) {
+    curr_proc->state = PROCESS_RUNNING;
+    process_arch_start(curr_proc->arch);
+  } else if(curr_proc->state == PROCESS_WAITING) {
+    curr_proc->state = PROCESS_RUNNING;
+    process_arch_resume(curr_proc->arch);
+  } else {
+    kprintf("Error: Process %d on front of process queue was not STARTING or WAITING\r\n",
+	    curr_proc->PID);
 }
 
 /* Process_exit may do some cleanup, and then calls process_destroy */
