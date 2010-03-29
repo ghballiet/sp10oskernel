@@ -118,16 +118,15 @@ void schedule()
   while(pq_empty(run_q));
   kprintf("schedule: run_q is not empty\r\n");
 
-  /* If a process is running, then save it's state and put it on the run
-     queue. */
-  if(curr_proc==NULL) kprintf("Schedule: curr_proc is NULL\r\n");
-  if(curr_proc->state == PROCESS_RUNNING) {
+  /* If there is a current process, and that process is running, then save it's
+     state and put it on the run queue. */
+  if(curr_proc && curr_proc->state == PROCESS_RUNNING) {
     kprintf("schedule: Process currently running\r\n");
     process_arch_save(curr_proc->arch);
     curr_proc->state = PROCESS_WAITING;
     pq_append(run_q, curr_proc);
   }
-  kprintf("schedule: current process is not RUNNING\r\n");
+  kprintf("schedule: getting next process\r\n");
   /* Get the next process from the run queue. */
   curr_proc = pq_pop(run_q);
   /* Either start it, or resume it, depending on it's state */
