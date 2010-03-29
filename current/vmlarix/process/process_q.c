@@ -18,7 +18,7 @@ void pq_append(pq *q,proc_rec *proc)
   z->next = proc;
   q->last = proc;
   /* set the given proc_rec's pointers to tie it into the list */
-  proc->next = null;
+  proc->next = NULL;
   proc->prev = z;
 }
 
