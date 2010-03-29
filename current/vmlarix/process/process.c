@@ -119,9 +119,9 @@ void schedule()
     curr_proc->state = PROCESS_WAITING;
     pq_append(run_q, curr_proc);
   }
-  kprintf("schedule: getting next process\r\n");
   /* Get the next process from the run queue. */
   curr_proc = pq_pop(run_q);
+  kprintf("schedule: got next process: %X\r\n", curr_proc);
   /* Either start it, or resume it, depending on it's state */
   if(curr_proc->state == PROCESS_STARTING) {
     kprintf("schedule: current process status is STARTING\r\n");
