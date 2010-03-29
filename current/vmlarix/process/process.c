@@ -114,7 +114,9 @@ void schedule()
      an email about this on Sat, 3/27 */
 
   /* Idle the CPU if no processes are ready. */
+  kprintf("schedule: still in schedule function\r\n");
   while(pq_empty(run_q));
+  kprintf("schedule: run_q is not empty\r\n");
 
   /* If a process is running, then save it's state and put it on the run
      queue. */
