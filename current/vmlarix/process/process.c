@@ -128,6 +128,7 @@ void schedule()
   } else {
     kprintf("Error: Process %d on front of process queue was not STARTING or WAITING\r\n",
 	    curr_proc->PID);
+  }
 }
 
 /* Process_exit may do some cleanup, and then calls process_destroy */
