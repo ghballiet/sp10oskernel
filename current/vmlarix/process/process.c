@@ -115,6 +115,7 @@ void schedule()
      state and put it on the run queue. */
   if(curr_proc && curr_proc->state == PROCESS_RUNNING) {
     kprintf("schedule: saving process %X\r\n", curr_proc);
+    kprintf("schedule: arch pointer %X\r\n", curr_proc->arch);
     //kprintf("schedule: Process currently running\r\n");
     process_arch_save(curr_proc->arch);
     curr_proc->state = PROCESS_WAITING;
@@ -123,6 +124,7 @@ void schedule()
   /* Get the next process from the run queue. */
   curr_proc = pq_pop(run_q);
   kprintf("schedule: got next process %X\r\n", curr_proc);
+  kprintf("schedule: arch pointer %X\r\n", curr_proc->arch);
   /* Either start it, or resume it, depending on it's state */
   if(curr_proc->state == PROCESS_STARTING) {
     kprintf("schedule: current process status is STARTING\r\n");
