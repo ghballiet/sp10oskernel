@@ -113,8 +113,7 @@ void schedule()
      an email about this on Sat, 3/27 */
 
   /* Idle the CPU if no processes are ready. */
-  /* TODO: implement this; assembly would be nice, but we could just do
-     busy-waiting for now; I sent an email about this on Sat, 3/27 */ 
+  while(pq_empty(run_q));
 
   /* If a process is running, then save it's state and put it on the run
      queue. */
