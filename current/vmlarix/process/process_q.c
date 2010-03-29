@@ -62,8 +62,6 @@ void pq_push_back(pq *q,proc_rec *proc)
 proc_rec* pq_pop(pq *q)
 {
   proc_rec *proc = q->first;
-  kprintf("pq_pop: proc=%X\r\n",proc);
-  kprintf("pq_pop: proc->next=%X\r\n",proc->next);
 
   /* update queue pointers */
   q->first = proc->next;
@@ -71,6 +69,9 @@ proc_rec* pq_pop(pq *q)
     q->first->prev = NULL;
   else
     q->last = NULL;
+
+  kprintf("pq_pop: first proc was %X\r\n",proc);
+  kprintf("pq_pop: new first proc is %X\r\n",proc->next);
 
   return proc;
 }
