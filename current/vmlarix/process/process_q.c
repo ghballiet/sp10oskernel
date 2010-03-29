@@ -70,9 +70,6 @@ proc_rec* pq_pop(pq *q)
   else
     q->last = NULL;
 
-  kprintf("pq_pop: first proc was %X\r\n",proc);
-  kprintf("pq_pop: new first proc is %X\r\n",proc->next);
-
   return proc;
 }
 
