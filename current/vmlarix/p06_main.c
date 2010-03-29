@@ -103,5 +103,8 @@ int main()
   buffer[i]=0;
   kprintf("\nYou typed \'%s\' \n\r",buffer);
 
+  kprintf("taska_ptr=%X\r\n",taska_ptr);
+  kprintf("taskb_ptr=%X\r\n",taskb_ptr);
+  
   while(1);
 }
