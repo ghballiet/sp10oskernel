@@ -32,6 +32,7 @@ void process_table_init()
   /* nothing should have PID 0, see comment for process_create */
   next_PID = 1;
   /* initialize the run queue */
+  run_q = kmalloc(sizeof(pq));
   pq_init(run_q);
 }
 
