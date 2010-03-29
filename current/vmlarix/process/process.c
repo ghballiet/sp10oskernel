@@ -120,6 +120,7 @@ void schedule()
 
   /* If a process is running, then save it's state and put it on the run
      queue. */
+  if(curr_proc==NULL) kprintf("Schedule: curr_proc is NULL\r\n");
   if(curr_proc->state == PROCESS_RUNNING) {
     kprintf("schedule: Process currently running\r\n");
     process_arch_save(curr_proc->arch);
