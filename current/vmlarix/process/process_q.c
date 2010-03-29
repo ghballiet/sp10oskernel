@@ -18,6 +18,7 @@ void pq_append(pq *q,proc_rec *proc)
   if(z) {
     z->next = proc;
   } else {
+    kprintf("pq_append: 'z' was NULL\r\n");
     q->first = proc;
   }
   q->last = proc;
