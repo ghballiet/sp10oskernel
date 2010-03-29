@@ -31,6 +31,8 @@ void process_table_init()
   /* set up next_PID */
   /* nothing should have PID 0, see comment for process_create */
   next_PID = 1;
+  /* initialize the run queue */
+  pq_init(run_q);
 }
 
 /* Create a process by allocating a process table entry and
