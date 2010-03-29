@@ -107,35 +107,35 @@ void process_resume(proc_rec *p)
    run, then it puts the CPU into sleep mode. */
 void schedule()
 {
-  kprintf("schedule: entered schedule function\r\n");
+  //kprintf("schedule: entered schedule function\r\n");
   int i;  
   int next;
   /* TODO: what are we supposed to do with these i and next variables? I sent
      an email about this on Sat, 3/27 */
 
   /* Idle the CPU if no processes are ready. */
-  kprintf("schedule: still in schedule function\r\n");
+  //kprintf("schedule: still in schedule function\r\n");
   while(pq_empty(run_q));
-  kprintf("schedule: run_q is not empty\r\n");
+  //kprintf("schedule: run_q is not empty\r\n");
 
   /* If there is a current process, and that process is running, then save it's
      state and put it on the run queue. */
   if(curr_proc && curr_proc->state == PROCESS_RUNNING) {
-    kprintf("schedule: Process currently running\r\n");
+    //kprintf("schedule: Process currently running\r\n");
     process_arch_save(curr_proc->arch);
     curr_proc->state = PROCESS_WAITING;
     pq_append(run_q, curr_proc);
   }
-  kprintf("schedule: getting next process\r\n");
+  //kprintf("schedule: getting next process\r\n");
   /* Get the next process from the run queue. */
   curr_proc = pq_pop(run_q);
   /* Either start it, or resume it, depending on it's state */
   if(curr_proc->state == PROCESS_STARTING) {
-    kprintf("schedule: current process status is STARTING\r\n");
+    //kprintf("schedule: current process status is STARTING\r\n");
     curr_proc->state = PROCESS_RUNNING;
     process_arch_start(curr_proc->arch);
   } else if(curr_proc->state == PROCESS_WAITING) {
-    kprintf("schedule: current process status is WAITING\r\n");
+    //kprintf("schedule: current process status is WAITING\r\n");
     curr_proc->state = PROCESS_RUNNING;
     process_arch_resume(curr_proc->arch);
   } else {
