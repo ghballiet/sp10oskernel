@@ -15,7 +15,11 @@ void pq_append(pq *q,proc_rec *proc)
 {
   /* add the give proc_rec to the end of the queue */
   proc_rec *z = q->last;
-  z->next = proc;
+  if(z) {
+    z->next = proc;
+  } else {
+    q->first = proc;
+  }
   q->last = proc;
   /* set the given proc_rec's pointers to tie it into the list */
   proc->next = NULL;
