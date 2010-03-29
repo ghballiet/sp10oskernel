@@ -50,11 +50,7 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   //kprintf("Process_create: found process table entry %d\r\n", i);
 
   /* Get a pointer to the process record */
-  proc_rec *proc = &(p_tab[i]); /* TODO: double check this syntax (we could
-				   just manipulate stuff like p_tab[i].PID, but
-				   eventually we do need the pointer to the
-				   record to return) */
-  //kprintf("Process_create: got pointer to process table entry %d\r\n", i);
+  proc_rec *proc = &(p_tab[i]);
   /* Initialize the opaque architecture specific part of the process
      table entry. */
   proc->arch = process_arch_create(start, stack);
@@ -108,10 +104,8 @@ void process_resume(proc_rec *p)
 void schedule()
 {
   //kprintf("schedule: entered schedule function\r\n");
-  int i;  
-  int next;
-  /* TODO: what are we supposed to do with these i and next variables? I sent
-     an email about this on Sat, 3/27 */
+  //int i;
+  //int next;
 
   /* Idle the CPU if no processes are ready. */
   //kprintf("schedule: still in schedule function\r\n");

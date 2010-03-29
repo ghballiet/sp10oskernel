@@ -56,7 +56,6 @@ void pq_push_back(pq *q,proc_rec *proc)
 {
   /* what's the difference between push_back and append? My reading is that
      they're identical -- add new element to end (back) of queue... */
-  /* TODO: I sent an email about this apparent duplication on Sat, 3/27... */
   pq_append(q, proc);
 }
 
@@ -70,7 +69,6 @@ proc_rec* pq_pop(pq *q)
     q->first->prev = NULL;
   else
     q->last = NULL;
-  /* TODO: double-check this logic */
 
   return proc;
 }
