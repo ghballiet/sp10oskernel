@@ -107,6 +107,7 @@ void process_resume(proc_rec *p)
    run, then it puts the CPU into sleep mode. */
 void schedule()
 {
+  kprintf("schedule: entered schedule function\r\n");
   int i;  
   int next;
   /* TODO: what are we supposed to do with these i and next variables? I sent
