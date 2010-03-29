@@ -47,14 +47,14 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
     i++;
   if(i==PROCESS_TABLE_SIZE) /* no free slots, return 0 */
     return 0;
-  kprintf("Process_create: found process table entry %d\r\n", i);
+  //kprintf("Process_create: found process table entry %d\r\n", i);
 
   /* Get a pointer to the process record */
   proc_rec *proc = &(p_tab[i]); /* TODO: double check this syntax (we could
 				   just manipulate stuff like p_tab[i].PID, but
 				   eventually we do need the pointer to the
 				   record to return) */
-  kprintf("Process_create: got pointer to process table entry %d\r\n", i);
+  //kprintf("Process_create: got pointer to process table entry %d\r\n", i);
   /* Initialize the opaque architecture specific part of the process
      table entry. */
   proc->arch = process_arch_create(start, stack);
@@ -72,7 +72,7 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   kprintf("Process_create: adding proc object to run_q\r\n");
   pq_append(run_q, proc);
   /* Return a pointer to the process table entry */
-  kprintf("Process_create: done\r\n");
+  //kprintf("Process_create: done\r\n");
   return proc;
 }
 
