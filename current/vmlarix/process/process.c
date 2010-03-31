@@ -134,6 +134,7 @@ void schedule()
     kprintf("schedule: current process status is WAITING\r\n");
     curr_proc->state = PROCESS_RUNNING;
     process_arch_resume(curr_proc->arch);
+    kprintf("Running\n\r");
   } else {
     kprintf("Error: Process %d on front of process queue was not STARTING or WAITING\r\n",
 	    curr_proc->PID);
