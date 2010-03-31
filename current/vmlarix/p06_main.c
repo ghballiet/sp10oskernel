@@ -18,8 +18,11 @@ uint16_t initrd_minor;
 
 int taska()
 {          
-  while(1) 
-    kprintf("a");
+  int i = 0;
+  while(1) {
+    kprintf("a%d",i);
+    i++;
+  }
 }                
 
 int taskb()
