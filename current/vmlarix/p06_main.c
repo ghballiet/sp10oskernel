@@ -33,8 +33,11 @@ int taskb()
 
 int taskc()
 {
-  while(1)
-    kprintf("c");
+  int i = 0;
+  while(1) {
+    kprintf("c%d",i);
+    i++;
+  }
 }
 
 #define BUFF_LEN 100
