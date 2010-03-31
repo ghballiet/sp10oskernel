@@ -130,6 +130,7 @@ void schedule()
     kprintf("schedule: current process status is STARTING\r\n");
     curr_proc->state = PROCESS_RUNNING;
     process_arch_start(curr_proc->arch);
+    kprintf("Running\n\r");
   } else if(curr_proc->state == PROCESS_WAITING) {
     kprintf("schedule: current process status is WAITING\r\n");
     curr_proc->state = PROCESS_RUNNING;
