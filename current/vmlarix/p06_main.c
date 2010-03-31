@@ -43,7 +43,7 @@ int main()
   char buffer[BUFF_LEN];
   phys_mem_t kernel_pt;
   proc_rec *taska_ptr,*taskb_ptr,*taskc_ptr;
-  char *taska_stack,*taskb_stack,*taskc_ptr;
+  char *taska_stack,*taskb_stack,*taskc_stack;
 
   arch_init();
 
