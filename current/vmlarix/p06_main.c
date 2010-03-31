@@ -26,6 +26,12 @@ int taskb()
 {
   while(1)
     kprintf("b");
+}          
+
+int taskc()
+{
+  while(1)
+    kprintf("c");
 }
 
 #define BUFF_LEN 100
@@ -36,8 +42,8 @@ int main()
   uint32_t pages_free;
   char buffer[BUFF_LEN];
   phys_mem_t kernel_pt;
-  proc_rec *taska_ptr,*taskb_ptr;
-  char *taska_stack,*taskb_stack;
+  proc_rec *taska_ptr,*taskb_ptr,*taskc_ptr;
+  char *taska_stack,*taskb_stack,*taskc_ptr;
 
   arch_init();
 
@@ -84,6 +90,10 @@ int main()
   taskb_stack = kmalloc(1024);
   taskb_ptr = process_create(0, &taskb, taskb_stack);
 
+  kprintf("Setting up taskc\n\r");
+  taskc_stack = kmalloc(1024);
+  taskc_ptr = process_create(0, &taskc, taskc_stack);
+
   kprintf("Setting up interrupt controller\n\r");
   setup_interrupt_controller();                  
 
@@ -105,6 +115,7 @@ int main()
 
   kprintf("taska_ptr=%X\r\n",taska_ptr);
   kprintf("taskb_ptr=%X\r\n",taskb_ptr);
+  kprintf("taskc_ptr=%X\r\n",taskc_ptr);
   
   while(1);
 }
