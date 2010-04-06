@@ -14,7 +14,15 @@
 
 int vfs_fchmod(int fd, mode_t mode)
 {
-  kprintf("vfs_fchmod() not implemented!\n\r");
+  /* get file descriptor pointer */
+  filedesc *f = fdptr(fd);
+  if(f) {
+    return f->mp->ops->fchmod_fn(f, mode); /* check on this calling
+						 syntax---see vfs_open.c */
+  } else {
+    return -1;
+    /* TODO: check on if this is what this is supposed to do... */
+  }
 }
 
 

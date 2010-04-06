@@ -23,5 +23,16 @@
 
 int sfs_fchmod(filedesc *f, mode_t mode)
 {
-  kprintf("sfs_fchmod() function not implemented\n\r");
+  //  kprintf("sfs_fchmod() function not implemented\n\r");
+  /* update mode in file descriptor */
+  f->mode = mode;
+  /* get inode pointer and inode number from file descriptor */
+  sfs_inode_t *inode = f->fs_private->inode;
+  uint32_t inum = f->fs_private->inum;
+  /* update mode in inode structure */
+  inode->perm = mode; /* TODO: is this right? */
+  /* write updated inode to disk */
+  sfs_put_inode(f->mp, inum, inode);
+  return 0; /* TODO: what are these supposed to return? 0 for success, -1 for
+	       failure? What would be a failure case for chmod? */
 }
