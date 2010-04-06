@@ -27,8 +27,8 @@ int sfs_fchmod(filedesc *f, mode_t mode)
   /* update mode in file descriptor */
   f->mode = mode;
   /* get inode pointer and inode number from file descriptor */
-  sfs_inode_t *inode = f->fs_private->inode;
-  uint32_t inum = f->fs_private->inum;
+  sfs_inode_t *inode = ((sfs_fd_private *)f->fs_private)->inode;
+  uint32_t inum = ((sfs_fd_private *)f->fs_private)->inum;
   /* update mode in inode structure */
   inode->perm = mode; /* TODO: is this right? */
   /* write updated inode to disk */
