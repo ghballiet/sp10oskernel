@@ -23,7 +23,6 @@
 
 int sfs_fchmod(filedesc *f, mode_t mode)
 {
-  //  kprintf("sfs_fchmod() function not implemented\n\r");
   /* update mode in file descriptor */
   f->mode = mode;
   /* get inode pointer and inode number from file descriptor */

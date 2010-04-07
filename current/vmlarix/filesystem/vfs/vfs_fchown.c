@@ -14,7 +14,14 @@
 
 int vfs_fchown(int fd, uid_t owner, gid_t group)
 {
-  kprintf("vfs_fchown() not implemented!\n\r");
+  /* get file descriptor pointer */
+  filedesc *f = fdptr(fd);
+  if(f) {
+    return f->mp->ops->fchown_fn(f, owner, group);
+  } else {
+    return -1;
+    /* TODO: check on if this is what this is supposed to do... */
+  }
 }
 
 
