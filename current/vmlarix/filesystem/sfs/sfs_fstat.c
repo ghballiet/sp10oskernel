@@ -41,7 +41,7 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   
   buf->st_mode = f->mode;
   /* get blocksize for FS from superblock from private FS data */
-  buf->st_blocksize = ((sfs_fd_private *)f->fs_private)->sb->block_size;
+  buf->st_blksize = ((sfs_fd_private *)f->fs_private)->sb->block_size;
   /* TODO: what do I need to do for number of blocks allocated? Does that mean
      allocated just for this file? If so, is this just division
      (size/blocksize)? */
@@ -61,10 +61,10 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   uint32_t major = f->mp->major;
   uint32_t minor = f->mp->minor;
   /* TODO: I'm assuming here that dev_t is a 64-bit type; double-check this */
-  buf->st_dev = (major<<32) + minor;
+  buf->st_dev = (((uint64_t)major)<<32) + minor;
   /* handle device number for special files */
   if(inode->type==FT_CHAR_SPEC || inode->type==FT_BLOCK_SPEC) {
-    buf->st_rdev = (inode->direct[0] << 32) + inode->direct[1];
+    buf->st_rdev = (((uint64_t)(inode->direct[0])) << 32) + inode->direct[1];
   }
   
 }
