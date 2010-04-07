@@ -14,5 +14,12 @@
 
 int vfs_fstat(int fd, struct fstat *buf)
 {
-  kprintf("vfs_fstat() not implemented!\n\r");
+  /* get file descriptor pointer */
+  filedesc *f = fdptr(fd);
+  if(f) {
+    return f->mp->ops->fstat_fn(f, buf);
+  } else {
+    return -1;
+    /* TODO: check on if this is what this is supposed to do... */
+  }
 }
