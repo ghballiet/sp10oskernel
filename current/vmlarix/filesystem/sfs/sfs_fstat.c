@@ -42,11 +42,8 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   buf->st_mode = f->mode;
   /* get blocksize for FS from superblock from private FS data */
   buf->st_blksize = ((sfs_fd_private *)f->fs_private)->sb->block_size;
-  /* TODO: what do I need to do for number of blocks allocated? Does that mean
-     allocated just for this file? If so, is this just division
-     (size/blocksize)? */
-
-  /* get inode pointer and inode number from file descriptor */
+  /* get inode pointer and inode number from file descriptor, populate fields
+     from inode */
   sfs_inode_t *inode = ((sfs_fd_private *)f->fs_private)->inode;
   uint32_t inum = ((sfs_fd_private *)f->fs_private)->inum;
   buf->st_ino = inum;
@@ -66,5 +63,9 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   if(inode->type==FT_CHAR_SPEC || inode->type==FT_BLOCK_SPEC) {
     buf->st_rdev = (((uint64_t)(inode->direct[0])) << 32) + inode->direct[1];
   }
+  /* Compute number of blocks from file size and blocksize */
+  buf->st_blocks = buf->st_size / buf->st_blksize;
+  if(buf->st_size % buf->st_blksize != 0)
+    buf->st_blocks++;
   
 }
