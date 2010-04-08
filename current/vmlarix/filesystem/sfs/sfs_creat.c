@@ -70,6 +70,77 @@ int sfs_creat(void *fs_private, char *path, mode_t mode)
     pinum = sfs_lookup(p,"",pinode);
   else
     pinum = sfs_lookup(p,ppath,pinode);
-  
+
+  if((pinode->type != FT_DIR))
+    {
+      kfree(pinode);
+      kfree(inode);
+      kfree(ppath);
+      return -1;
+    }
+  /* open parent directory*/
+  if(sfs_openinode(mp, fd, pinum, pinode,O_WRONLY|O_APPEND,06)!=0)
+    {
+      kfree(pinode);
+      kfree(inode);
+      kfree(ppath);
+      return -1;
+    }
+  /* allocate a new inode for the file we are creating */
+  inum = first_cleared(p->free_inode_bitmap,p->super->num_inodes);
+  if(inum<0)
+    {
+      kfree(pinode);
+      kfree(inode);
+      kfree(ppath);
+      return -1;
+    }
+  set_bit(p->free_inode_bitmap,inum);
+  /* write the inode bitmap */
+  blk_dev[mp->major].write_fn(mp->minor,
+			      p->super->free_inode_bitmap,
+			      (char*)p->free_inode_bitmap,
+			      p->super->free_inode_bitmapblocks*
+			      p->super->sectorsperblock);
+  /* write new dir entry */
+  sfs_dirent d;
+  strncpy(d.name,newname,SFS_NAME_MAX);
+  d.inode = inum;
+
+  /* swap bytes if we are on big-endian machine*/
+  byteswap32(&(d.inode));
+
+  sfs_write(fd, (char *)&d, sizeof(sfs_dirent));
+  /* close parent directory */
+  sfs_close(fd); /* this should also free pinode */
+  kfree(ppath);
+
+  /* initialize new inode */
+  inode->owner = 0;
+  inode->group = 0;
+  inode->ctime = 2;
+  inode->mtime = 3;
+  inode->atime = 4;
+  inode->perm = 0777;
+  inode->type = FT_NORMAL;
+  inode->size = 0;
+  inode->refcount = 0;
+  int aj;
+  for(aj=0;aj<NUM_DIRECT;aj++)
+    inode->direct[aj] = 0;
+  inode->indirect = 0;
+  inode->dindirect = 0;
+  inode->tindirect = 0;
+	  
+
+  sfs_put_inode(mp,inum,inode);
+
+  /* now let's try the lookup again... */
+  inum = sfs_lookup(mp,path,inode);
+  if(inum < 0)/* lookup failed.. something really wrong...*/
+    {
+      kfree(inode);
+      return -1;
+    }
 }
 
