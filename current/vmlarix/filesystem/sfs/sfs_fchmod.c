@@ -29,7 +29,7 @@ int sfs_fchmod(filedesc *f, mode_t mode)
   sfs_inode_t *inode = ((sfs_fd_private *)f->fs_private)->inode;
   uint32_t inum = ((sfs_fd_private *)f->fs_private)->inum;
   /* update mode in inode structure */
-  inode->perm = mode; /* TODO: is this right? */
+  inode->perm = mode;
   /* write updated inode to disk */
   sfs_put_inode(f->mp, inum, inode);
   return 0; /* TODO: what are these supposed to return? 0 for success, -1 for
