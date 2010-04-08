@@ -67,9 +67,9 @@ int sfs_creat(void *fs_private, char *path, mode_t mode)
 
   pinode = (sfs_inode_t*)kmalloc(sizeof(sfs_inode_t));
   if(emptyparent)
-    pinum = sfs_lookup(mp,"",pinode);
+    pinum = sfs_lookup(p,"",pinode);
   else
-    pinum = sfs_lookup(mp,ppath,pinode);
+    pinum = sfs_lookup(p,ppath,pinode);
   
 }
 
