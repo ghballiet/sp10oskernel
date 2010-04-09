@@ -31,35 +31,44 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
-
-  /* So in the SEEK_END case, are we supposed to pad the file with 0s up to the
-     new offset location? */
-
-  /* Updating f->filepos is trivial; updated f->bufpos is harder (we may have
-     to find/load a different block) */
-  /* We can call sfs_fstat to populate an fstat structure to get
-     fstat->st_blksize instead of directly having to get this from the private
-     fs data -> superblock */
-  /* We have sfs_log2phys which takes a logical file block number and returns
-     the filesystem block number for that block (or 0 on failure) */
-  /* There is code in sfs_write that deals with writing the current buffer and
-     getting a new buffer that I can borrow from for writing out the current
-     block if it's dirty. */
   fstat *fstat_buf = (fstat *)kmalloc(sizeof(fstat));
   sfs_fstat(f, fstat_buf);
   uint32_t blksize = fstat_buf->st_blksize;
+  uint32_t fsize = fstat_buf->st_size;
   kfree(fstat_buf);
-  if(whence==SEEK_SET) { /* TODO: is this even defined? */
-    /* If we're seeking to an absolute position */
-    /* TODO: check that we're inside the file boundary? */
-    if(f->curr_blk * blksize <= offset &&
-       (f->curr_blk + 1) * blksize > offset) {
-      /* if we're moving to a different point in the current block */
-      f->bufpos = offset - (f->curr_blk * blksize);
-      f->filepos = offset;
-    } else {
-      /* TODO: change blocks, write current one if needed, etc */
-    }
+  uint32_t newpos;
+  /* TODO: replace this with a switch stmt */
+  if(whence==SEEK_SET)  /* TODO: double-check that these are defined */
+    newpos = offset;
+  else if(whence==SEEK_CUR)
+    newpos = f->filepos + offset;
+  else if(whence==SEEK_END)
+    newpos = fsize + offset; /* +1? i.e., if given SEEK_END and offset 0,
+				should it move it to point to the last byte in
+				the file, or the first byte that would be after
+				the current last byte? */
+  else
+    return -1; /* invalid whence argument */
+  /* TODO: check that we're inside the file boundary? */
+
+  /* TODO: special logic if we're outside the file (extend it with 0s?) */
+
+  /* finally, move the file pointer to the now-inside-the-file location */
+  if(f->curr_blk * blksize <= newpos &&
+     (f->curr_blk + 1) * blksize > newpos) {
+    /* TODO: do I need to use bufsize from f instead of blksize? What's the
+       relationship between these two items? */
+    /* if we're moving to a different point in the current block */
+    f->bufpos = offset - (f->curr_blk * blksize);
+    f->filepos = offset;
+  } else {
+    /* if we're moving to a different block */
+    /* TODO: implement this */
+    /* We have sfs_log2phys which takes a logical file block number and returns
+       the filesystem block number for that block (or 0 on failure) */
+    /* There is code in sfs_write that deals with writing the current buffer
+       and getting a new buffer that I can borrow from for writing out the
+       current block if it's dirty. */
   }
   kprintf("sfs_lseek() function not implemented\n\r");
 }
