@@ -45,5 +45,21 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   /* There is code in sfs_write that deals with writing the current buffer and
      getting a new buffer that I can borrow from for writing out the current
      block if it's dirty. */
+  fstat *fstat_buf = (fstat *)kmalloc(sizeof(fstat));
+  sfs_fstat(f, fstat_buf);
+  uint32_t blksize = fstat_buf->st_blksize;
+  kfree(fstat_buf);
+  if(whence==SEEK_SET) { /* TODO: is this even defined? */
+    /* If we're seeking to an absolute position */
+    /* TODO: check that we're inside the file boundary? */
+    if(f->curr_blk * blksize <= offset &&
+       (f->curr_blk + 1) * blksize > offset) {
+      /* if we're moving to a different point in the current block */
+      f->bufpos = offset - (f->curr_blk * blksize);
+      f->filepos = offset;
+    } else {
+      /* TODO: change blocks, write current one if needed, etc */
+    }
+  }
   kprintf("sfs_lseek() function not implemented\n\r");
 }
