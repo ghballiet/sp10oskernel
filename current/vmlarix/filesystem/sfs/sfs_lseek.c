@@ -14,7 +14,6 @@
 #include <stddef.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <fstat.h>
 #include <blkdev.h>
 #include <vfs_filedesc.h>
 #include <sfs_dir.h>
@@ -32,7 +31,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
-  struct fstat *fstat_buf = (fstat *)kmalloc(sizeof(fstat));
+  /* TODO: fstat undeclared; adding an "include fstat" doesn't work... */
+  fstat *fstat_buf = (fstat *)kmalloc(sizeof(fstat));
   sfs_fstat(f, fstat_buf);
   uint32_t blksize = fstat_buf->st_blksize;
   uint32_t fsize = fstat_buf->st_size;
