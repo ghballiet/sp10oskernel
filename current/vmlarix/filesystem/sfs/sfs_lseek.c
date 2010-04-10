@@ -32,7 +32,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
-  fstat *fstat_buf = (struct fstat *)kmalloc(sizeof(fstat));
+  struct fstat *fstat_buf = (fstat *)kmalloc(sizeof(fstat));
   sfs_fstat(f, fstat_buf);
   uint32_t blksize = fstat_buf->st_blksize;
   uint32_t fsize = fstat_buf->st_size;
