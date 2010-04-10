@@ -20,7 +20,6 @@ int vfs_fchmod(int fd, mode_t mode)
     return f->mp->ops->fchmod_fn(f, mode);
   } else {
     return -1;
-    /* TODO: check on if this is what this is supposed to do... */
   }
 }
 

@@ -60,15 +60,36 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        relationship between these two items? */
     /* if we're moving to a different point in the current block */
     f->bufpos = offset - (f->curr_blk * blksize);
-    f->filepos = offset;
   } else {
     /* if we're moving to a different block */
-    /* TODO: implement this */
-    /* We have sfs_log2phys which takes a logical file block number and returns
-       the filesystem block number for that block (or 0 on failure) */
-    /* There is code in sfs_write that deals with writing the current buffer
-       and getting a new buffer that I can borrow from for writing out the
-       current block if it's dirty. */
+    if(f->dirty) {
+      blk_dev[f->major].write_fn(f->minor,
+				 f->curr_blk,
+				 f->buffer,
+				 fp->sb->sectorsperblock);
+      f->dirty=0;
+    }
+    /* so get logical block number we want, and calculate the offset in it */
+    uint32_t logblk = offset/blksize;
+    /* TODO: in sfs_write this is calculated by dividing by f->bufsize (line
+       94), so again, what's the relationship between the two? */
+    uint32_t buf_offset = offset - (logblk * blksize);
+    /* get filesystem block number for that block */
+    uint32_t fsblk = sfs_log2phys(f, logblk);
+    if(fsblk==0) {
+      /* something went wrong */
+      return -1;
+    }
+    /* load that filesystem block into buffer */
+    blk_dev[f->major].read_fn(f->minor,
+			      fsblk,
+			      f->buffer,
+			      fp->sb->sectorsperblock);
+    /* finally, update file descriptor */
+    f->curr_log = logblk;
+    f->curr_blk = fsblk;
+    f->bufpos = buf_offset;
   }
+  f->filepos = offset;
   kprintf("sfs_lseek() function not implemented\n\r");
 }
