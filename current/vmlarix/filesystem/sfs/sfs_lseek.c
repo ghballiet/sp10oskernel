@@ -14,6 +14,7 @@
 #include <stddef.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <fstat.h>
 #include <blkdev.h>
 #include <vfs_filedesc.h>
 #include <sfs_dir.h>
@@ -38,7 +39,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   kfree(fstat_buf);
   uint32_t newpos;
   /* TODO: replace this with a switch stmt */
-  if(whence==SEEK_SET)  /* TODO: double-check that these are defined */
+  if(whence==SEEK_SET)  /* TODO: these are undeclared */
     newpos = offset;
   else if(whence==SEEK_CUR)
     newpos = f->filepos + offset;
@@ -50,7 +51,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   else
     return -1; /* invalid whence argument */
   /* TODO: check that we're inside the file boundary? */
-
   /* TODO: special logic if we're outside the file (extend it with 0s?) */
 
   /* finally, move the file pointer to the now-inside-the-file location */
