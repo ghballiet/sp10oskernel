@@ -34,7 +34,7 @@ sfs_trunc(filedesc *f)
   */
   /* sfs_del_phys looks like it *should* delete indirect blocks as appropriate,
      but he's not sure if that's currently implemented fully or not */
-  sfs_inode *inode = sfs_inode_from_fd(f);
+  sfs_inode_t *inode = sfs_inode_from_fd(f);
   uint32_t num_blocks = sfs_get_num_blocks(f);
   uint32_t i = num_blocks;
   while(i>0) {
