@@ -24,6 +24,12 @@
 #include <sfs_private.h>
 #include <byteswap.h>
 
+
+sfs_inode *sfs_inode_from_fd(filedesc *f) {
+  /* declared in sfs.h */
+  return ((sfs_fd_private *)f->fs_private)->inode;
+}
+
 void sfs_get_inode(mount_point *mp,int inum,sfs_inode_t *inode)
 {
   int i;

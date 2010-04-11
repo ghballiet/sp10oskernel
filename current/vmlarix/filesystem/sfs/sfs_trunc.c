@@ -34,6 +34,24 @@ sfs_trunc(filedesc *f)
   */
   /* sfs_del_phys looks like it *should* delete indirect blocks as appropriate,
      but he's not sure if that's currently implemented fully or not */
+  sfs_inode *inode = sfs_inode_from_fd(f);
+  uint32_t num_blocks = sfs_get_num_blocks(f);
+  uint32_t i = num_blocks;
+  while(i>0) {
+    i--;
+    sfs_del_phys(f, i);
+  }
+  /* update filedescriptor */
+  f->dirty=0;
+  f->curr_blk = 0; /* is this right? */
+  /* should we clear the buffer too? */
+  f->curr_log = 0;
+  f->bufpos = 0;
+  f->filepos=0;
+  /* finally, update inode to have size 0, and rewrite inode to disk */
+  inode->size = 0;
+  uint32_t inum = ((sfs_fd_private *)f->fs_private)->inum;
+  sfs_put_inode(f->mp, inum, inode);
 }
 
 

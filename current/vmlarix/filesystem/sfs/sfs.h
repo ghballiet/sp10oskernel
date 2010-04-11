@@ -9,6 +9,10 @@
 
 void sfs_init(vfs_fs_ops *ops);
 
+sfs_inode *sfs_inode_from_fd(filedesc *f);
+
+uint64_t sfs_get_num_blocks(filedesc *f);
+
   void* sfs_mount(uint32_t major, 
 		    uint32_t minor,
 		    unsigned long mountflags,

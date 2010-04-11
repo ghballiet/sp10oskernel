@@ -64,8 +64,6 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
     buf->st_rdev = (((uint64_t)(inode->direct[0])) << 32) + inode->direct[1];
   }
   /* Compute number of blocks from file size and blocksize */
-  buf->st_blocks = buf->st_size / buf->st_blksize;
-  if(buf->st_size % buf->st_blksize != 0)
-    buf->st_blocks++;
+  buf->st_blocks = sfs_get_num_blocks(f);
   
 }

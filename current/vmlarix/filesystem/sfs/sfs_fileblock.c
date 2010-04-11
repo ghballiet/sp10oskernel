@@ -27,6 +27,17 @@ typedef struct{
 }sfs_block_loc;
 
 
+uint64_t sfs_get_num_blocks(filedesc *f) {
+  /* declared in sfs.h */
+  sfs_inode *inode = sfs_inode_from_fd(f);
+  uint32_t blksize = ((sfs_fd_private *)f->fs_private)->sb->block_size;
+  /* is this going to be the same as f->bufsize ? */
+  uint64_t blocks = inode->size / blksize;
+  if(inode->size % blksize != 0)
+    blocks++;
+  return blocks;
+}
+
 /* Finds the block indices for a specified file position, and fills in
    the sfs_block_loc structure.  Returns 1 on success, 0 on failure.
 */
