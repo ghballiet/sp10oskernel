@@ -68,7 +68,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       blk_dev[f->major].write_fn(f->minor,
 				 f->curr_blk,
 				 f->buffer,
-				 fp->sb->sectorsperblock);
+				 f->sb->sectorsperblock);
       f->dirty=0;
     }
     /* so get logical block number we want, and calculate the offset in it */
@@ -86,7 +86,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     blk_dev[f->major].read_fn(f->minor,
 			      fsblk,
 			      f->buffer,
-			      fp->sb->sectorsperblock);
+			      f->sb->sectorsperblock);
     /* finally, update file descriptor */
     f->curr_log = logblk;
     f->curr_blk = fsblk;
