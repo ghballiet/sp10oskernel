@@ -52,6 +52,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     return -1; /* invalid whence argument */
   /* TODO: check that we're inside the file boundary? */
   /* TODO: special logic if we're outside the file (extend it with 0s?) */
+  /* If we extend the file, what else will we have to update (i.e., is number
+     of blocks stored anywhere, etc)? */
 
   /* finally, move the file pointer to the now-inside-the-file location */
   if(f->curr_blk * blksize <= newpos &&
