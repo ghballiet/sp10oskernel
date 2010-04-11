@@ -25,7 +25,7 @@
 #include <byteswap.h>
 
 
-sfs_inode *sfs_inode_from_fd(filedesc *f) {
+sfs_inode_t *sfs_inode_from_fd(filedesc *f) {
   /* declared in sfs.h */
   return ((sfs_fd_private *)f->fs_private)->inode;
 }

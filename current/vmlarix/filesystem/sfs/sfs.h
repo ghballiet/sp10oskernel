@@ -9,7 +9,7 @@
 
 void sfs_init(vfs_fs_ops *ops);
 
-sfs_inode *sfs_inode_from_fd(filedesc *f);
+sfs_inode_t *fs_inode_from_fd(filedesc *f);
 
 uint64_t sfs_get_num_blocks(filedesc *f);
 
