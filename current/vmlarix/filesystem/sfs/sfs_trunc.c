@@ -25,6 +25,15 @@
 sfs_trunc(filedesc *f)
 {
   kprintf("sfs_trunc() function not implemented\n\r");
+  /* Inefficient basic solution for this:
+
+     - Get the number of blocks in the file
+
+     - Call sfs_del_phys to remove blocks one at a time, starting with the last
+       block (sfs_del_phys takes a filedesc *f and a logical block uint32_t)
+  */
+  /* sfs_del_phys looks like it *should* delete indirect blocks as appropriate,
+     but he's not sure if that's currently implemented fully or not */
 }
 
 

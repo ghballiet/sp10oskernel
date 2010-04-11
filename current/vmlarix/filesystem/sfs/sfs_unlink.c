@@ -24,4 +24,23 @@
 int sfs_unlink(void *fs_private, char *path)
 {
   kprintf("sfs_unlink() function not implemented\n\r");
+  /* Unlink algorithm from 4/8 notes:
+     - Get the inode for this file
+
+     - Find this file's entry in its parent directory
+
+     - From the file inode, get the disk blocks to free, and set them to free
+       in the free block bitmap
+
+     - Free the inode itself (in the free inode bitmap)
+
+     - Write the bitmaps back to disk
+
+     - Finally, remove the file entry from its parent directory, shifting other
+       file entries in that directory up
+  */
+
+  /* He recommends writings sfs_trunc first, and making a call to sfs_trunc to
+     truncate the file down to 0 bytes here to handle freeing the disk
+     blocks */
 }
