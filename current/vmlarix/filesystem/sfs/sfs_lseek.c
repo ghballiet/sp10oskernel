@@ -34,6 +34,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   /* TODO: fstat undeclared; adding an "include fstat" doesn't work... */
   struct fstat *fstat_buf = (struct fstat *)kmalloc(sizeof(struct fstat));
   sfs_fstat(f, fstat_buf);
+  sfs_fd_private *fp = f->fs_private; 
   uint32_t blksize = fstat_buf->st_blksize;
   uint32_t fsize = fstat_buf->st_size;
   kfree(fstat_buf);
@@ -68,7 +69,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       blk_dev[f->major].write_fn(f->minor,
 				 f->curr_blk,
 				 f->buffer,
-				 f->sb->sectorsperblock);
+				 fp->sb->sectorsperblock);
       f->dirty=0;
     }
     /* so get logical block number we want, and calculate the offset in it */
@@ -86,7 +87,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     blk_dev[f->major].read_fn(f->minor,
 			      fsblk,
 			      f->buffer,
-			      f->sb->sectorsperblock);
+			      fp->sb->sectorsperblock);
     /* finally, update file descriptor */
     f->curr_log = logblk;
     f->curr_blk = fsblk;
