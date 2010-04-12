@@ -43,4 +43,6 @@ int sfs_unlink(void *fs_private, char *path)
   /* He recommends writings sfs_trunc first, and making a call to sfs_trunc to
      truncate the file down to 0 bytes here to handle freeing the disk
      blocks */
+
+  /* To find the parent directory, see the path-parsing code in 'sfs_open' */
 }
