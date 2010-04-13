@@ -31,7 +31,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
-  /* TODO: fstat undeclared; adding an "include fstat" doesn't work... */
   struct fstat *fstat_buf = (struct fstat *)kmalloc(sizeof(struct fstat));
   sfs_fstat(f, fstat_buf);
   sfs_fd_private *fp = f->fs_private; 
@@ -39,8 +38,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   uint32_t fsize = fstat_buf->st_size;
   kfree(fstat_buf);
   uint32_t newpos;
-  /* TODO: replace this with a switch stmt */
-  if(whence==SEEK_SET)  /* TODO: these are undeclared */
+  /* TODO: replace this with a switch stmt? */
+  if(whence==SEEK_SET) 
     newpos = offset;
   else if(whence==SEEK_CUR)
     newpos = f->filepos + offset;
