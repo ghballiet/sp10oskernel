@@ -20,7 +20,10 @@
 #include <sfs_private.h>
 #include <byteswap.h>
 #include <vfs_mp.h>
+
+#ifndef VFS_H
 #include <vfs.h>
+#endif
 
 int sfs_lseek(filedesc *f, off_t offset, int whence)
 {
@@ -40,7 +43,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   kfree(fstat_buf);
   uint32_t newpos;
   /* TODO: replace this with a switch stmt? */
-  if(whence==SEEK_SET) 
+  if(whence==SEEK_SET)
     newpos = offset;
   else if(whence==SEEK_CUR)
     newpos = f->filepos + offset;
