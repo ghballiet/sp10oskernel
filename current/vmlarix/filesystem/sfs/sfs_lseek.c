@@ -20,10 +20,7 @@
 #include <sfs_private.h>
 #include <byteswap.h>
 #include <vfs_mp.h>
-
-#ifndef VFS_H
 #include <vfs.h>
-#endif
 
 int sfs_lseek(filedesc *f, off_t offset, int whence)
 {

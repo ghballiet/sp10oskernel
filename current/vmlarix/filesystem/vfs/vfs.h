@@ -6,6 +6,12 @@
 #include <stdint.h>
 #include <fstat.h>
 
+
+/* defines for lseek whence argument */
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
 /* defines for different types of files */
 #define FT_NORMAL 0
 #define FT_DIR 1
