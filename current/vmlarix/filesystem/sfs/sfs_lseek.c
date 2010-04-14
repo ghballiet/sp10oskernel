@@ -64,7 +64,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     /* so start writing (newpos - fsize) bytes at position fsize */
     uint32_t *zerobuf = kmalloc(newpos-fsize);
     uint32_t i;
-    for(i=0; i<newpos-fsize; i++) {
+    for(i=0; i<(newpos-fsize); i++) {
       *(zerobuf+i) = 0;
     }
     sfs_write(f, zerobuf, newpos-fsize);

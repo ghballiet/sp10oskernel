@@ -114,6 +114,7 @@ int main()
   /* NOTE: sfs_open seems to be having trouble creating new files, this call is
      getting stuck in the if(result<0) bit at the end of vfs_open */
   /* so instead I'm just truncating the file we know exists */
+  kprintf("sizeof char: %d\r\n", sizeof(char));
   int fd2 = vfs_open("/create_ramdisk.c", O_RDWR & O_TRUNC,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
@@ -124,21 +125,24 @@ int main()
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from start of file:\r\n   %s\r\n", &readbuf);
   /* now, test jumping to a position in the file */
-  vfs_lseek(fd2, 2, SEEK_SET);
+  vfs_lseek(fd2, 3, SEEK_SET);
   vfs_read(fd2, &readbuf, 7*sizeof(char));
-  kprintf("Read back 7 chars from position 2:\r\n   %s\r\n", &readbuf);
+  kprintf("Read back 7 chars from position 3:\r\n   %s\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
   vfs_lseek(fd2, 15, SEEK_SET);
   kprintf("Wroting another copy of str to position 15\r\n");
   vfs_write(fd2, str, 5*sizeof(char));
-  vfs_lseek(fd2, 10, SEEK_SET);
+  vfs_lseek(fd2, 12, SEEK_SET);
   vfs_read(fd2, &readbuf, 7*sizeof(char));
-  kprintf("Read back 7 chars from position 10:\r\n   %s\r\n", &readbuf);
+  kprintf("Read back 7 chars from position 12:\r\n   %s\r\n", &readbuf);
 
 
   /* TODO: test other 'whence' modes of lseek (only the position calculation
      logic differs for them, the seeking logic is the same for all methods
      after calculating the new position) */
+
+  /* TODO: test the block-position stuff in lseek -- we'll need a test file
+     bigger than a single block for this */
 
   kprintf("Entering idle loop\n\r");
 
