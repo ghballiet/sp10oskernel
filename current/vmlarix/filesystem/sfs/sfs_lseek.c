@@ -39,7 +39,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   uint32_t fsize = fstat_buf->st_size;
   kfree(fstat_buf);
   uint32_t newpos;
-  /* TODO: replace this with a switch stmt? */
   if(whence==SEEK_SET)
     newpos = offset;
   else if(whence==SEEK_CUR)
@@ -51,48 +50,68 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 				the current last byte? */
   else
     return -1; /* invalid whence argument */
-  /* TODO: check that we're inside the file boundary? */
-  /* TODO: special logic if we're outside the file (extend it with 0s?) */
-  /* If we extend the file, what else will we have to update (i.e., is number
-     of blocks stored anywhere, etc)? */
 
-  /* finally, move the file pointer to the now-inside-the-file location */
-  if(f->curr_blk * blksize <= newpos &&
-     (f->curr_blk + 1) * blksize > newpos) {
-    /* TODO: do I need to use bufsize from f instead of blksize? What's the
-       relationship between these two items? */
-    /* if we're moving to a different point in the current block */
-    f->bufpos = offset - (f->curr_blk * blksize);
+  if(newpos > fsize) {
+    /* extend the file with 0s for bytes i (fsize <= i < newpos) */
+    uint32_t flags = f->flags;
+    /* temporarily set the flags to O_APPEND so sfs_write will automatically
+       seek to EOF and so can be used to add the needed 0s to the file */
+    f->flags = O_APPEND;
+
+    /* writing a byte to position fsize writes the fsize+1th byte (the first
+       new byte) */
+    /* if newpos = fsize we need 0 new bytes */
+    /* so start writing (newpos - fsize) bytes at position fsize */
+    uint32_t *zerobuf = kmalloc(newpos-fsize);
+    uint32_t i;
+    for(i=0; i<newpos-fsize; i++) {
+      *(zerobuf+i) = 0;
+    }
+    sfs_write(f, zerobuf, newpos-fsize);
+
+    /* restore the file flags */
+    f->flags = flags;
+
+    /* TODO: double check that the call to sfs_write leaves the file pointer
+       pointing to the new end of the file */
   } else {
-    /* if we're moving to a different block */
-    if(f->dirty) {
-      blk_dev[f->major].write_fn(f->minor,
-				 f->curr_blk,
-				 f->buffer,
-				 fp->sb->sectorsperblock);
-      f->dirty=0;
+    /* move the file pointer to the inside-the-file location */
+    if(f->curr_blk * blksize <= newpos &&
+       (f->curr_blk + 1) * blksize > newpos) {
+      /* TODO: do I need to use bufsize from f instead of blksize? What's the
+	 relationship between these two items? */
+      /* if we're moving to a different point in the current block */
+      f->bufpos = offset - (f->curr_blk * blksize);
+    } else {
+      /* if we're moving to a different block */
+      if(f->dirty) {
+	blk_dev[f->major].write_fn(f->minor,
+				   f->curr_blk,
+				   f->buffer,
+				   fp->sb->sectorsperblock);
+	f->dirty=0;
+      }
+      /* so get logical block number we want, and calculate the offset in it */
+      uint32_t logblk = offset/blksize;
+      /* TODO: in sfs_write this is calculated by dividing by f->bufsize (line
+	 94), so again, what's the relationship between the two? */
+      uint32_t buf_offset = offset - (logblk * blksize);
+      /* get filesystem block number for that block */
+      uint32_t fsblk = sfs_log2phys(f, logblk);
+      if(fsblk==0) {
+	/* something went wrong */
+	return -1;
+      }
+      /* load that filesystem block into buffer */
+      blk_dev[f->major].read_fn(f->minor,
+				fsblk,
+				f->buffer,
+				fp->sb->sectorsperblock);
+      /* finally, update file descriptor */
+      f->curr_log = logblk;
+      f->curr_blk = fsblk;
+      f->bufpos = buf_offset;
     }
-    /* so get logical block number we want, and calculate the offset in it */
-    uint32_t logblk = offset/blksize;
-    /* TODO: in sfs_write this is calculated by dividing by f->bufsize (line
-       94), so again, what's the relationship between the two? */
-    uint32_t buf_offset = offset - (logblk * blksize);
-    /* get filesystem block number for that block */
-    uint32_t fsblk = sfs_log2phys(f, logblk);
-    if(fsblk==0) {
-      /* something went wrong */
-      return -1;
-    }
-    /* load that filesystem block into buffer */
-    blk_dev[f->major].read_fn(f->minor,
-			      fsblk,
-			      f->buffer,
-			      fp->sb->sectorsperblock);
-    /* finally, update file descriptor */
-    f->curr_log = logblk;
-    f->curr_blk = fsblk;
-    f->bufpos = buf_offset;
+    f->filepos = offset;
   }
-  f->filepos = offset;
-  kprintf("sfs_lseek() function not implemented\n\r");
 }
