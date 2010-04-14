@@ -80,9 +80,9 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 
     /* NOTE: the call to sfs_write appears to update f->filepos and
        f->curr_log, but not f->bufpos */
-    kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
+    //kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
     f->bufpos = newpos - (f->curr_log * blksize);
-    kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
+    //kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
   } else {
     /* move the file pointer to the now inside-the-file location */
     if(f->curr_log * blksize <= newpos &&
@@ -130,4 +130,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     /* kprintf("end of lseek: newpos=%d\r\n", newpos); */
     /* kprintf("end of lseek: f->filepos=%d\r\n", f->filepos); */
   }
+    kprintf("end of lseek: newpos=%d\r\n", newpos);
+    kprintf("end of lseek: f->curr_log=%d\r\n", f->curr_log);
+    kprintf("end of lseek: f->bufpos=%d\r\n", f->bufpos);
+    kprintf("end of lseek: f->filepos=%d\r\n", f->filepos);
 }
