@@ -176,6 +176,23 @@ int main()
 
   /* TODO: test the block-position stuff in lseek -- we'll need a test file
      bigger than a single block for this */
+  /* block size appears to be 128, so seeeking to position 128 should give us a
+     new block, with bufpos=0 */
+  fd2 = vfs_open("/newfile", O_CREAT ^ O_RDWR, 0);
+  struct fstat buf2;
+  vfs_fstat(fd, &buf2);
+  kprintf("/newfile size=%d\r\n", buf2.st_size);
+  filedesc *f2 = fdptr(fd2);
+  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
+	  f2->bufpos, f2->filepos);
+  kprintf("seeking to byte 128 (129th byte)\r\n");
+  vfs_lseek(fd2, 128, SEEK_SET);
+  vfs_fstat(fd, &buf2);
+  kprintf("/newfile size=%d\r\n", buf2.st_size);
+  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
+	  f2->bufpos, f2->filepos);
+  
+  
 
   kprintf("Entering idle loop\n\r");
 
