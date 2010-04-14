@@ -208,7 +208,7 @@ int main()
   vfs_lseek(fd2, 130, SEEK_SET);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
-  /* TODO: somehow filepos isn't persisting here... */
+  /* TODO: somehow filepos and bufpos aren't persisting here anymore... */
   
 
   kprintf("Entering idle loop\n\r");
