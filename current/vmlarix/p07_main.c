@@ -109,6 +109,17 @@ int main()
     }
   vfs_close(fd);
 
+  kprintf("\r\nlseek testing:\r\n");
+  int fd2 = vfs_open("/newfile", O_RDWR,0);
+  char *str = "hello";
+  vfs_write(fd2, str, 5*sizeof(char));
+  vfs_write(fd2, str, 5*sizeof(char));
+  vfs_lseek(fd2, 0, SEEK_SET);
+  char readbuf[50];
+  vfs_read(fd2, &readbuf, 10*sizeof(char));
+  kprintf("Read back: %s\r\n", &readbuf);
+
+
   kprintf("Entering idle loop\n\r");
 
   while(1);
