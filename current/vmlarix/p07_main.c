@@ -118,11 +118,27 @@ int main()
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
+  /* first, test jumping back to the beginning of the file */
   vfs_lseek(fd2, 0, SEEK_SET);
-  char readbuf[50];
+  char readbuf[8];
   vfs_read(fd2, &readbuf, 7*sizeof(char));
-  kprintf("Read back: %s\r\n", &readbuf);
+  kprintf("Read back 7 chars from start of file:\r\n   %s\r\n", &readbuf);
+  /* now, test jumping to a position in the file */
+  vfs_lseek(fd2, 2, SEEK_SET);
+  vfs_read(fd2, &readbuf, 7*sizeof(char));
+  kprintf("Read back 7 chars from position 2:\r\n   %s\r\n", &readbuf);
+  /* now, test jumping to a position after the end of the file */
+  vfs_lseek(fd2, 15, SEEK_SET);
+  kprintf("Wroting another copy of str to position 15\r\n");
+  vfs_write(fd2, str, 5*sizeof(char));
+  vfs_lseek(fd2, 10, SEEK_SET);
+  vfs_read(fd2, &readbuf, 7*sizeof(char));
+  kprintf("Read back 7 chars from position 10:\r\n   %s\r\n", &readbuf);
 
+
+  /* TODO: test other 'whence' modes of lseek (only the position calculation
+     logic differs for them, the seeking logic is the same for all methods
+     after calculating the new position) */
 
   kprintf("Entering idle loop\n\r");
 
