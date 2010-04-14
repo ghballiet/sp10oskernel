@@ -123,9 +123,9 @@ int main()
   kprintf("uid: %d\r\n", buf0.st_uid);
   kprintf("gid: %d\r\n", buf0.st_gid);
   kprintf("executing fchmod\r\n");
+  vfs_fchmod(fd, 22);
   kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
   kprintf("re-reading mode from inod with fstat\r\n");
-  vfs_fchmod(fd, 22);
   vfs_fstat(fd, &buf0);
   kprintf("mode (from inode): %d\r\n", buf0.st_mode);
   kprintf("executing fchown\r\n");
@@ -166,6 +166,7 @@ int main()
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
+  kprintf("\r\n");
 
 
   /* TODO: test other 'whence' modes of lseek (only the position calculation
