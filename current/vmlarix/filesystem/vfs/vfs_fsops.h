@@ -74,7 +74,8 @@ typedef struct vfops{
 
   int (*close_fn)(filedesc *f); 
   
-  int (*creat_fn)(void *fs_private,     /* POSIX creat */
+  int (*creat_fn)(mount_point *mp,     /* POSIX creat */
+           filedesc *fd,
 		   char *path, 
 		   mode_t mode);
 

@@ -22,7 +22,8 @@ uint64_t sfs_get_num_blocks(filedesc *f);
 
   int sfs_close(filedesc *f); 
   
-  int sfs_creat(void *fs_private,
+  int sfs_creat(mount_point *mp,
+           filedesc *fd,
 		   char *path, 
 		   mode_t mode);
 
