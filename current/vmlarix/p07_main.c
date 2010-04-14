@@ -185,13 +185,15 @@ int main()
   filedesc *f2 = fdptr(fd2);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
-  kprintf("seeking to byte 129 (130th byte)\r\n");
-  vfs_lseek(fd2, 129, SEEK_SET);
+  kprintf("seeking to byte 130 (131st byte)\r\n");
+  vfs_lseek(fd2, 130, SEEK_SET);
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
-  
+  /* NOTE: I have a logical inconsitency: seeking to byte 128 sets bufpos=0,
+     logblk=0, but filepos=128 */
+  /* Additionally, seeking to byte 129 sets bufpos=0, logblk=1, filepos=1 */
   
 
   kprintf("Entering idle loop\n\r");
