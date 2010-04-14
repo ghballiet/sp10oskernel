@@ -158,10 +158,9 @@ int main()
   kprintf("Read back 7 chars from position 3:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
   vfs_lseek(fd2, 15, SEEK_SET);
-  char readbuf2[21];
-  vfs_lseek(fd2, 0, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
+  kprintf("after seeking to 15: logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  char readbuf2[21];
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 15);
   kprintf("Full string after jumping to position 15 and appending extra 0s to eof:\r\n   '%s'\r\n",
