@@ -111,6 +111,7 @@ int main()
   vfs_close(fd);
 
   kprintf("\r\nlseek testing:\r\n");
+  /* NOTE: vfs_open cannot create new files, unlike sfs_open */
   int fd2 = vfs_open("/newfile", O_RDWR & O_CREAT,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
