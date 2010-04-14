@@ -185,8 +185,8 @@ int main()
   filedesc *f2 = fdptr(fd2);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
-  kprintf("seeking to byte 128 (129th byte)\r\n");
-  vfs_lseek(fd2, 128, SEEK_SET);
+  kprintf("seeking to byte 129 (130th byte)\r\n");
+  vfs_lseek(fd2, 129, SEEK_SET);
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
