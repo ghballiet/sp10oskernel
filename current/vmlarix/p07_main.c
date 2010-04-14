@@ -118,6 +118,7 @@ int main()
   vfs_fstat(fd, &buf0);
   kprintf("size: %d\r\n", buf0.st_size);
   kprintf("blksize: %d\r\n", buf0.st_blksize);
+  kprintf("bufsize (from filedesc): %d\r\n", fdptr(fd)->bufsize);
   kprintf("blocks: %d\r\n", buf0.st_blocks);
   kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
   kprintf("mode (from inode): %d\r\n", buf0.st_mode);
@@ -126,7 +127,6 @@ int main()
   kprintf("executing fchmod\r\n");
   vfs_fchmod(fd, 222);
   kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
-  kprintf("re-reading mode from inod with fstat\r\n");
   vfs_fstat(fd, &buf0);
   kprintf("mode (from inode): %d\r\n", buf0.st_mode);
   kprintf("executing fchown\r\n");
