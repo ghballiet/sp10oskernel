@@ -66,7 +66,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     char *zerobuf = (char *)kmalloc(to_write);
     uint32_t i;
     for(i=0; i<to_write; i++) {
-      *(zerobuf+i) = 0;
+      *(zerobuf+i) = 'Z';
     }
     sfs_write(f, zerobuf, to_write);
     if(f->dirty) {
@@ -84,8 +84,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     //kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
     //    f->bufpos = (uint32_t)(newpos - (f->curr_log * blksize));
     //kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
-  }
-  /* move the file pointer to the now inside-the-file location */
+  }  /* move the file pointer to the now inside-the-file location */
   if(f->curr_log * blksize <= newpos &&
      (f->curr_log + 1) * blksize > newpos) {
     /* if we're moving to a different point in the current block */
@@ -128,8 +127,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     /* kprintf("mode2: f->bufpos=%d\r\n", f->bufpos); */
   }
   f->filepos = newpos;
-  /* kprintf("end of lseek: newpos=%d\r\n", newpos); */
-  /* kprintf("end of lseek: f->filepos=%d\r\n", f->filepos); */
+  kprintf("end of lseek: newpos=%d\r\n", newpos); 
+  kprintf("end of lseek: f->filepos=%d\r\n", f->filepos); 
   /* kprintf("end of lseek: newpos=%d\r\n", newpos);
      kprintf("end of lseek: f->curr_log=%d\r\n", f->curr_log);
      kprintf("end of lseek: f->bufpos=%d\r\n", f->bufpos);
