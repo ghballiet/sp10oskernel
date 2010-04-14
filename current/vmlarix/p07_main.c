@@ -87,9 +87,9 @@ int main()
   if(res < 0)
     panic("Failed!\n\r");
 
-  /* char c[50]; */
-  /* int count; */
-  /* int fd = vfs_open("/create_ramdisk.c",O_RDONLY,0); */
+  char c[50];
+  int count;
+  int fd = vfs_open("/create_ramdisk.c",O_RDONLY,0);
   /* kprintf("%X\n\r",fd); */
   /* while((count=vfs_read(fd,&c,50*sizeof(char)))==(50*sizeof(char))) */
   /*   { */
@@ -108,9 +108,29 @@ int main()
   /*     else */
   /*       kprintf("%c",c[j]); */
   /*   } */
-  /* vfs_close(fd); */
+  vfs_close(fd);
 
   /* TODO: chmod/chown/fstat testing */
+  kprintf("\r\nchmod/chown/fstat testing ('/create_ramdisk.c'):\r\n");
+  fd = vfs_open("/create_ramdisk.c",O_RDONLY,0);
+  struct fstat buf0;
+  vfs_fstat(fd, &buf0);
+  kprintf("size: %d\r\n", buf0.st_size);
+  kprintf("blksize: %d\r\n", buf0.st_blksize);
+  kprintf("blocks: %d\r\n", buf0.st_blocks);
+  kprintf("mode: %d\r\n", buf0.st_mode);
+  kprintf("uid: %d\r\n", buf0.st_uid);
+  kprintf("gid: %d\r\n", buf0.st_gid);
+  kprintf("executing chmod\r\n");
+  vfs_chmod(fd, 22);
+  vfs_fstat(fd, &buf0);
+  kprintf("mode: %d\r\n", buf0.st_mode);
+  kprintf("executing chown\r\n");
+  vfs_chown(fd, buf.st_uid+1, buf.st_gid+1);
+  vfs_fstat(fd, &buf0);
+  kprintf("uid: %d\r\n", buf0.st_uid);
+  kprintf("gid: %d\r\n", buf0.st_gid);
+  
 
 
   kprintf("\r\nlseek testing:\r\n");
