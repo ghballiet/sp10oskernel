@@ -117,11 +117,11 @@ int main()
   /* NOTE: sfs_open seems to be having trouble creating new files, this call is
      getting stuck in the if(result<0) bit at the end of vfs_open */
   /* so instead I'm just truncating the file we know exists */
-  int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC,0);
-  vfs_close(fd2);
+  int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC ^ O_RDWR,0);
+  //vfs_close(fd2);
   /* NOTE: the trunc mode does not seem to actually be truncating the file to 0
      length; I'm still reading from the existing file... */
-  fd2 = vfs_open("/create_ramdisk.c", O_RDWR,0);
+  // fd2 = vfs_open("/create_ramdisk.c", O_RDWR,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
