@@ -145,6 +145,7 @@ int main()
   /* first, test jumping back to the beginning of the file */
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
+  filedesc *f2 = fdptr(fd2);
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
@@ -190,7 +191,7 @@ int main()
   struct fstat buf2;
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
-  filedesc *f2 = fdptr(fd2);
+  f2 = fdptr(fd2);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
   kprintf("seeking to byte 130 (131st byte)\r\n");
