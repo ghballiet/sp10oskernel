@@ -10,6 +10,7 @@
 #include <interrupts.h>
 #include <process.h>
 #include <fcntl.h>
+#include <vfs.h>
 
 uint16_t console_major;
 uint16_t console_minor;
