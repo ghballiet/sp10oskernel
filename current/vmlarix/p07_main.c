@@ -132,12 +132,16 @@ int main()
   kprintf("Read back 7 chars from position 3:\r\n   %s\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
   vfs_lseek(fd2, 15, SEEK_SET);
-  kprintf("Wroting another copy of str to position 15\r\n");
-  vfs_write(fd2, str, 5*sizeof(char));
   char readbuf2[21];
   vfs_lseek(fd2, 0, SEEK_SET);
+  vfs_read(fd2, &readbuf2, 15);
+  kprintf("Full string after jumping to position 15 and so appending to file:\r\n   %s\r\n",
+	  &readbuf2);
+  kprintf("Writing another copy of str to position 15\r\n");
+  vfs_write(fd2, str, 5*sizeof(char));
+  vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
-  kprintf("Read back 20 chars from position 0:\r\n   %s\r\n", &readbuf);
+  kprintf("Read back 20 chars from position 0:\r\n   %s\r\n", &readbuf2);
 
 
   /* TODO: test other 'whence' modes of lseek (only the position calculation
