@@ -87,7 +87,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       /* if we're moving to a different point in the current block */
       /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
       f->bufpos = offset - (f->curr_blk * blksize);
-      kprintf("YO1\r\n");
     } else {
       /* if we're moving to a different block */
       if(f->dirty) {
@@ -119,6 +118,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       f->bufpos = buf_offset;
       kprintf("YO2\r\n");
     }
-    f->filepos = offset;
+    f->filepos = newpos;
   }
 }
