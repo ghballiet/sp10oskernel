@@ -189,6 +189,7 @@ int main()
   vfs_lseek(fd2, 130, SEEK_SET);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_lseek(fd2, 100, SEEK_SET);
   vfs_lseek(fd2, 128, SEEK_SET);
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
