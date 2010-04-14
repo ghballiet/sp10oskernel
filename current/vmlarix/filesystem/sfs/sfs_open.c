@@ -155,10 +155,8 @@ int sfs_open(mount_point *mp,filedesc *fd,char *path,int flags, mode_t mode)
 
   if(sfs_openinode(mp, fd, inum, inode,flags,mode)==0)
     {
-      if((flags&O_TRUNC)&&((flags&O_WRONLY)||(flags&O_RDWR))) {
+      if((flags&O_TRUNC)&&((flags&O_WRONLY)||(flags&O_RDWR)))
 	sfs_trunc(fd);
-	kprintf("sfs_open made call to sfs_trunc\r\n");
-      }
       sfs_fd_private *tmp = (void*)kmalloc(sizeof(sfs_fd_private));
       tmp->sb = p->super;
       tmp->inode = inode;

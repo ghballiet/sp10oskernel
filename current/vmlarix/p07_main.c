@@ -118,6 +118,7 @@ int main()
      getting stuck in the if(result<0) bit at the end of vfs_open */
   /* so instead I'm just truncating the file we know exists */
   int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC ^ O_RDWR,0);
+  int fd3 = vfs_open("/newfile", O_CREAT ^ O_RDWR, 0);
   //vfs_close(fd2);
   /* NOTE: the trunc mode does not seem to actually be truncating the file to 0
      length; I'm still reading from the existing file... */
