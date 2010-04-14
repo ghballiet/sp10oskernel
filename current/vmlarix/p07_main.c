@@ -112,8 +112,8 @@ int main()
   vfs_close(fd);
 
   /* TODO: chmod/chown/fstat testing */
-  kprintf("\r\nchmod/chown/fstat testing ('/create_ramdisk.c'):\r\n");
-  fd = vfs_open("/create_ramdisk.c",O_RDONLY,0);
+  kprintf("\r\nchmod/chown/fstat testing ('/test'):\r\n");
+  fd = vfs_open("/test",O_RDWR ^ O_CREAT,333);
   struct fstat buf0;
   vfs_fstat(fd, &buf0);
   kprintf("size: %d\r\n", buf0.st_size);
@@ -123,7 +123,7 @@ int main()
   kprintf("uid: %d\r\n", buf0.st_uid);
   kprintf("gid: %d\r\n", buf0.st_gid);
   kprintf("executing fchmod\r\n");
-  vfs_fchmod(fd, 22);
+  vfs_fchmod(fd, 222);
   kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
   kprintf("re-reading mode from inod with fstat\r\n");
   vfs_fstat(fd, &buf0);
