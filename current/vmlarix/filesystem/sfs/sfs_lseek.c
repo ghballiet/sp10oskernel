@@ -65,7 +65,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     char *zerobuf = (uint32_t *)kmalloc(newpos-fsize);
     uint32_t i;
     for(i=0; i<(newpos-fsize); i++) {
-      *(zerobuf+i) = 'Z';
+      *(zerobuf+i) = 0;
     }
     sfs_write(f, zerobuf, newpos-fsize);
     if(f->dirty) {
