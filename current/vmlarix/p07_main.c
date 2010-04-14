@@ -162,6 +162,7 @@ int main()
   vfs_lseek(fd2, 0, SEEK_SET);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 15);
   kprintf("Full string after jumping to position 15 and appending extra 0s to eof:\r\n   '%s'\r\n",
 	  &readbuf2);
