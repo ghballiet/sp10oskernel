@@ -116,6 +116,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       f->curr_log = logblk;
       f->curr_blk = fsblk;
       f->bufpos = buf_offset;
+      kprintf("YO\r\n");
     }
     f->filepos = offset;
   }
