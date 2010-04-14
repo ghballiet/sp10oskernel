@@ -11,6 +11,7 @@
 #include <process.h>
 #include <fcntl.h>
 #include <vfs.h>
+#include <vfs_filedesc.h>
 
 uint16_t console_major;
 uint16_t console_minor;
