@@ -62,7 +62,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        new byte) */
     /* if newpos = fsize we need 0 new bytes */
     /* so start writing (newpos - fsize) bytes at position fsize */
-    uint32_t *zerobuf = kmalloc(newpos-fsize);
+    uint32_t *zerobuf = (uint32_t *)kmalloc(newpos-fsize);
     uint32_t i;
     for(i=0; i<(newpos-fsize); i++) {
       *(zerobuf+i) = 0;
@@ -73,6 +73,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 				   f->curr_blk,
 				   f->buffer,
 				   fp->sb->sectorsperblock);
+    }
 
     /* restore the file flags */
     f->flags = flags;
