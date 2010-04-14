@@ -117,8 +117,8 @@ int main()
   /* NOTE: sfs_open seems to be having trouble creating new files, this call is
      getting stuck in the if(result<0) bit at the end of vfs_open */
   /* so instead I'm just truncating the file we know exists */
-  int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC ^ O_RDWR,0);
-  int fd3 = vfs_open("/newfile", O_CREAT ^ O_RDWR, 0);
+  //int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC ^ O_RDWR,0);
+  int fd2 = vfs_open("/newfile", O_CREAT ^ O_RDWR, 0);
   //vfs_close(fd2);
   /* NOTE: the trunc mode does not seem to actually be truncating the file to 0
      length; I'm still reading from the existing file... */
@@ -144,6 +144,9 @@ int main()
 	  &readbuf2);
   kprintf("Writing another copy of str to position 15\r\n");
   vfs_write(fd2, str, 5*sizeof(char));
+  vfs_lseek(fd2, 10, SEEK_SET);
+  kprintf("And filling in another copy at position 10\r\n");
+  vfs_write(fd2, str, 5);
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   %s\r\n", &readbuf2);
