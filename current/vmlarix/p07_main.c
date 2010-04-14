@@ -111,8 +111,9 @@ int main()
   vfs_close(fd);
 
   kprintf("\r\nlseek testing:\r\n");
-  /* NOTE: vfs_open cannot create new files, unlike sfs_open */
-  int fd2 = vfs_open("/newfile", O_RDWR & O_CREAT,0);
+  /* NOTE: sfs_open seems to be having trouble creating new files, this call is
+     getting stuck in the if(result<0) bit at the end of vfs_open */
+  int fd2 = vfs_open("/create_ramdisk.c", O_RDWR & O_TRUNC,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));

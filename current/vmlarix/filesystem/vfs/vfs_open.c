@@ -35,7 +35,6 @@ int vfs_open(char *pathname, int flags, mode_t mode)
   if(result<0)
     {
       free_fd(fd);
-      kprintf("NOT FOUND\r\n");
       return result;
     }
   return fd;
