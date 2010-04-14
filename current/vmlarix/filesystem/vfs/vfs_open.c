@@ -20,7 +20,6 @@ int vfs_open(char *pathname, int flags, mode_t mode)
   if((mp = vfs_lookup(pathname))==NULL)
     {
       /* errno = EFNF; file not found */
-      kprintf("NOT FOUND\r\n");
       return -1;
     }
   pathname += strlen(mp->target); /* strip off the mount point */
@@ -36,6 +35,7 @@ int vfs_open(char *pathname, int flags, mode_t mode)
   if(result<0)
     {
       free_fd(fd);
+      kprintf("NOT FOUND\r\n");
       return result;
     }
   return fd;
