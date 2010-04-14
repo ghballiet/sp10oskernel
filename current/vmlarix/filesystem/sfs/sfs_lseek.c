@@ -62,7 +62,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        new byte) */
     /* if newpos = fsize we need 0 new bytes */
     /* so start writing (newpos - fsize) bytes at position fsize */
-    char *zerobuf = (uint32_t *)kmalloc(newpos-fsize);
+    char *zerobuf = (char *)kmalloc(newpos-fsize);
     uint32_t i;
     for(i=0; i<(newpos-fsize); i++) {
       *(zerobuf+i) = 0;
@@ -86,7 +86,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        (f->curr_log + 1) * blksize > newpos) {
       /* if we're moving to a different point in the current block */
       /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
-      f->bufpos = offset - (f->curr_blk * blksize);
+      f->bufpos = newpos - (f->curr_blk * blksize);
     } else {
       /* if we're moving to a different block */
       if(f->dirty) {
@@ -97,10 +97,10 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 	f->dirty=0;
       }
       /* so get logical block number we want, and calculate the offset in it */
-      uint32_t logblk = offset/blksize;
+      uint32_t logblk = newpos/blksize;
       /* NOTE: in sfs_write this is calculated by dividing by f->bufsize (line
 	 94); I'm assuming here that these two will always be the same */
-      uint32_t buf_offset = offset - (logblk * blksize);
+      uint32_t buf_offset = newpos - (logblk * blksize);
       /* get filesystem block number for that block */
       uint32_t fsblk = sfs_log2phys(f, logblk);
       if(fsblk==0) {
