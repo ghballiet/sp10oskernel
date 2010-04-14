@@ -110,11 +110,13 @@ int main()
     }
   vfs_close(fd);
 
+  /* TODO: chmod/chown/fstat testing */
+
+
   kprintf("\r\nlseek testing:\r\n");
   /* NOTE: sfs_open seems to be having trouble creating new files, this call is
      getting stuck in the if(result<0) bit at the end of vfs_open */
   /* so instead I'm just truncating the file we know exists */
-  kprintf("sizeof char: %d\r\n", sizeof(char));
   int fd2 = vfs_open("/create_ramdisk.c", O_RDWR & O_TRUNC,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
@@ -132,9 +134,10 @@ int main()
   vfs_lseek(fd2, 15, SEEK_SET);
   kprintf("Wroting another copy of str to position 15\r\n");
   vfs_write(fd2, str, 5*sizeof(char));
-  vfs_lseek(fd2, 12, SEEK_SET);
-  vfs_read(fd2, &readbuf, 7*sizeof(char));
-  kprintf("Read back 7 chars from position 12:\r\n   %s\r\n", &readbuf);
+  char readbuf2[21];
+  vfs_lseek(fd2, 0, SEEK_SET);
+  vfs_read(fd2, &readbuf2, 20*sizeof(char));
+  kprintf("Read back 20 chars from position 0:\r\n   %s\r\n", &readbuf);
 
 
   /* TODO: test other 'whence' modes of lseek (only the position calculation
