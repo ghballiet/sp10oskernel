@@ -112,7 +112,7 @@ int main()
   vfs_close(fd);
 
   /* TODO: chmod/chown/fstat testing */
-  kprintf("\r\nchmod/chown/fstat testing ('/test'):\r\n");
+  kprintf("\r\nchmod/chown/fstat testing (using '/test'):\r\n");
   fd = vfs_open("/test",O_RDWR ^ O_CREAT,333);
   struct fstat buf0;
   vfs_fstat(fd, &buf0);
