@@ -143,20 +143,18 @@ int main()
   char *str2 = "world";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
-  //  vfs_write(fd2, str2, 5*sizeof(char));
-  //vfs_write(fd2, str2, 5*sizeof(char));
   /* first, test jumping back to the beginning of the file */
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
   filedesc *f2 = fdptr(fd2);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
+  //kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
+  //  f2->bufpos, f2->filepos);
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from start of file:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position in the file */
   vfs_lseek(fd2, 3, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
+  /* kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log, */
+  /* 	  f2->bufpos, f2->filepos); */
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from position 3:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
@@ -167,16 +165,16 @@ int main()
   char readbuf2[21];
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 15);
-  kprintf("Full string after jumping to position 15 and appending extra 0s to eof:\r\n   '%s'\r\n",
+  kprintf("0-terminated string after jumping to position 15 and appending extra 0s to eof:\r\n   '%s'\r\n",
 	  &readbuf2);
   kprintf("Writing another copy of str to position 15\r\n");
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_lseek(fd2, 10, SEEK_SET);
-  kprintf("And filling in another copy at position 10\r\n");
-  vfs_write(fd2, str, 5);
+  kprintf("And filling in another string at position 10\r\n");
+  vfs_write(fd2, str2, 5);
   vfs_lseek(fd2, 0, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
+  /* kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log, */
+  /* 	  f2->bufpos, f2->filepos); */
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
@@ -187,7 +185,8 @@ int main()
      logic differs for them, the seeking logic is the same for all methods
      after calculating the new position) */
 
-  /* TODO: test the block-position stuff in lseek -- we'll need a test file
+
+  /* test the block-position stuff in lseek -- we'll need a test file
      bigger than a single block for this */
   /* block size appears to be 128, so seeeking to position 128 should give us a
      new block, with bufpos=0 */
@@ -209,9 +208,6 @@ int main()
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
   /* TODO: somehow filepos isn't persisting here... */
-  /* NOTE: I have a logical inconsitency: seeking to byte 128 sets bufpos=0,
-     logblk=0, but filepos=128 */
-  /* Additionally, seeking to byte 129 sets bufpos=0, logblk=1, filepos=1 */
   
 
   kprintf("Entering idle loop\n\r");

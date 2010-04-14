@@ -52,41 +52,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     return -1; /* invalid whence argument */
 
   if(newpos > fsize) {
-    /* extend the file with 0s for bytes i (fsize <= i < newpos) */
-    //uint32_t flags = f->flags;
-    /* temporarily set the flags to O_APPEND so sfs_write will automatically
-       seek to EOF and so can be used to add the needed 0s to the file */
-    //f->flags = O_APPEND;
-
-    /* writing a byte to position fsize writes the fsize+1th byte (the first
-       new byte) */
-    /* if newpos = fsize we need 0 new bytes */
-    /* so start writing (newpos - fsize) bytes at position fsize */
-    /* uint32_t to_write = newpos-fsize; */
-    /* char *zerobuf = (char *)kmalloc(to_write); */
-    /* uint32_t i; */
-    /* for(i=0; i<to_write; i++) { */
-    /*   *(zerobuf+i) = 'Z'; */
-    /* } */
-    /* sfs_write(f, zerobuf, to_write); */
-    /* if(f->dirty) { */
-    /* 	blk_dev[f->major].write_fn(f->minor, */
-    /* 				   f->curr_blk, */
-    /* 				   f->buffer, */
-    /* 				   fp->sb->sectorsperblock); */
-    /* } */
-
-    /* restore the file flags */
-    //f->flags = flags;
-
-    /* NOTE: the call to sfs_write appears to update f->filepos and
-       f->curr_log, but not f->bufpos */
-    //kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
-    //    f->bufpos = (uint32_t)(newpos - (f->curr_log * blksize));
-    //kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
-    
-
-    /* SECOND TRY: */
     /* first, seek to end of file with a recursive call */
     sfs_lseek(f, fsize, SEEK_SET);
     /* next, append the necessary number of 0s */
@@ -94,7 +59,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     char *zerobuf = (char *)kmalloc(to_write);
     uint32_t i;
     for(i=0; i<to_write; i++) {
-      *(zerobuf+i) = 'Z';
+      *(zerobuf+i) = 0;
     }
     sfs_write(f, zerobuf, to_write);
     if(f->dirty) {
@@ -103,8 +68,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     				   f->buffer,
     				   fp->sb->sectorsperblock);
     }
-
-
   }  /* move the file pointer to the now inside-the-file location */
   if(f->curr_log * blksize <= newpos &&
      (f->curr_log + 1) * blksize > newpos) {
