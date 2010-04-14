@@ -119,7 +119,8 @@ int main()
   kprintf("size: %d\r\n", buf0.st_size);
   kprintf("blksize: %d\r\n", buf0.st_blksize);
   kprintf("blocks: %d\r\n", buf0.st_blocks);
-  kprintf("mode: %d\r\n", buf0.st_mode);
+  kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
+  kprintf("mode (from inode): %d\r\n", buf0.st_mode);
   kprintf("uid: %d\r\n", buf0.st_uid);
   kprintf("gid: %d\r\n", buf0.st_gid);
   kprintf("executing fchmod\r\n");
