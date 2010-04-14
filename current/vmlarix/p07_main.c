@@ -143,8 +143,8 @@ int main()
   char *str2 = "world";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
-  vfs_write(fd2, str2, 5*sizeof(char));
-  vfs_write(fd2, str2, 5*sizeof(char));
+  //  vfs_write(fd2, str2, 5*sizeof(char));
+  //vfs_write(fd2, str2, 5*sizeof(char));
   /* first, test jumping back to the beginning of the file */
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
