@@ -82,6 +82,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        f->curr_log, but not f->bufpos */
     kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
     f->bufpos = newpos - (f->curr_log * blksize);
+    kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
   } else {
     /* move the file pointer to the now inside-the-file location */
     if(f->curr_log * blksize <= newpos &&
