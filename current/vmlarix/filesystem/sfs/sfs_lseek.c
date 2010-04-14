@@ -80,6 +80,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 
     /* NOTE: the call to sfs_write appears to update f->filepos and
        f->curr_log, but not f->bufpos */
+    f->bufpos = newpos - (f->curr_log * blksize);
   } else {
     /* move the file pointer to the now inside-the-file location */
     if(f->curr_log * blksize <= newpos &&
