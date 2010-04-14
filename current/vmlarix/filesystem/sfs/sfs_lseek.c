@@ -68,7 +68,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     				   f->buffer,
     				   fp->sb->sectorsperblock);
     }
-  }  /* move the file pointer to the now inside-the-file location */
+  }
+  /* move the file pointer to the now inside-the-file location */
   if(f->curr_log * blksize <= newpos &&
      (f->curr_log + 1) * blksize > newpos) {
     /* if we're moving to a different point in the current block */
