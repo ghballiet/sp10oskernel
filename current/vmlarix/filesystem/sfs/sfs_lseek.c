@@ -121,5 +121,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     kprintf("mode2: newpos=%d\r\n", newpos);
   }
   f->filepos = newpos;
+  kprintf("end of lseek: newpos=%d\r\n", newpos);
+  kprintf("end of lseek: f->filepos=%d\r\n", f->filepos);
 }
 
