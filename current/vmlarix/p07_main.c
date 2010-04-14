@@ -119,7 +119,7 @@ int main()
   /* so instead I'm just truncating the file we know exists */
   int fd2 = vfs_open("/create_ramdisk.c", O_TRUNC,0);
   vfs_close(fd2);
-  int fd2 = vfs_open("/create_ramdisk.c", O_RDWR,0);
+  fd2 = vfs_open("/create_ramdisk.c", O_RDWR,0);
   /* NOTE: the trunc mode does not seem to actually be truncating the file to 0
      length; I'm still reading from the existing file... */
   char *str = "hello";
