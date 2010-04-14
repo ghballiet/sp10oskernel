@@ -38,7 +38,7 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   //   /* time_t    st_mtime;   /\* time of last modification *\/ */
   //   /* time_t    st_ctime;   /\* time of last fstatus change *\/ */
   
-  buf->st_mode = f->mode;
+  //buf->st_mode = f->mode;
   /* get blocksize for FS from superblock from private FS data */
   buf->st_blksize = ((sfs_fd_private *)f->fs_private)->sb->block_size;
   /* get inode pointer and inode number from file descriptor, populate fields
@@ -50,6 +50,7 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   buf->st_mtime = inode->mtime;
   buf->st_ctime = inode->ctime;
   buf->st_nlink = inode->refcount;
+  buf->st_mode = inode->perm;
   buf->st_uid = inode->owner;
   buf->st_gid = inode->group;
   buf->st_size = inode->size;
