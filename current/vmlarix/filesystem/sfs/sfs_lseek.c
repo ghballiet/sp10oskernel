@@ -87,7 +87,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     /* if we're moving to a different point in the current block */
     /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
     kprintf("mode1: newpos=%d\r\n", newpos);
-    f->bufpos = newpos - (f->curr_blk * blksize);
+    f->bufpos = newpos - (f->curr_log * blksize);
     kprintf("mode1: f->curr_log=%d\r\n", f->curr_log);
     kprintf("mode1: f->bufpos=%d\r\n", f->bufpos);
     /* TODO: i'm running into some sort of 64-vs-32 bit incompatibility here */
