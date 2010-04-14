@@ -86,6 +86,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      (f->curr_log + 1) * blksize > newpos) {
     /* if we're moving to a different point in the current block */
     /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
+    kprintf("mode1\r\n");
     f->bufpos = newpos - (f->curr_blk * blksize);
   } else {
     /* if we're moving to a different block */
@@ -116,7 +117,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     f->curr_log = logblk;
     f->curr_blk = fsblk;
     f->bufpos = buf_offset;
-    kprintf("YO2\r\n");
+    kprintf("mode2\r\n");
   }
   f->filepos = newpos;
 }
