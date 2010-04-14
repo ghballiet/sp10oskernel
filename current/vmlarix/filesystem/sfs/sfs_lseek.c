@@ -68,6 +68,11 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       *(zerobuf+i) = 0;
     }
     sfs_write(f, zerobuf, newpos-fsize);
+    if(f->dirty) {
+	blk_dev[f->major].write_fn(f->minor,
+				   f->curr_blk,
+				   f->buffer,
+				   fp->sb->sectorsperblock);
 
     /* restore the file flags */
     f->flags = flags;
