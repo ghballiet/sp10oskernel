@@ -146,23 +146,23 @@ int main()
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
   filedesc *f2 = fdptr(fd2);
-  vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from start of file:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position in the file */
   vfs_lseek(fd2, 3, SEEK_SET);
-  vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from position 3:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
   vfs_lseek(fd2, 15, SEEK_SET);
   char readbuf2[21];
   vfs_lseek(fd2, 0, SEEK_SET);
-  vfs_read(fd2, &readbuf2, 15);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_read(fd2, &readbuf2, 15);
   kprintf("Full string after jumping to position 15 and appending extra 0s to eof:\r\n   '%s'\r\n",
 	  &readbuf2);
   kprintf("Writing another copy of str to position 15\r\n");
@@ -171,9 +171,9 @@ int main()
   kprintf("And filling in another copy at position 10\r\n");
   vfs_write(fd2, str, 5);
   vfs_lseek(fd2, 0, SEEK_SET);
-  vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
   kprintf("\r\n");
