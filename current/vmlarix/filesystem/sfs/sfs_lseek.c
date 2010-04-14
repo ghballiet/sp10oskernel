@@ -81,7 +81,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     /* NOTE: the call to sfs_write appears to update f->filepos and
        f->curr_log, but not f->bufpos */
     //kprintf("lseek: will set bufpos = %d\r\n",newpos - (f->curr_log * blksize));
-    f->bufpos = newpos - (f->curr_log * blksize);
+    f->bufpos = (uint32_t)(newpos - (f->curr_log * blksize));
     //kprintf("lseek: f->bufpos = %d\r\n",f->bufpos);
   } else {
     /* move the file pointer to the now inside-the-file location */
@@ -90,7 +90,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       /* if we're moving to a different point in the current block */
       /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
       /* kprintf("mode1: newpos=%d\r\n", newpos); */
-      f->bufpos = newpos - (f->curr_log * blksize);
+      f->bufpos = (uint32_t)(newpos - (f->curr_log * blksize));
       /* kprintf("mode1: f->curr_log=%d\r\n", f->curr_log); */
       /* kprintf("mode1: f->bufpos=%d\r\n", f->bufpos); */
     } else {
@@ -106,7 +106,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       uint32_t logblk = newpos/blksize;
       /* NOTE: in sfs_write this is calculated by dividing by f->bufsize (line
 	 94); I'm assuming here that these two will always be the same */
-      uint32_t buf_offset = newpos - (logblk * blksize);
+      uint32_t buf_offset = (uint32_t)(newpos - (logblk * blksize));
       /* get filesystem block number for that block */
       uint32_t fsblk = sfs_log2phys(f, logblk);
       if(fsblk==0) {
