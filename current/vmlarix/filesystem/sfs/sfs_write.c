@@ -123,8 +123,6 @@ int  sfs_write(filedesc *f, void* bufptr, size_t nbytes)
       f->buffer[f->bufpos++] = buf[i++];
       f->dirty = 1;
       f->filepos++;
-      /* the following line was added to make this update bufpos as well: */
-      f->bufpos++;
 /*       printf("file position: %ld\n",f->filepos); */
       if((f->filepos > fp->inode->size))
 	{
