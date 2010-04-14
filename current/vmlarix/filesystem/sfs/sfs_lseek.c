@@ -82,11 +82,10 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        pointing to the new end of the file */
   } else {
     /* move the file pointer to the inside-the-file location */
-    if(f->curr_blk * blksize <= newpos &&
-       (f->curr_blk + 1) * blksize > newpos) {
-      /* TODO: do I need to use bufsize from f instead of blksize? What's the
-	 relationship between these two items? */
+    if(f->curr_log * blksize <= newpos &&
+       (f->curr_log + 1) * blksize > newpos) {
       /* if we're moving to a different point in the current block */
+      /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
       f->bufpos = offset - (f->curr_blk * blksize);
     } else {
       /* if we're moving to a different block */
@@ -99,8 +98,8 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
       }
       /* so get logical block number we want, and calculate the offset in it */
       uint32_t logblk = offset/blksize;
-      /* TODO: in sfs_write this is calculated by dividing by f->bufsize (line
-	 94), so again, what's the relationship between the two? */
+      /* NOTE: in sfs_write this is calculated by dividing by f->bufsize (line
+	 94); I'm assuming here that these two will always be the same */
       uint32_t buf_offset = offset - (logblk * blksize);
       /* get filesystem block number for that block */
       uint32_t fsblk = sfs_log2phys(f, logblk);
