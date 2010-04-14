@@ -67,7 +67,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     for(i=0; i<(newpos-fsize); i++) {
       *(zerobuf+i) = 0;
     }
-    sfs_write(f, zerobuf, newpos-fsize);
+    sfs_write(f, zerobuf, (size_t)(newpos-fsize));
     if(f->dirty) {
 	blk_dev[f->major].write_fn(f->minor,
 				   f->curr_blk,
