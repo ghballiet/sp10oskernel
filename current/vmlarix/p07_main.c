@@ -111,7 +111,7 @@ int main()
   vfs_close(fd);
 
   kprintf("\r\nlseek testing:\r\n");
-  int fd2 = vfs_open("/newfile", O_RDWR,0);
+  int fd2 = vfs_open("/newfile", O_RDWR & O_CREAT,0);
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
