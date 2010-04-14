@@ -122,7 +122,7 @@ int main()
   kprintf("uid: %d\r\n", buf0.st_uid);
   kprintf("gid: %d\r\n", buf0.st_gid);
   kprintf("executing fchmod\r\n");
-  kprintf("mode (from filedesc): %d\r\n", f->mode);
+  kprintf("mode (from filedesc): %d\r\n", fdptr(fd)->mode);
   kprintf("re-reading mode from inod with fstat\r\n");
   vfs_fchmod(fd, 22);
   vfs_fstat(fd, &buf0);
