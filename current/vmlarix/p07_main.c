@@ -142,6 +142,8 @@ int main()
   char *str = "hello";
   vfs_write(fd2, str, 5*sizeof(char));
   vfs_write(fd2, str, 5*sizeof(char));
+  vfs_write(fd2, str, 5*sizeof(char));
+  vfs_write(fd2, str, 5*sizeof(char));
   /* first, test jumping back to the beginning of the file */
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
@@ -205,6 +207,7 @@ int main()
   kprintf("/newfile size=%d\r\n", buf2.st_size);
   kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  /* TODO: somehow filepos isn't persisting here... */
   /* NOTE: I have a logical inconsitency: seeking to byte 128 sets bufpos=0,
      logblk=0, but filepos=128 */
   /* Additionally, seeking to byte 129 sets bufpos=0, logblk=1, filepos=1 */
