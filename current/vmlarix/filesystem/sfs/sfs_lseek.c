@@ -86,11 +86,10 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      (f->curr_log + 1) * blksize > newpos) {
     /* if we're moving to a different point in the current block */
     /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
-    kprintf("mode1: newpos=%d\r\n", newpos);
+    /* kprintf("mode1: newpos=%d\r\n", newpos); */
     f->bufpos = newpos - (f->curr_log * blksize);
-    kprintf("mode1: f->curr_log=%d\r\n", f->curr_log);
-    kprintf("mode1: f->bufpos=%d\r\n", f->bufpos);
-    /* TODO: i'm running into some sort of 64-vs-32 bit incompatibility here */
+    /* kprintf("mode1: f->curr_log=%d\r\n", f->curr_log); */
+    /* kprintf("mode1: f->bufpos=%d\r\n", f->bufpos); */
   } else {
     /* if we're moving to a different block */
     if(f->dirty) {
@@ -120,12 +119,12 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     f->curr_log = logblk;
     f->curr_blk = fsblk;
     f->bufpos = buf_offset;
-    kprintf("mode2: newpos=%d\r\n", newpos);
-    kprintf("mode2: f->curr_log=%d\r\n", f->curr_log);
-    kprintf("mode2: f->bufpos=%d\r\n", f->bufpos);
+    /* kprintf("mode2: newpos=%d\r\n", newpos); */
+    /* kprintf("mode2: f->curr_log=%d\r\n", f->curr_log); */
+    /* kprintf("mode2: f->bufpos=%d\r\n", f->bufpos); */
   }
   f->filepos = newpos;
-  kprintf("end of lseek: newpos=%d\r\n", newpos);
-  kprintf("end of lseek: f->filepos=%d\r\n", f->filepos);
+  /* kprintf("end of lseek: newpos=%d\r\n", newpos); */
+  /* kprintf("end of lseek: f->filepos=%d\r\n", f->filepos); */
 }
 
