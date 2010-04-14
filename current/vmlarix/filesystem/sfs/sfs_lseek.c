@@ -80,44 +80,44 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 
     /* TODO: double check that the call to sfs_write leaves the file pointer
        pointing to the new end of the file */
-  } else {
-    /* move the file pointer to the inside-the-file location */
-    if(f->curr_log * blksize <= newpos &&
-       (f->curr_log + 1) * blksize > newpos) {
-      /* if we're moving to a different point in the current block */
-      /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
-      f->bufpos = newpos - (f->curr_blk * blksize);
-    } else {
-      /* if we're moving to a different block */
-      if(f->dirty) {
-	blk_dev[f->major].write_fn(f->minor,
-				   f->curr_blk,
-				   f->buffer,
-				   fp->sb->sectorsperblock);
-	f->dirty=0;
-      }
-      /* so get logical block number we want, and calculate the offset in it */
-      uint32_t logblk = newpos/blksize;
-      /* NOTE: in sfs_write this is calculated by dividing by f->bufsize (line
-	 94); I'm assuming here that these two will always be the same */
-      uint32_t buf_offset = newpos - (logblk * blksize);
-      /* get filesystem block number for that block */
-      uint32_t fsblk = sfs_log2phys(f, logblk);
-      if(fsblk==0) {
-	/* something went wrong */
-	return -1;
-      }
-      /* load that filesystem block into buffer */
-      blk_dev[f->major].read_fn(f->minor,
-				fsblk,
-				f->buffer,
-				fp->sb->sectorsperblock);
-      /* finally, update file descriptor */
-      f->curr_log = logblk;
-      f->curr_blk = fsblk;
-      f->bufpos = buf_offset;
-      kprintf("YO2\r\n");
-    }
-    f->filepos = newpos;
   }
+  /* move the file pointer to the now inside-the-file location */
+  if(f->curr_log * blksize <= newpos &&
+     (f->curr_log + 1) * blksize > newpos) {
+    /* if we're moving to a different point in the current block */
+    /* NOTE: I'm assuming here that blksize/bufsize will always be the same */
+    f->bufpos = newpos - (f->curr_blk * blksize);
+  } else {
+    /* if we're moving to a different block */
+    if(f->dirty) {
+      blk_dev[f->major].write_fn(f->minor,
+				 f->curr_blk,
+				 f->buffer,
+				 fp->sb->sectorsperblock);
+      f->dirty=0;
+    }
+    /* so get logical block number we want, and calculate the offset in it */
+    uint32_t logblk = newpos/blksize;
+    /* NOTE: in sfs_write this is calculated by dividing by f->bufsize (line
+       94); I'm assuming here that these two will always be the same */
+    uint32_t buf_offset = newpos - (logblk * blksize);
+    /* get filesystem block number for that block */
+    uint32_t fsblk = sfs_log2phys(f, logblk);
+    if(fsblk==0) {
+      /* something went wrong */
+      return -1;
+    }
+    /* load that filesystem block into buffer */
+    blk_dev[f->major].read_fn(f->minor,
+			      fsblk,
+			      f->buffer,
+			      fp->sb->sectorsperblock);
+    /* finally, update file descriptor */
+    f->curr_log = logblk;
+    f->curr_blk = fsblk;
+    f->bufpos = buf_offset;
+    kprintf("YO2\r\n");
+  }
+  f->filepos = newpos;
 }
+
