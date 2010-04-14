@@ -62,10 +62,10 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
        new byte) */
     /* if newpos = fsize we need 0 new bytes */
     /* so start writing (newpos - fsize) bytes at position fsize */
-    uint32_t *zerobuf = (uint32_t *)kmalloc(newpos-fsize);
+    char *zerobuf = (uint32_t *)kmalloc(newpos-fsize);
     uint32_t i;
     for(i=0; i<(newpos-fsize); i++) {
-      *(zerobuf+i) = 0;
+      *(zerobuf+i) = 'Z';
     }
     sfs_write(f, zerobuf, newpos-fsize);
     if(f->dirty) {
