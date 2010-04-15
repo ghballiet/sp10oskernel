@@ -230,7 +230,7 @@ int main()
   vfs_write(fd2, bigstring, 125);
   vfs_fstat(fd, &buf2);
   char bigreadbuffer[135]; /*stores 134 chars from file and a null terminator*/
-  vfs_lseek(fd0, 0, SEEK_SET);
+  vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &bigreadbuffer, 134*sizeof(char));
   kprintf("Full contents of /newfile:\r\n\r\n%s\r\n\r\n", &bigreadbuffer);
   vfs_close(fd2);
