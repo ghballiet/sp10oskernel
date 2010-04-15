@@ -45,4 +45,16 @@ int sfs_unlink(void *fs_private, char *path)
      blocks */
 
   /* To find the parent directory, see the path-parsing code in 'sfs_open' */
+  
+  /*
+  Algorithm:
+  
+  1.  Get inode for file using sfs_get_inode.
+  2.  Find the entry in the parent directory (using code from creat).
+  3.  Free stuff on disc using sfs_trunc.
+  4.  Remove entry from parent directory.
+  */
+  
+  
+  
 }
