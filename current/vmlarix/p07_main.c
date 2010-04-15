@@ -31,6 +31,13 @@ int taskb()
     kprintf("b");
 }
 
+void zero_buffer(*buf, length) {
+  int i;
+  for(i=0; i<length; i++)
+    *(buf+i)=0;
+}
+
+
 #define BUFF_LEN 100
 int main()
 {
@@ -209,9 +216,11 @@ int main()
   vfs_lseek(fd2, 129, SEEK_SET);
   vfs_write(fd2, str, 5);
   vfs_lseek(fd2, 125, SEEK_SET);
+  zero_buffer(&readbuf2, 21);
   vfs_read(fd2, &readbuf2, 9*sizeof(char));
   kprintf("Read back 9 chars from position 125:\r\n   '%s'\r\n", &readbuf2);
   vfs_lseek(fd2, 128, SEEK_SET);
+  zero_buffer(&readbuf2, 21);
   vfs_read(fd2, &readbuf2, 6*sizeof(char));
   kprintf("Read back 6 chars from position 128:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
