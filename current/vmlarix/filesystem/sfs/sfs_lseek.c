@@ -32,9 +32,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
-
-  kprintf("sfs_lseek: entry point\r\n");
-
   sfs_fd_private *fp = f->fs_private;
   uint32_t blksize = f->bufsize;
   uint64_t fsize = fp->inode->size;
@@ -69,7 +66,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     }
   }
   
-  kprintf("sfs_lseek: stage 2\r\n");
   /* calculate the new logical block and buffer position */
   int64_t new_log = newpos/blksize;
   uint32_t new_bufpos = newpos - (new_log * blksize);
@@ -95,8 +91,9 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 			      fp->sb->sectorsperblock);
     f->curr_blk = fsblk;
   }
-  kprintf("sfs_lseek: stage 3\r\n");
   /* finally, update the file descriptor */
+  kprintf("sfs_lseek: new_log=%d\r\n", new_log);
+  kprintf("sfs_lseek: new_bufpos=%d\r\n", new_bufpos);
   kprintf("sfs_lseek: newpos=%d\r\n", newpos);
   f->filepos = newpos;
   f->curr_log = new_log;
