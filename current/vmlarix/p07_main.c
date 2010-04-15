@@ -179,14 +179,8 @@ int main()
   kprintf("\r\n");
 
 
-  /* TODO: test other 'whence' modes of lseek (only the position calculation
-     logic differs for them, the seeking logic is the same for all methods
-     after calculating the new position) */
-
-
-  /* test the block-position stuff in lseek -- we'll need a test file
-     bigger than a single block for this */
-  /* block size appears to be 128, so seeeking to position 128 should give us a
+  /* test lseek's block-position and whence constants handling */
+  /* block size is 128, so seeeking to position 128 should give us a
      new block, with bufpos=0 */
   fd2 = vfs_open("/newfile", O_CREAT ^ O_RDWR, 0);
   struct fstat buf2;
@@ -205,7 +199,6 @@ int main()
   kprintf("Writing 'world' at pos 125 after seeking with SEEK_CUR\r\n");
   vfs_write(fd2, str2, 5);
   vfs_lseek(fd2, -1, SEEK_END);
-  //vfs_lseek(fd2, 129, SEEK_SET);
   kprintf("Writing 'hello' at pos 129 after seeking with SEEK_END\r\n");
   vfs_write(fd2, str, 5);
   vfs_fstat(fd, &buf2);
@@ -226,7 +219,7 @@ int main()
   char bigreadbuffer[135]; /*stores 134 chars from file and a null terminator*/
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &bigreadbuffer, 134*sizeof(char));
-  kprintf("Full contents of /newfile:\r\n\r\n%s\r\n\r\n", &bigreadbuffer);
+  kprintf("Full contents of /newfile after overwriting first 125 positions:\r\n\r\n%s\r\n\r\n", &bigreadbuffer);
   vfs_close(fd2);
   kprintf("\r\n");
   
