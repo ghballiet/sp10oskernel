@@ -204,10 +204,11 @@ int main()
   vfs_lseek(fd2, 5, SEEK_CUR);
   kprintf("Writing 'world' at pos 125 after seeking with SEEK_CUR\r\n");
   vfs_write(fd2, str2, 5);
-  vfs_lseek(fd2, -1, SEEK_END);
+  //vfs_lseek(fd2, -1, SEEK_END);
+  vfs_lseek(fd2, 129, SEEK_SET);
   kprintf("Writing 'hello' at pos 129 after seeking with SEEK_END\r\n");
   vfs_write(fd2, str, 5);
-  kprintf("/newfile size after writing 5 at pos 129=%d\r\n", buf2.st_size);
+  kprintf("/newfile size after writing 5 chars at pos 129=%d\r\n", buf2.st_size);
   vfs_lseek(fd2, 125, SEEK_SET);
   zero_buffer(&readbuf2, 21);
   vfs_read(fd2, &readbuf2, 9*sizeof(char));
