@@ -91,15 +91,9 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     f->curr_blk = fsblk;
   }
   /* finally, update the file descriptor */
-  /*kprintf("sfs_lseek: new_log=%d\r\n", new_log);
-  kprintf("sfs_lseek: new_bufpos=%d\r\n", new_bufpos);
-  kprintf("sfs_lseek: newpos=%d\r\n", newpos);*/
   f->filepos = newpos;
   f->curr_log = new_log;
   f->bufpos = new_bufpos;
-  /*kprintf("sfs_lseek: curr_log=%d\r\n", f->curr_log);
-  kprintf("sfs_lseek: bufpos=%d\r\n", f->bufpos);
-  kprintf("sfs_lseek: filepos=%d\r\n", f->filepos);*/
   return newpos;
 }
   
