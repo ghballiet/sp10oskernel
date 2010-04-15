@@ -205,10 +205,18 @@ int main()
   vfs_lseek(fd2, 128, SEEK_SET);
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
-  int x = vfs_lseek(fd2, 130, SEEK_SET);
-  kprintf("retval of lseek=%d\r\n", x);
+  vfs_lseek(fd2, 130, SEEK_SET);
   kprintf("current logical block=%X, bufpos=%X, filepos=%X\r\n", f2->curr_log,
 	  f2->bufpos, f2->filepos);
+  vfs_lseek(fd2, 0, SEEK_SET);
+  kprintf("current logical block=%X, bufpos=%X, filepos=%X\r\n", f2->curr_log,
+	  f2->bufpos, f2->filepos);
+  vfs_read(fd2, &readbuf2, 20*sizeof(char));
+  kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
+  vfs_close(fd2);
+  kprintf("\r\n");
+
+
   /* TODO: somehow filepos and bufpos aren't persisting here anymore... */
   
 
