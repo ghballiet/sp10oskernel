@@ -32,6 +32,9 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
      If whence is SEEK_END, offset is set to the size of the file plus 'offset'
      bytes
   */
+
+  kprintf("sfs_lseek: entry point\r\n");
+
   sfs_fd_private *fp = f->fs_private;
   uint32_t blksize = f->bufsize;
   uint64_t fsize = fp->inode->size;
