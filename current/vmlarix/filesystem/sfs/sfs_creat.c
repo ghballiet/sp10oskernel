@@ -76,7 +76,6 @@ int sfs_creat(mount_point *mp, filedesc *fd,char *path, mode_t mode)
       return -1;
     }
   
-  // NOTE: Where does *fd come from?
   /* open parent directory*/
   if(sfs_openinode(mp, fd, pinum, pinode,O_WRONLY|O_APPEND,06)!=0)
     {
