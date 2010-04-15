@@ -147,25 +147,14 @@ int main()
   vfs_lseek(fd2, 0, SEEK_SET);
   char readbuf[8];
   filedesc *f2 = fdptr(fd2);
-  //kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-  //  f2->bufpos, f2->filepos);
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from start of file:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position in the file */
   vfs_lseek(fd2, 3, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
-  /* kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log, */
-  /* 	  f2->bufpos, f2->filepos); */
   vfs_read(fd2, &readbuf, 7*sizeof(char));
   kprintf("Read back 7 chars from position 3:\r\n   '%s'\r\n", &readbuf);
   /* now, test jumping to a position after the end of the file */
   vfs_lseek(fd2, 15, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
-  /* TODO: why is bufpos not staying updated? */
-  kprintf("after seeking to 15: logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
   char readbuf2[21];
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_read(fd2, &readbuf2, 15);
@@ -177,8 +166,6 @@ int main()
   kprintf("And filling in another string at position 10\r\n");
   vfs_write(fd2, str2, 5);
   vfs_lseek(fd2, 0, SEEK_SET);
-  /* kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log, */
-  /* 	  f2->bufpos, f2->filepos); */
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
@@ -217,6 +204,16 @@ int main()
 	  f2->bufpos, f2->filepos);
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
+  vfs_lseek(fd2, 125, SEEK_SET);
+  vfs_write(fd2, str2, 5);
+  vfs_lseek(fd2, 129, SEEK_SET);
+  vfs_write(fd2, str, 5);
+  vfs_lseek(fd2, 125, SEEK_SET);
+  vfs_read(fd2, &readbuf2, 9*sizeof(char));
+  kprintf("Read back 9 chars from position 125:\r\n   '%s'\r\n", &readbuf2);
+  vfs_lseek(fd2, 128, SEEK_SET);
+  vfs_read(fd2, &readbuf2, 6*sizeof(char));
+  kprintf("Read back 6 chars from position 128:\r\n   '%s'\r\n", &readbuf2);
   vfs_close(fd2);
   kprintf("\r\n");
 
