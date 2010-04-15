@@ -31,10 +31,10 @@ int taskb()
     kprintf("b");
 }
 
-void zero_buffer(char *buf, int length) {
+void zero_buffer(void *buf, int length) {
   int i;
   for(i=0; i<length; i++)
-    *(buf+i)=0;
+    *((char *)buf+i)=0;
 }
 
 
@@ -235,9 +235,6 @@ int main()
   kprintf("Full contents of /newfile:\r\n\r\n%s\r\n\r\n", &bigreadbuffer);
   vfs_close(fd2);
   kprintf("\r\n");
-
-
-  /* TODO: somehow filepos and bufpos aren't persisting here anymore... */
   
 
   kprintf("Entering idle loop\n\r");
