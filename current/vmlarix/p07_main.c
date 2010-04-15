@@ -193,25 +193,15 @@ int main()
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
   f2 = fdptr(fd2);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
-  kprintf("seeking to byte 130 (131st byte)\r\n");
+  kprintf("seeking to pos 130 (next byte written would be 131st byte)\r\n");
   vfs_lseek(fd2, 130, SEEK_SET);
-  kprintf("current logical block=%d, bufpos=%d, filepos=%d\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
-  vfs_lseek(fd2, 100, SEEK_SET);
-  vfs_lseek(fd2, 128, SEEK_SET);
   vfs_fstat(fd, &buf2);
   kprintf("/newfile size=%d\r\n", buf2.st_size);
-  vfs_lseek(fd2, 130, SEEK_SET);
-  kprintf("current logical block=%X, bufpos=%X, filepos=%X\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
   vfs_lseek(fd2, 0, SEEK_SET);
-  kprintf("current logical block=%X, bufpos=%X, filepos=%X\r\n", f2->curr_log,
-	  f2->bufpos, f2->filepos);
   vfs_read(fd2, &readbuf2, 20*sizeof(char));
   kprintf("Read back 20 chars from position 0:\r\n   '%s'\r\n", &readbuf2);
-  vfs_lseek(fd2, 125, SEEK_SET);
+  vfs_lseek(fd2, 120, SEEK_SET);
+  vfs_lseek(fd2, 5, SEEK_CUR);
   vfs_write(fd2, str2, 5);
   vfs_lseek(fd2, 129, SEEK_SET);
   vfs_write(fd2, str, 5);
