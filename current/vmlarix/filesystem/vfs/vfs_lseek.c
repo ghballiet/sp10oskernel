@@ -17,7 +17,6 @@ int vfs_lseek(int fd, off_t offset, int whence)
   /* get file descriptor pointer */
   filedesc *f = fdptr(fd);
   if(f) {
-    kprintf("in vfs_lseek\r\n");
     return f->mp->ops->lseek_fn(f, offset, whence);
   } else {
     return -1;
