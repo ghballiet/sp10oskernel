@@ -67,7 +67,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   /* calculate the new logical block and buffer position */
   int64_t new_log = newpos/blksize;
   uint32_t new_bufpos = newpos - (new_log * blksize);
-  if(new_log != f->cur_log) { /* if we need to change blocks */
+  if(new_log != f->curr_log) { /* if we need to change blocks */
     /* write out the current block if it's dirty */
     if(f->dirty) {
       blk_dev[f->major].write_fn(f->minor,
