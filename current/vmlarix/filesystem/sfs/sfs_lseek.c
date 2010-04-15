@@ -98,7 +98,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   kprintf("sfs_lseek: stage 3\r\n");
   /* finally, update the file descriptor */
   kprintf("sfs_lseek: new_log=%d, new_bufpos=%, newpos=%d\r\n",
-	  new_log, new_bufpos, newpos);
+	  (uint32_t)new_log, (uint32_t)new_bufpos, (uint32_t)newpos);
   f->filepos = newpos;
   f->curr_log = new_log;
   f->bufpos = new_bufpos;
