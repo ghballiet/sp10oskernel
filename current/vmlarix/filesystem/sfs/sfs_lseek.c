@@ -99,5 +99,6 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
   f->bufpos = new_bufpos;
   kprintf("end of sfs_lseek: curr_log=%d, bufpos=%, filepos=%d\r\n",
 	  f->curr_log, f->bufpos, f->filepos);
+  return newpos;
 }
   
