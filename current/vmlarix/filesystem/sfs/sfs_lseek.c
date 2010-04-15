@@ -78,7 +78,7 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     }
     /* find and load the new physical block */
     int64_t fsblk = sfs_log2phys(f, new_log);
-    if(fsblk==0) return -1; /* something went wrong */
+    if(fsblk==0) return -2; /* something went wrong */
     blk_dev[f->major].read_fn(f->minor,
 			      fsblk,
 			      f->buffer,
