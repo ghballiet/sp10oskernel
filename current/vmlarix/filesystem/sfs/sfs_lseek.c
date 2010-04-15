@@ -68,11 +68,13 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
     				   fp->sb->sectorsperblock);
     }
   }
-   
+  
+  kprintf("sfs_lseek: stage 2\r\n");
   /* calculate the new logical block and buffer position */
   int64_t new_log = newpos/blksize;
   uint32_t new_bufpos = newpos - (new_log * blksize);
   if(new_log != f->curr_log) { /* if we need to change blocks */
+    kprintf("sfs_lseek: changing logical blocks\r\n");
     /* write out the current block if it's dirty */
     if(f->dirty) {
       blk_dev[f->major].write_fn(f->minor,
@@ -93,13 +95,14 @@ int sfs_lseek(filedesc *f, off_t offset, int whence)
 			      fp->sb->sectorsperblock);
     f->curr_blk = fsblk;
   }
+  kprintf("sfs_lseek: stage 3\r\n");
   /* finally, update the file descriptor */
-  kprintf("end of sfs_lseek: curr_log=%d, bufpos=%, filepos=%d\r\n",
-	  f->curr_log, f->bufpos, f->filepos);
+  kprintf("sfs_lseek: new_log=%d, new_bufpos=%, newpos=%d\r\n",
+	  new_log, new_bufpos, newpos);
   f->filepos = newpos;
   f->curr_log = new_log;
   f->bufpos = new_bufpos;
-  kprintf("end of sfs_lseek: curr_log=%d, bufpos=%, filepos=%d\r\n",
+  kprintf("sfs_lseek: curr_log=%d, bufpos=%, filepos=%d\r\n",
 	  f->curr_log, f->bufpos, f->filepos);
   return newpos;
 }
