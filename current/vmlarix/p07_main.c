@@ -215,6 +215,7 @@ int main()
   vfs_write(fd2, str2, 5);
   vfs_lseek(fd2, 129, SEEK_SET);
   vfs_write(fd2, str, 5);
+  kprintf("/newfile size after writing 5 at pos 129=%d\r\n", buf2.st_size);
   vfs_lseek(fd2, 125, SEEK_SET);
   zero_buffer(&readbuf2, 21);
   vfs_read(fd2, &readbuf2, 9*sizeof(char));
@@ -224,15 +225,14 @@ int main()
   vfs_read(fd2, &readbuf2, 6*sizeof(char));
   kprintf("Read back 6 chars from position 128:\r\n   '%s'\r\n", &readbuf2);
   vfs_fstat(fd, &buf2);
-  kprintf("/newfile size=%d\r\n", buf2.st_size);
   char *bigstring="0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
   vfs_lseek(fd2, 0, SEEK_SET);
   vfs_write(fd2, bigstring, 125);
   vfs_fstat(fd, &buf2);
-  kprintf("/newfile size=%d\r\n", buf2.st_size);
-  // char bigreadbuffer[
-
-
+  char bigreadbuffer[135]; /*stores 134 chars from file and a null terminator*/
+  vfs_lseek(fd0, 0, SEEK_SET);
+  vfs_read(fd2, &bigreadbuffer, 134*sizeof(char));
+  kprintf("Full contents of /newfile:\r\n\r\n%s\r\n\r\n", &bigreadbuffer);
   vfs_close(fd2);
   kprintf("\r\n");
 
