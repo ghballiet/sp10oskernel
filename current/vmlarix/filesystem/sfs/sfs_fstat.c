@@ -57,11 +57,11 @@ int sfs_fstat(filedesc *f, struct fstat *buf)
   /* Shift major number left and add minor number to get device number */
   uint32_t major = f->mp->major;
   uint32_t minor = f->mp->minor;
-  /* TODO: I'm assuming here that dev_t is a 64-bit type; double-check this... */
-  buf->st_dev = (((uint64_t)major)<<32) + minor;
+  /* concatenate 16 low bits of major and minor numbers for st_dev */
+  buf->st_dev = (((uint64_t)major)<<16) ^ ((minor<<16)>>16);
   /* handle device number for special files */
   if(inode->type==FT_CHAR_SPEC || inode->type==FT_BLOCK_SPEC) {
-    buf->st_rdev = (((uint64_t)(inode->direct[0])) << 32) + inode->direct[1];
+    buf->st_rdev = (((uint64_t)(inode->direct[0])) << 16) ^ ((inode->direct[1]<<16)>>16);
   }
   /* Compute number of blocks from file size and blocksize */
   buf->st_blocks = sfs_get_num_blocks(f);
