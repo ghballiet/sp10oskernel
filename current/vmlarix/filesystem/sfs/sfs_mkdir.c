@@ -24,4 +24,14 @@
 int sfs_mkdir(void *fs_private, const char *pathname, mode_t mode)
 {
   kprintf("sfs_mkdir() function not implemented\n\r");
+  
+  // make a directory, given fs_private, a pathname, and a mode
+  //
+  // algorithm:
+  // open parent directory for append
+  // create new inode
+  // save as sfs_dirent struct
+  //
+  // should be similar to creat - can use same code for
+  // opening parent
 }

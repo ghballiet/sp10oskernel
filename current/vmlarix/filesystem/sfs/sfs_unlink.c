@@ -49,12 +49,15 @@ int sfs_unlink(void *fs_private, char *path)
   /*
   Algorithm:
   
-  1.  Get inode for file using sfs_get_inode.
-  2.  Find the entry in the parent directory (using code from creat).
+  1.  Find the entry in the parent directory (using code from creat).
+  2.  Get inode for file using sfs_get_inode.
   3.  Free stuff on disc using sfs_trunc.
   4.  Remove entry from parent directory.
   */
   
+  
+  uint32_t inum;
+  sfs_inode_t *inode; 
   
   
 }

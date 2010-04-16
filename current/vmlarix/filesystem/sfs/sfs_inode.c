@@ -64,6 +64,8 @@ void sfs_get_inode(mount_point *mp,int inum,sfs_inode_t *inode)
   kfree(inode_block);  
 }
 
+
+
 void sfs_put_inode(mount_point *mp,int inum,sfs_inode_t *inode)
 {
   int i;
@@ -227,4 +229,3 @@ int sfs_lookup(mount_point* mp,const char *path,sfs_inode_t *inode)
   kfree(savefirst);
   return inum;
 }
-

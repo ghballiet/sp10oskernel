@@ -14,5 +14,15 @@
 
 int vfs_unlink(char *path)
 {
-  kprintf("vfs_unlink() not implemented!\n\r");
+  int result;
+  mount_point *mp;
+  
+  if ((mp = vfs_lookup(path))==NULL) {
+    // errno = ERNF; file not found
+    return -1;
+  }
+  
+  path += strlen(mp->target); // strip off the mount point
+  
+  
 }
