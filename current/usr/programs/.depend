@@ -1,0 +1,12 @@
+taska.o: taska.c ../include/syscalls.h ../include/sys/types.h \
+ /usr/local/gcc-arm/lib/gcc/arm-elf/4.4.3/../../../../arm-elf/include/stdint.h \
+ ../include/misc.h ../include/printf.h ../include/fcntl.h
+taskb.o: taskb.c ../include/syscalls.h ../include/sys/types.h \
+ /usr/local/gcc-arm/lib/gcc/arm-elf/4.4.3/../../../../arm-elf/include/stdint.h \
+ ../include/misc.h ../include/printf.h ../include/fcntl.h
+taska.o: taska.c ../include/syscalls.h ../include/sys/types.h \
+ /usr/local/gcc-arm/lib/gcc/arm-elf/4.4.3/../../../../arm-elf/include/stdint.h \
+ ../include/misc.h ../include/printf.h ../include/fcntl.h
+taskb.o: taskb.c ../include/syscalls.h ../include/sys/types.h \
+ /usr/local/gcc-arm/lib/gcc/arm-elf/4.4.3/../../../../arm-elf/include/stdint.h \
+ ../include/misc.h ../include/printf.h ../include/fcntl.h

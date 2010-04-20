@@ -1,0 +1,5 @@
+Run makegraph.sh, preferably as root.  
+It will take a long time to run, but
+will leave a file $HOSTNAME.ps that
+is a histogram plot of the file sizes
+on the machine you run it on.
