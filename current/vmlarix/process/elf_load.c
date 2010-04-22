@@ -14,7 +14,7 @@ void *elf_load(char *filename)
   int size;
   size = vfs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
   if(size != sizeof(Elf32_Ehdr))
-    return NULL; /* something went wrong with our read */
+    return 0; /* something went wrong with our read */
 
   /* After getting the elf header, load the program header
 
@@ -24,7 +24,7 @@ void *elf_load(char *filename)
   Elf32_Phdr phdr;
   size = vfs_read(fd, &phdr, sizeof(Elf32_Phdr));
   if(size != sizeof(Elf32_Phdr))
-    return NULL; /* something went wrong with our read */
+    return 0; /* something went wrong with our read */
 
   /* After getting the program header, load the program data
 
@@ -34,7 +34,7 @@ void *elf_load(char *filename)
      phdr.p_memsz is the number of bytes to set up in memory */
   vfs_lseek(fd, phdr.p_offset, SEEK_SET);
   if(ehdr.e_entry != phdr.p_vaddr)
-    return NULL; /* consistency check */
+    return 0; /* consistency check */
   size = vfs_read(fd, phdr.p_vaddr, phdr.p_filesz);
 
   /* finally, set up the BSS zero region */
