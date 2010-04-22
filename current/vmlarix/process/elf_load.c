@@ -35,11 +35,11 @@ void *elf_load(char *filename)
   vfs_lseek(fd, phdr.p_offset, SEEK_SET);
   if(ehdr.e_entry != phdr.p_vaddr)
     return 0; /* consistency check */
-  size = vfs_read(fd, phdr.p_vaddr, phdr.p_filesz);
+  size = vfs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
 
   /* finally, set up the BSS zero region */
   uint32_t i;
   for(i=0; i < phdr.p_memsz - phdr.p_filesz; i++)
     *(char *)(phdr.p_vaddr + phdr.p_filesz + i) = 0;
-  return phdr.p_vaddr;
+  return (void *)phdr.p_vaddr;
 }
