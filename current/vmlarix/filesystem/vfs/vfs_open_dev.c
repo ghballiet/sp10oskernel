@@ -30,3 +30,13 @@ lags) */
 /*   return i; */
 
 /* } */
+
+// COMMENTS 04.22.10
+// function vfs_open_dev should be used
+// to create system file descriptors referring to 
+// the console device. 
+// i.e. during process setup, this function should
+// initialize the first three file descriptors to
+// refer to the console device, up to NUM_FD,
+// the maximum number of file descriptors allocated to
+// each process.
