@@ -9,7 +9,7 @@
    program entry point, or NULL on failure */
 void *elf_load(char *filename)
 {
-  int fd = vfs_open(filename, O_RDONLY);
+  int fd = vfs_open(filename, O_RDONLY, 0);
   Elf32_Ehdr ehdr;
   int size;
   size = vfs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
