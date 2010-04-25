@@ -84,7 +84,7 @@ int main()
      You can put the program stacks at (entry_address + 128K)-4bytes
   */
 
-  kprintf("Setting up tasks\r\n");
+  /*  kprintf("Setting up tasks\r\n");
   void *taska = elf_load("/usr/programs/taska");
   taska_stack = taska + (128 * 1024) - 4;
   taska_ptr = process_create(0, taska, taska_stack);
@@ -94,7 +94,7 @@ int main()
   /* for the stacks, since the memory segments for the tasks are already going
      to be reserved in the kernel, is computing that address all we need to do,
      and then send that address to process_create? */
-
+  /*
 
   kprintf("Setting up interrupt controller\n\r");
   setup_interrupt_controller();                  
@@ -104,6 +104,7 @@ int main()
 
   kprintf("Starting system timer\n\r");
   start_timer();
+  */
 
 
   kprintf("Entering idle loop\n\r");
