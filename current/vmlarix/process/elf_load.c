@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <elf_load.h>
 #include <sys/types.h>
+#include <stdint.h>
+#include <fstat.h>
 #include <vfs.h>
 //#include <vfs.h>
 
