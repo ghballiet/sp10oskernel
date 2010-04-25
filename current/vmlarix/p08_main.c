@@ -86,10 +86,10 @@ int main()
 
   kprintf("Setting up tasks\r\n");
   void *taska = elf_load("/usr/programs/taska");
-  void *taska_stack = taska + (128 * 1024) - 4;
+  taska_stack = taska + (128 * 1024) - 4;
   taska_ptr = process_create(0, taska, taska_stack);
   void *taskb = elf_load("/usr/programs/taskb");
-  void *taskb_stack = taskb + (128 * 1024) - 4;
+  taskb_stack = taskb + (128 * 1024) - 4;
   taskb_ptr = process_create(0, taskb, taskb_stack);
   /* for the stacks, since the memory segments for the tasks are already going
      to be reserved in the kernel, is computing that address all we need to do,
