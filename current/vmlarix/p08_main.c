@@ -10,7 +10,6 @@
 #include <interrupts.h>
 #include <process.h>
 #include <fcntl.h>
-#include <vfs.h>
 #include <elf_load.h>
 
 uint16_t console_major;
