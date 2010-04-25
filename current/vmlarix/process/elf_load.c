@@ -2,10 +2,7 @@
 #include <stddef.h>
 #include <elf_load.h>
 #include <sys/types.h>
-#include <stdint.h>
-#include <fstat.h>
 #include <vfs.h>
-//#include <vfs.h>
 
 /* The ELF loader opens a file, checks to see that it is ELF,
    and loads it into memory.  It returns a pointer to the
