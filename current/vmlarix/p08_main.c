@@ -94,8 +94,7 @@ int main()
   /* for the stacks, since the memory segments for the tasks are already going
      to be reserved in the kernel, is computing that address all we need to do,
      and then send that address to process_create? */
-  /*
-
+  
   kprintf("Setting up interrupt controller\n\r");
   setup_interrupt_controller();                  
 
@@ -104,7 +103,6 @@ int main()
 
   kprintf("Starting system timer\n\r");
   start_timer();
-  */
 
 
   kprintf("Entering idle loop\n\r");
