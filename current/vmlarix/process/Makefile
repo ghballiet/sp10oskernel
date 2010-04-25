@@ -5,7 +5,7 @@ ASM_OBJS =
 
 OBJS = $(C_OBJS) $(ASM_OBJS)
 
-INCLUDES = -I. -I../include -I../util -I../arch/include -I/usr/local/gcc-arm/lib/gcc/arm-elf/4.2.2/include
+INCLUDES = -I. -I../include -I../util -I../arch/include -I/usr/local/gcc-arm/lib/gcc/arm-elf/4.2.2/include -I../filesystem/vfs
 
 all: libprocess.a
 
