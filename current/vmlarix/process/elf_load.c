@@ -1,5 +1,3 @@
-
-/* You will probably need to add some include files */
 #include <vfs.h>
 #include <fcntl.h>
 #include <stddef.h>
