@@ -1,7 +1,7 @@
-#include <vfs.h>
 #include <fcntl.h>
 #include <stddef.h>
 #include <elf_load.h>
+//#include <vfs.h>
 
 /* The ELF loader opens a file, checks to see that it is ELF,
    and loads it into memory.  It returns a pointer to the
