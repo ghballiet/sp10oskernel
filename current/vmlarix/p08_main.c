@@ -84,7 +84,7 @@ int main()
      You can put the program stacks at (entry_address + 128K)-4bytes
   */
 
-  /*  kprintf("Setting up tasks\r\n");
+  kprintf("Setting up tasks\r\n");
   void *taska = elf_load("/usr/programs/taska");
   taska_stack = taska + (128 * 1024) - 4;
   taska_ptr = process_create(0, taska, taska_stack);
