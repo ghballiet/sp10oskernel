@@ -12,6 +12,7 @@ void *elf_load(char *filename)
   int fd = vfs_open(filename, O_RDONLY, 0);
   Elf32_Ehdr ehdr;
   int size;
+  //size = vfs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
   size = vfs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
   if(size != sizeof(Elf32_Ehdr))
     return NULL; /* something went wrong with our read */
