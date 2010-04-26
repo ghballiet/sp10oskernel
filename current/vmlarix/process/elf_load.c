@@ -41,7 +41,7 @@ void *elf_load(char *filename)
 
   /* finally, set up the BSS zero region */
   uint32_t i;
-  for(i=0; i < phdr.p_memsz - phdr.p_filesz; i++)
-    *(char *)(phdr.p_vaddr + phdr.p_filesz + i) = 0;
+  for(i=phdr.p_vaddr + phdr.p_filesz; i < phdr.p_vaddr + phdr.p_memsz; i++)
+    *(char *)(i) = 0;
   return (void *)phdr.p_vaddr;
 }
