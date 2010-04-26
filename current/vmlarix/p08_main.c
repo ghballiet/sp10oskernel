@@ -91,6 +91,8 @@ int main()
   void *taskb = elf_load("/taskb");
   taskb_stack = taskb + (128 * 1024) - 4;
   taskb_ptr = process_create(0, taskb, taskb_stack);
+  kprintf("Entry point for task a: %X\r\n", taska);
+  kprintf("Entry point for task b: %X\r\n", taskb);
   /* for the stacks, since the memory segments for the tasks are already going
      to be reserved in the kernel, is computing that address all we need to do,
      and then send that address to process_create? */
