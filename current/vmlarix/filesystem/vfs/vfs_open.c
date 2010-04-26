@@ -40,7 +40,7 @@ int vfs_open(char *pathname, int flags, mode_t mode)
   return fd;
 }
 
-int vfs_open_dev(u_int16_t major, u_int16_t minor,u_int32_t mode, u_int32_t flags) {
+int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t mode, uint32_t flags) {
   
    // find a file descriptor
    int i = 0; 
