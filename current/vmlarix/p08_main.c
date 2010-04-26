@@ -85,10 +85,10 @@ int main()
   */
 
   kprintf("Setting up tasks\r\n");
-  void *taska = elf_load("/usr/programs/taska");
+  void *taska = elf_load("/taska");
   taska_stack = taska + (128 * 1024) - 4;
   taska_ptr = process_create(0, taska, taska_stack);
-  void *taskb = elf_load("/usr/programs/taskb");
+  void *taskb = elf_load("/taskb");
   taskb_stack = taskb + (128 * 1024) - 4;
   taskb_ptr = process_create(0, taskb, taskb_stack);
   /* for the stacks, since the memory segments for the tasks are already going
