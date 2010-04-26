@@ -4,7 +4,7 @@ ASM_OBJS =
 EXTRA_OBJS = 
 
 LIBDIRS = -Lfilesystem -Lutil -Ldrivers/char -Ldrivers/block -Larch -Lmm -Lprocess -L/usr/local/gcc-arm/lib/gcc/arm-elf/4.4.3/
-LIBS = -lvfs -lsfs -lmm -lutil -lchardrv -lblkdrv -larch -lprocess -larch -lgcc 
+LIBS = -lprocess -lvfs -lsfs -lmm -lutil -lchardrv -lblkdrv -larch  -larch -lgcc 
 
 MAKE_DIRS = drivers util arch mm filesystem process
 
