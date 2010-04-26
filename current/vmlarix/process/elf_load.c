@@ -36,6 +36,8 @@ void *elf_load(char *filename)
   if(ehdr.e_entry != phdr.p_vaddr)
     return NULL; /* consistency check */
   size = vfs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
+  if(size != phdr.p_filesz)
+    return NULL; /* consistency check */
 
   /* finally, set up the BSS zero region */
   uint32_t i;
