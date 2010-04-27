@@ -1,5 +1,5 @@
 #include <sys/syscall.h>
-#include <process.h> 
+#include <process.h>
 #include <kprintf.h>
 
 // ====================
