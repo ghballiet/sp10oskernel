@@ -50,6 +50,7 @@
 #include <printf.h>
 #include <misc.h>
 #include <stdarg.h>
+#include <kprintf.h>
 
 void convert_dec(char **buf,int *remain,long long param,int long_flag)
 {
@@ -476,6 +477,7 @@ int printf(char *fmt,...)
 
   bufptr = buf;
 
+  kprintf("about to send write...\n\r");
   write(1,bufptr,strlen(bufptr));
   
   return KPRINTF_BUFSIZE-remain;
