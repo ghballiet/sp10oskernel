@@ -50,7 +50,6 @@
 #include <printf.h>
 #include <misc.h>
 #include <stdarg.h>
-#include <syscalls.h>
 
 void convert_dec(char **buf,int *remain,long long param,int long_flag)
 {
