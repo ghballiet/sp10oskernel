@@ -2,6 +2,19 @@
 #include <process.h> 
 #include <kprintf.h>
 
+// ====================
+// = define sys calls =
+// ====================
+
+int sys_open(const char *pathname, int flags, mode_t mode) {
+  kprintf("SYSOPEN called with %s, %d and %s\n\r",pathname,flags,mode); 
+  return -1;
+}
+
+// ====================
+// = handle sys calls =
+// ====================
+
 int32_t sys_undefined(int32_t syscall_num)
 {
   kprintf("Undefined system call: %d\n\r",syscall_num);
@@ -30,9 +43,4 @@ uint32_t c_SWI_handler(uint32_t syscall_num,
       return sys_undefined(syscall_num);
       break;
     }
-}
-
-int sys_open(const char *pathname, int flags, mode_t mode) {
-  kprintf("SYSOPEN called with %s, %d and %s\n\r",pathname,flags,mode); 
-  return -1;
 }
