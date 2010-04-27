@@ -1,10 +1,10 @@
 #!/bin/bash
 
 OLDPWD=$PWD
-COMPILE_ROOT="~/svn/sp10oskernel/current"
+COMPILE_ROOT="/home/glhunt/svn/sp10oskernel/current"
 MKDIRS="usr/ vmlarix/"
 
-cd $COMPILE_ROOT
+cd $COMPILE_ROOT && \
 echo "Updating source from repository..."
 svn up
 
