@@ -3,7 +3,6 @@
 #include <vfs.h>
 #include <vfs_filedesc.h>
 #include <vfs_fsops.h>
-#include <kprintf.h>
 
 #ifdef _KERNEL_
 #include <misc.h>
@@ -42,7 +41,6 @@ int vfs_open(char *pathname, int flags, mode_t mode)
 }
 
 int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t mode, uint32_t flags) {
-  kprintf("vfs_open_dev called\n\r");
   
   // find a file descriptor
   int i = 0; 
