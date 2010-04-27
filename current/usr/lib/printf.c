@@ -373,8 +373,6 @@ int snprintf(char *buf,int bufsize,char *fmt,...)
 
 int printf(char *fmt,...)
 {
-
-  kprintf("entering printf...\n\r");
   /* this routine is not re-entrant! */
   static char buf[KPRINTF_BUFSIZE];
   int remain = KPRINTF_BUFSIZE;
@@ -478,7 +476,6 @@ int printf(char *fmt,...)
 
   bufptr = buf;
 
-  kprintf("test...\n\r");
   write(1,bufptr,strlen(bufptr));
   
   return KPRINTF_BUFSIZE-remain;
