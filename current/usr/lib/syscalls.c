@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <sys/syscall.h>
+#include <kprintf.h>
 
 int brk(void *end_data_segment)
 {
@@ -16,6 +17,7 @@ ssize_t read(int fd, const void *buf, size_t count)
 
 ssize_t write(int fd, const void *buf, size_t count)
 {
+  kprintf("write called\n\r");
   return (ssize_t) syscall(SYS_write,fd,buf,count);
 }
 
