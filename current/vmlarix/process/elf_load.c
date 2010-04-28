@@ -44,10 +44,10 @@ void *elf_load(char *filename)
   // of the binary file so we can compare them
   char buf[10];
   vfs_read(fd, &buf, sizeof(buf));
-  int i;
+  int a;
   kprintf("Reading from %s:\n\r", filename);
-  for(i=0;i<10;i++) {
-    kprintf("%d:\t%X\n\r",buf[i]);
+  for(a=0;a<10;a++) {
+    kprintf("%d:\t%X\n\r",buf[a]);
   }
   
   // move lseek back
