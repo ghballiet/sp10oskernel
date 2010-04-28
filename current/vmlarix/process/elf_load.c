@@ -42,7 +42,7 @@ void *elf_load(char *filename)
   // ===============
   // we want to read the first 10 bytes
   // of the binary file so we can compare them
-  char buf[10];
+  unsigned char buf[10];
   vfs_read(fd, &buf, sizeof(buf));
   int a;
   kprintf("Reading from %s:\n\r", filename);
