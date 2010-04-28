@@ -21,4 +21,3 @@ st0.load-symbols "vmlarix"
 new-gdb-remote
 write-reg pc 0xc0000000
 write-reg sp 0xc0040000
-continue
