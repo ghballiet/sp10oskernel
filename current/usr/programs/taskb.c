@@ -5,7 +5,7 @@
 
 int main()
 {
-  int curchar;
+  unsigned int curchar;
   curchar = 0;
   while(1)
     curchar++;
