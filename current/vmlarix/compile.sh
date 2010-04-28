@@ -10,8 +10,8 @@ svn up && \
 
 for f in $MKDIRS; do
     cd $f && \
-    echo "Compiling $f..." && \
-    make >/dev/null && echo "$f compiled succesfully." || (echo "ERROR!" && return -1)
+    echo -n "Compiling $f..." && \
+    make >/dev/null && echo "done." || (echo "ERROR!" && return -1)
     cd $COMPILE_ROOT
 done
 
