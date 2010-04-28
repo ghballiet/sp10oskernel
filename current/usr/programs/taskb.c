@@ -1,3 +1,4 @@
+
 #include <syscalls.h>
 #include <misc.h>
 #include <printf.h>
@@ -8,6 +9,5 @@ int main()
   unsigned int curchar;
   curchar = 0;
   while(1)
-    curchar++;
     printf("Task B: %d\n\r",curchar++); 
 }
