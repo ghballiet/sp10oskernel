@@ -36,6 +36,26 @@ void *elf_load(char *filename)
   if(ehdr.e_entry != phdr.p_vaddr)
     return NULL; /* consistency check */
   size = vfs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
+  
+  // ===============
+  // = DEBUG STUFF =
+  // ===============
+  // we want to read the first 10 bytes
+  // of the binary file so we can compare them
+  char[10] buf;
+  vfs_read(fd, &buf, sizeof(buf));
+  int i;
+  kprintf("Reading from %s:\n\r", filename);
+  for(i=0;i<10;i++) {
+    kprintf("%d:\t%X\n\r",buf[i]);
+  }
+  
+  // move lseek back
+  vfs_lseek(fd, phdr.p_offset, SEEK_SET);
+  // ===================
+  // = END DEBUG STUFF =
+  // ===================
+  
   if(size != phdr.p_filesz)
     return NULL; /* consistency check */
 
