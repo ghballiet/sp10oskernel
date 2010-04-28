@@ -1,4 +1,3 @@
-
 #include <syscalls.h>
 #include <misc.h>
 #include <printf.h>
@@ -6,7 +5,7 @@
 
 int main()
 {
-  unsigned curchar;
+  int curchar;
   curchar = 0;
    while(1)
      curchar++;
