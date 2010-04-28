@@ -42,6 +42,9 @@ void *elf_load(char *filename)
   // ===============
   // we want to read the first 10 bytes
   // of the binary file so we can compare them
+  
+  // move lseek back
+  vfs_lseek(fd, phdr.p_offset, SEEK_SET);
   unsigned char buf[10];
   vfs_read(fd, &buf, sizeof(buf));
   int a;
@@ -49,9 +52,6 @@ void *elf_load(char *filename)
   for(a=0;a<10;a++) {
     kprintf("%d:\t%X\n\r",a,buf[a]);
   }
-  
-  // move lseek back
-  vfs_lseek(fd, phdr.p_offset, SEEK_SET);
   // ===================
   // = END DEBUG STUFF =
   // ===================
