@@ -1,3 +1,4 @@
+#include <kprintf.h>
 #ifndef PRINTF_H
 #define PRINTF_H
 
