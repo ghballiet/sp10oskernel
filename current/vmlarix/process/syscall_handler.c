@@ -11,7 +11,7 @@ ssize_t sys_read(int fd, const void *buf, size_t count) {
 }
 
 ssize_t sys_write(int fd, const void *buf, size_t count) {
-  kprintf("SYSWRITE called with %d, %s and %d\n\r",fd, buf, count);
+  kprintf("SYSWRITE called with %d, %s",fd, buf, count);
   return -1;
 }
 
