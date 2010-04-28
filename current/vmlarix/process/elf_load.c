@@ -59,6 +59,8 @@ void *elf_load(char *filename)
   if(size != phdr.p_filesz)
     return NULL; /* consistency check */
 
+  vfs_close(fd);
+
   /* finally, set up the BSS zero region */
   uint32_t i;
   for(i=phdr.p_vaddr + phdr.p_filesz; i < phdr.p_vaddr + phdr.p_memsz; i++)
