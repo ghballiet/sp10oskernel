@@ -476,7 +476,7 @@ int printf(char *fmt,...)
 
   bufptr = buf;
 
-  write(1,bufptr,strlen(bufptr));
+  write(2,bufptr,strlen(bufptr));
   
   return KPRINTF_BUFSIZE-remain;
 
