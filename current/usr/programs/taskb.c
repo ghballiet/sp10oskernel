@@ -11,7 +11,7 @@ int main()
 
   curchar = 0;
   while(1)
-    kprintf("Task B\n\r");
+    printf("Task B\n\r");
     // printf("Task B: %d\n\r",curchar++); 
   
 }
