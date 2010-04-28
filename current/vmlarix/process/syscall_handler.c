@@ -35,7 +35,6 @@ uint32_t c_SWI_handler(uint32_t syscall_num,
 			uint32_t p2, 
 			uint32_t p3)
 {
-  kprintf("HANDLING SYSCALL: %d\n\r",syscall_num);
   switch(syscall_num) {
       case SYS_open:
        return sys_open((char *)p1,p2,p3); 
