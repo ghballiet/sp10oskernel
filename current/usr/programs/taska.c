@@ -8,8 +8,8 @@ int main()
 {
   unsigned curchar;
   curchar = 0;
-  // while(1)
-    
+   while(1)
+     curchar++;
     // printf("Task A\n\r");
     // printf("Task A: %d\n\r",curchar++); 
   
