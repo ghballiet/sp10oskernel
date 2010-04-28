@@ -10,6 +10,7 @@ int main()
 
   curchar = 0;
   while(1)
-    printf("Task B: %d\n\r",curchar++); 
+    printf("Task B\n\r");
+    // printf("Task B: %d\n\r",curchar++); 
   
 }
