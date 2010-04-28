@@ -18,6 +18,6 @@ load-binary vmlarix
 load-file "initrd" 0xC0700000
 new-symtable
 st0.load-symbols "vmlarix"
-# new-gdb-remote
+gdb-remote 9222
 write-reg pc 0xc0000000
 write-reg sp 0xc0040000
