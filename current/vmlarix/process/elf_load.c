@@ -47,7 +47,7 @@ void *elf_load(char *filename)
   int a;
   kprintf("Reading from %s:\n\r", filename);
   for(a=0;a<10;a++) {
-    kprintf("%d:\t%X\n\r",buf[a]);
+    kprintf("%d:\t%X\n\r",a,buf[a]);
   }
   
   // move lseek back
