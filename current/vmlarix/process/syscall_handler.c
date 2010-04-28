@@ -40,9 +40,9 @@ uint32_t c_SWI_handler(uint32_t syscall_num,
       case SYS_open:
        return sys_open((char *)p1,p2,p3); 
        break; 
-     case SYS_close: 
-       return sys_close(p1); 
-       break; 
+     // case SYS_close: 
+     //   return sys_close(p1); 
+     //   break; 
      case SYS_read: 
        return sys_read(p1,(void *)p2,p3); 
        break; 
