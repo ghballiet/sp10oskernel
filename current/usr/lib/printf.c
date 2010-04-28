@@ -51,7 +51,6 @@
 #include <misc.h>
 #include <stdarg.h>
 #include <syscalls.h>
-#include <kprintf.h>
 
 void convert_dec(char **buf,int *remain,long long param,int long_flag)
 {
@@ -374,7 +373,6 @@ int snprintf(char *buf,int bufsize,char *fmt,...)
 
 int printf(char *fmt,...)
 {
-  kprintf("entering printf...\n\r");
   /* this routine is not re-entrant! */
   static char buf[KPRINTF_BUFSIZE];
   int remain = KPRINTF_BUFSIZE;

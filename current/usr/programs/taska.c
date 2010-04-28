@@ -1,7 +1,8 @@
 
 #include <syscalls.h>
 #include <misc.h>
-#include <printf.h>
+// #include <printf.h>
+#include <kprintf.h>
 #include <fcntl.h>
 
 int main()
@@ -10,7 +11,7 @@ int main()
 
   curchar = 0;
   while(1)
-    printf("Task A\n\r");
+    kprintf("Task A\n\r");
     // printf("Task A: %d\n\r",curchar++); 
   
 }
