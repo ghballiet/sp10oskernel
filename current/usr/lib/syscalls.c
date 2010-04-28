@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <sys/syscall.h>
+#include <kprintf.h>
 
 int brk(void *end_data_segment)
 {
