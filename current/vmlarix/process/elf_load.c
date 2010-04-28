@@ -9,6 +9,7 @@
    program entry point, or NULL on failure */
 void *elf_load(char *filename)
 {
+  kprintf("Loading %s\n\r",filename);
   int fd = vfs_open(filename, O_RDONLY, 0);
   Elf32_Ehdr ehdr;
   int size;
