@@ -1,8 +1,7 @@
 
 #include <syscalls.h>
 #include <misc.h>
-// #include <printf.h>
-#include <kprintf.h>
+#include <printf.h>
 #include <fcntl.h>
 
 int main()
