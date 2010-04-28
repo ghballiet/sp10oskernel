@@ -6,9 +6,9 @@
 
 int main()
 {
-  unsigned curchar;
+  // unsigned curchar;
 
-  curchar = 0;
+  // curchar = 0;
   while(1)
     printf("Task B\n\r");
     // printf("Task B: %d\n\r",curchar++); 
