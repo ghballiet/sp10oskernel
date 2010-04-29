@@ -13,7 +13,7 @@ ssize_t sys_read(int fd, const void *buf, size_t count) {
 }
 
 ssize_t sys_write(int fd, const void *buf, size_t count) {
-  p = get_running_process();
+  proc_rec *p = get_running_process();
   int pfd = p->fd[fd];
   vfs_write(pfd,buf,count);
   return -1;
