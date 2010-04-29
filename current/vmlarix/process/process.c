@@ -41,7 +41,7 @@ void process_table_init()
 
 
 // initialize the process file descriptor table
-int32_t process_fd_create() {
+int32_t *process_fd_create() {
   // define p->fd as an array of ints
   // of size NUM_FD
   
