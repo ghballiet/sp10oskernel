@@ -11,7 +11,7 @@ svn up && \
 for f in $MKDIRS; do
     cd $f && \
     echo -n "Compiling $f..." && \
-    make >/dev/null && echo "done." || (echo "ERROR!" && return -1)
+    make >/dev/null && echo "done." || (echo "ERROR!" && return 1)
     cd $COMPILE_ROOT
 done
 
