@@ -39,6 +39,10 @@ void process_table_init()
   pq_init(run_q);
 }
 
+proc_rec *get_running_process() {
+  return curr_proc;
+}
+
 
 // initialize the process file descriptor table
 int32_t *process_fd_create() {

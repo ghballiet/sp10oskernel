@@ -33,6 +33,9 @@ typedef struct process_rec {
 // initialize the process file descriptors
 int32_t *process_fd_create();
 
+// get the currently running process
+proc_rec *get_running_process();
+
 /* Initialize the process table and associated data */
 void process_table_init();
 
