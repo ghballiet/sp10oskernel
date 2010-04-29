@@ -49,6 +49,8 @@ int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t flags,uint32_t mode) {
     return fd;
   filedesc *f = fdptr(fd);
   
+  kprintf("FD allocated: %d\n\r",fd);
+  
   f->in_use = 1; 
   f->mp = NULL; 
   // fdesc[i].sb = NULL; 

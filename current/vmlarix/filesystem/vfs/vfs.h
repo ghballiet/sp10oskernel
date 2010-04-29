@@ -77,7 +77,7 @@ int vfs_mkdir(const char *pathname, mode_t mode);
 int vfs_rmdir(const char *pathname);
 int vfs_dup(int oldfd);
 int vfs_fcntl(int fd, int cmd, ... );
-int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t mode, uint32_t flags);
+int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t flags,uint32_t mode);
 
 /*  The following functions are implemented in the VFS layer, and not
     by each filesystem driver: */ 
