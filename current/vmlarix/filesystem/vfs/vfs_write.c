@@ -35,5 +35,8 @@ int vfs_write_dev(int fd, void *buffer, size_t count) {
   if(fd>=NUM_FD)
     return -1;
   f = fdptr(fd);
+  
+  // FIXME: remove below
+  // cheating here, because i couldn't get it to work
   kprintf(buffer);
 }
