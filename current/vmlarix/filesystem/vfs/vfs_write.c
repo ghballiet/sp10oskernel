@@ -35,7 +35,7 @@ int vfs_write(int fd, void* buffer, size_t count)
     case FT_CHAR_SPEC:
       rval = char_write(f->major,f->minor,buffer,count);  
       break;
-    case default:
+    default:
       kprintf("Uinimplemented file type.\n\r");
       break;
   }
