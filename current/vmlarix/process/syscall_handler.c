@@ -15,7 +15,6 @@ ssize_t sys_read(int fd, const void *buf, size_t count) {
 ssize_t sys_write(int fd, const void *buf, size_t count) {
   proc_rec *p = get_running_process();
   int pfd = p->fd[fd];
-  kprintf("Writing to %d - %s\n\r",pfd,buf);
   vfs_write_dev(pfd,buf,count);  
   return (ssize_t)0;
 }
