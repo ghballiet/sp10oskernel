@@ -5,6 +5,7 @@
 #include <mmap.h>
 #include <dev_list.h>
 #include <fcntl.h>
+#include <vfs_fdesc.h>
 
 #define STDIN 0
 #define STDOUT 1
