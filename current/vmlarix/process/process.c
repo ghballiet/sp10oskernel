@@ -5,6 +5,11 @@
 #include <mmap.h>
 #include <dev_list.h>
 
+#define STDIN 0
+#define STDOUT 1
+#define STDERR 2
+#define PROC_FD_DEFAULT -1
+
 /* This is for tracking the next PID to be assigned. */
 PID_t next_PID;         
 
@@ -35,20 +40,34 @@ void process_table_init()
 
 // initialize the process file descriptor table
 void process_fd_init(proc_rec *p) {
-  // TODO: implement process_fd_init
-
   // define p->fd as an array of ints
   // of size NUM_FD
   
-  // p->fd[0] = stdin
-  // p->fd[1] = stdout
-  // p->fd[2] = stderr
-  // the rest are = -1
-  
   // call vfs_open_dev(console_major,console_minor,mode,flags) to open
   // returns a FD which we can assign
-  // FIXME: what values should MODE and FLAGS have?
-  // TODO:  define STDIN, STDOUT, STDERR somewhere
+  
+  // STDIN
+  int fd_stdin = vfs_open_dev(console_major,console_minor,O_RDONLY,0);
+  
+  // STDOUT
+  int fd_stdout = vfs_open_dev(console_major,console_minor,O_WRONLY,0);
+  
+  // STDERR
+  int fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY,0);
+  
+  int fds[NUM_FD];
+  int i;
+  
+  fds[STDIN] = fd_stdin;
+  fds[STDOUT] = fd_stdout;
+  fds[STDERR] = fd_stderr;
+  
+  for(i=3; i < NUM_FD; i++) {
+    fds[i] = PROC_FD_DEFAULT;
+  }
+  
+  p->fd = fds;
+  p->num_fd = NUM_FD;
 }
 
 /* Create a process by allocating a process table entry and
