@@ -49,13 +49,16 @@ int32_t *process_fd_create() {
   // returns a FD which we can assign
   
   // STDIN
-  int32_t fd_stdin = (int32_t)vfs_open_dev(console_major,console_minor,O_RDONLY,0);
+  int32_t fd_stdin = vfs_open_dev(console_major,console_minor,0,O_RDONLY|O_CREAT);
+  vfs_close(fd_stdin);
   
   // STDOUT
-  int32_t fd_stdout = (int32_t)vfs_open_dev(console_major,console_minor,O_WRONLY,0);
+  int32_t fd_stdout = vfs_open_dev(console_major,console_minor,0,O_WRONLY|O_CREAT);
+  vfs_close(fd_stdout);
   
   // STDERR
-  int32_t fd_stderr = (int32_t)vfs_open_dev(console_major,console_minor,O_WRONLY,0);
+  int32_t fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY|O_CREAT);
+  vfs_close(fd_stderr);
   
   int32_t fds[PROC_NUM_FD];
   int32_t i;
@@ -91,11 +94,11 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   p_tab[procId].arch = process_arch_create(start,stack);
 
   // initialize the process file descriptor table
-  kprintf("\n\rSetting up file descriptors:\n\r");
+  kprintf("Setting up file descriptors:\n\r");
   p_tab[procId].fd = process_fd_create();
-  kprintf("\tSTDIN = %X\n\r",p_tab[procId].fd[0]);
-  kprintf("\tSTDOUT = %X\n\r",p_tab[procId].fd[1]);
-  kprintf("\tSTDERR = %X\n\r",p_tab[procId].fd[2]);
+  kprintf("STDIN = %d\n\r",p_tab[procId].fd[0]);
+  kprintf("STDOUT = %d\n\r",p_tab[procId].fd[1]);
+  kprintf("STDERR = %d\n\r\n\r",p_tab[procId].fd[2]);
 
   /* Set the process state to STARTING. */
   p_tab[procId].state = PROCESS_STARTING;
