@@ -41,7 +41,7 @@ void process_table_init()
 
 
 // initialize the process file descriptor table
-void process_fd_init(proc_rec *p) {
+void process_fd_init(proc_rec p) {
   // define p->fd as an array of ints
   // of size NUM_FD
   
