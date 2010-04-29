@@ -3,7 +3,6 @@
 #include <vfs.h>
 #include <vfs_filedesc.h>
 #include <vfs_fsops.h>
-#include <kprintf.h>
 
 #ifdef _KERNEL_
 #include <misc.h>
@@ -49,8 +48,6 @@ int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t flags,uint32_t mode) {
   if((fd = alloc_fd())<0)
     return fd;
   filedesc *f = fdptr(fd);
-  
-  kprintf("FD allocated: %d\n\r",fd);
   
   f->in_use = 1; 
   f->mp = NULL; 
