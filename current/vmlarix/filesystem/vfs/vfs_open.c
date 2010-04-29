@@ -49,22 +49,22 @@ int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t flags,uint32_t mode) {
     return fd;
   filedesc *f = fdptr(fd);
   
-  f.in_use = 1; 
-  f.mp = NULL; 
+  f->in_use = 1; 
+  f->mp = NULL; 
   // fdesc[i].sb = NULL; 
   // fdesc[i].inode = NULL; 
-  f.flags = flags; 
-  f.mode = mode; 
-  f.major = major; 
-  f.minor = minor; 
-  f.buffer = NULL; 
-  f.bufsize = 0; 
-  f.dirty = 0; 
-  f.curr_blk = 0; 
-  f.curr_log = 0; 
-  f.bufpos = 0; 
-  f.filepos = 0; 
-  f.type = FT_CHAR_SPEC; 
+  f->flags = flags; 
+  f->mode = mode; 
+  f->major = major; 
+  f->minor = minor; 
+  f->buffer = NULL; 
+  f->bufsize = 0; 
+  f->dirty = 0; 
+  f->curr_blk = 0; 
+  f->curr_log = 0; 
+  f->bufpos = 0; 
+  f->filepos = 0; 
+  f->type = FT_CHAR_SPEC; 
   
   return fd;
 } 
