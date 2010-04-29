@@ -17,6 +17,7 @@
 #include <vfs_mp.h>
 #include <vfs_filedesc.h>
 #include <vfs_fsops.h>
+#include <chardev.h>
 
 int vfs_write(int fd, void* buffer, size_t count)
 {
