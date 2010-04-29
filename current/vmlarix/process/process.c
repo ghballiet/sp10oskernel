@@ -49,16 +49,16 @@ int32_t *process_fd_create() {
   // returns a FD which we can assign
   
   // STDIN
-  int32_t fd_stdin = vfs_open_dev(console_major,console_minor,0,O_RDONLY|O_CREAT);
+  int32_t fd_stdin = vfs_open_dev(console_major,console_minor,O_RDONLY,0);
   
   // STDOUT
-  int32_t fd_stdout = vfs_open_dev(console_major,console_minor,0,O_WRONLY|O_CREAT);
+  int32_t fd_stdout = vfs_open_dev(console_major,console_minor,O_WRONLY,0);
   
   // STDERR
-  int32_t fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY|O_CREAT);
+  int32_t fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY,0);
   
   int32_t fds[PROC_NUM_FD];
-  int32_t i;
+  int i;
   
   fds[STDIN] = fd_stdin;
   fds[STDOUT] = fd_stdout;

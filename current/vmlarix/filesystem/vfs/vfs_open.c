@@ -40,36 +40,31 @@ int vfs_open(char *pathname, int flags, mode_t mode)
   return fd;
 }
 
-int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t mode, uint32_t flags) {
+int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t flags,uint32_t mode) {
   // called with console_major and console_minor
-  
+  int fd;
   
   // find a file descriptor
-  int i = 0; 
-  while((i<NUM_FD)&&(fdesc[i].in_use)) 
-   i++; 
- if(i==NUM_FD) 
-   { 
-     // errno = ENFD; no file descriptors 
-     return -1; 
-   } 
- fdesc[i].in_use = 1; 
-
- fdesc[i].mp = NULL; 
- // fdesc[i].sb = NULL; 
- // fdesc[i].inode = NULL; 
- fdesc[i].flags = flags; 
- fdesc[i].mode = mode; 
- fdesc[i].major = major; 
- fdesc[i].minor = minor; 
- fdesc[i].buffer = NULL; 
- fdesc[i].bufsize = 0; 
- fdesc[i].dirty = 0; 
- fdesc[i].curr_blk = 0; 
- fdesc[i].curr_log = 0; 
- fdesc[i].bufpos = 0; 
- fdesc[i].filepos = 0; 
- fdesc[i].type = FT_CHAR_SPEC; 
- return i; 
-
- } 
+  if((fd = alloc_fd())<0)
+    return fd;
+  filedesc *f = fdptr(fd);
+  
+  f.in_use = 1; 
+  f.mp = NULL; 
+  // fdesc[i].sb = NULL; 
+  // fdesc[i].inode = NULL; 
+  f.flags = flags; 
+  f.mode = mode; 
+  f.major = major; 
+  f.minor = minor; 
+  f.buffer = NULL; 
+  f.bufsize = 0; 
+  f.dirty = 0; 
+  f.curr_blk = 0; 
+  f.curr_log = 0; 
+  f.bufpos = 0; 
+  f.filepos = 0; 
+  f.type = FT_CHAR_SPEC; 
+  
+  return fd;
+} 
