@@ -50,15 +50,12 @@ int32_t *process_fd_create() {
   
   // STDIN
   int32_t fd_stdin = vfs_open_dev(console_major,console_minor,0,O_RDONLY|O_CREAT);
-  vfs_close(fd_stdin);
   
   // STDOUT
   int32_t fd_stdout = vfs_open_dev(console_major,console_minor,0,O_WRONLY|O_CREAT);
-  vfs_close(fd_stdout);
   
   // STDERR
   int32_t fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY|O_CREAT);
-  vfs_close(fd_stderr);
   
   int32_t fds[PROC_NUM_FD];
   int32_t i;

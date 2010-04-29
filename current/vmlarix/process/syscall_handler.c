@@ -13,9 +13,7 @@ ssize_t sys_read(int fd, const void *buf, size_t count) {
 }
 
 ssize_t sys_write(int fd, const void *buf, size_t count) {
-  vfs_open(fd,O_WRONLY,0);
   vfs_write(fd,buf,count);
-  vfs_close(fd);
   return -1;
 }
 
