@@ -3,6 +3,7 @@
 #include <vfs.h>
 #include <vfs_filedesc.h>
 #include <vfs_fsops.h>
+#include <kprintf.h>
 
 #ifdef _KERNEL_
 #include <misc.h>
