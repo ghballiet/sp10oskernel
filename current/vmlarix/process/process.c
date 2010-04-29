@@ -41,7 +41,7 @@ void process_table_init()
 
 
 // initialize the process file descriptor table
-void process_fd_init(proc_rec p) {
+int32_t process_fd_create() {
   // define p->fd as an array of ints
   // of size NUM_FD
   
@@ -68,8 +68,7 @@ void process_fd_init(proc_rec p) {
     fds[i] = PROC_FD_DEFAULT;
   }
   
-  p.fd = fds;
-  p.num_fd = (int32_t)PROC_NUM_FD;
+  return fds;  
 }
 
 /* Create a process by allocating a process table entry and
@@ -92,7 +91,7 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   p_tab[procId].arch = process_arch_create(start,stack);
 
   // initialize the process file descriptor table
-  process_fd_init(p_tab[procId]);
+  p_tab[procId].fd = process_fd_create();
 
   /* Set the process state to STARTING. */
   p_tab[procId].state = PROCESS_STARTING;
