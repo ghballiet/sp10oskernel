@@ -30,7 +30,7 @@ int vfs_write(int fd, void* buffer, size_t count)
   
   switch(f->type) {
     case FT_NORMAL:
-      rval = (f->mp->ops->write_fn(f,buffer,count);
+      rval = (f->mp->ops->write_fn(f,buffer,count));
       break;
     case FT_CHAR_SPEC:
       rval = char_write(f->major,f->minor,buffer,count);  
