@@ -68,8 +68,8 @@ void process_fd_init(proc_rec p) {
     fds[i] = PROC_FD_DEFAULT;
   }
   
-  p->fd = fds;
-  p->num_fd = PROC_NUM_FD;
+  p->fd = (int32_t *)fds;
+  p->num_fd = (int32_t)PROC_NUM_FD;
 }
 
 /* Create a process by allocating a process table entry and
