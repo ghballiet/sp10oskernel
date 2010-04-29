@@ -91,7 +91,11 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   p_tab[procId].arch = process_arch_create(start,stack);
 
   // initialize the process file descriptor table
+  kprintf("\n\rSetting up file descriptors:\n\r");
   p_tab[procId].fd = process_fd_create();
+  kprintf("\tSTDIN = %X\n\r",p_tab[procId].fd[0]);
+  kprintf("\tSTDOUT = %X\n\r",p_tab[procId].fd[1]);
+  kprintf("\tSTDERR = %X\n\r",p_tab[procId].fd[2]);
 
   /* Set the process state to STARTING. */
   p_tab[procId].state = PROCESS_STARTING;
