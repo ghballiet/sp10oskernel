@@ -2,6 +2,7 @@
 #include <process.h>
 #include <kprintf.h>
 #include <vfs.h>
+#include <fcntl.h>
 
 // ====================
 // = define sys calls =
