@@ -35,5 +35,5 @@ int vfs_write_dev(int fd, void *buffer, size_t count) {
   if(fd>=NUM_FD)
     return -1;
   f = fdptr(fd);
-  return blk_write(fd->major, fd->minor, buffer, count);
+  return blk_write(f->major, f->minor, buffer, count);
 }
