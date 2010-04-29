@@ -41,6 +41,8 @@ int vfs_open(char *pathname, int flags, mode_t mode)
 }
 
 int vfs_open_dev(uint16_t major, uint16_t minor,uint32_t mode, uint32_t flags) {
+  // called with console_major and console_minor
+  
   
   // find a file descriptor
   int i = 0; 

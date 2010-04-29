@@ -1,6 +1,7 @@
 #include <sys/syscall.h>
 #include <process.h>
 #include <kprintf.h>
+#include <vfs.h>
 
 // ====================
 // = define sys calls =
@@ -11,6 +12,7 @@ ssize_t sys_read(int fd, const void *buf, size_t count) {
 }
 
 ssize_t sys_write(int fd, const void *buf, size_t count) {
+  // TODO: call vfs_write for stdin (i.e. write to stdin)
   kprintf("SYSWRITE called with %d, %s",fd, buf, count);
   return -1;
 }

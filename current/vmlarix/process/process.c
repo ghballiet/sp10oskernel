@@ -32,6 +32,25 @@ void process_table_init()
   pq_init(run_q);
 }
 
+
+// initialize the process file descriptor table
+void process_fd_init(proc_rec *p) {
+  // TODO: implement process_fd_init
+
+  // define p->fd as an array of ints
+  // of size NUM_FD
+  
+  // p->fd[0] = stdin
+  // p->fd[1] = stdout
+  // p->fd[2] = stderr
+  // the rest are = -1
+  
+  // call vfs_open_dev(console_major,console_minor,mode,flags) to open
+  // returns a FD which we can assign
+  // FIXME: what values should MODE and FLAGS have?
+  // TODO:  define STDIN, STDOUT, STDERR somewhere
+}
+
 /* Create a process by allocating a process table entry and
    initializing it appropriately.  Returns the PID of the process
    created, 0 means no free slots. */
@@ -50,6 +69,9 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
   /* Initialize the opaque architecture specific part of the process
      table entry. */
   p_tab[procId].arch = process_arch_create(start,stack);
+
+  // initialize the process file descriptor table
+  process_fd_init(p_tab[procId]);
 
   /* Set the process state to STARTING. */
   p_tab[procId].state = PROCESS_STARTING;
