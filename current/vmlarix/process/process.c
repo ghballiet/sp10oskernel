@@ -5,12 +5,12 @@
 #include <mmap.h>
 #include <dev_list.h>
 #include <fcntl.h>
-#include <vfs_fdesc.h>
 
 #define STDIN 0
 #define STDOUT 1
 #define STDERR 2
 #define PROC_FD_DEFAULT -1
+#define PROC_NUM_FD 256
 
 /* This is for tracking the next PID to be assigned. */
 PID_t next_PID;         
@@ -57,19 +57,19 @@ void process_fd_init(proc_rec *p) {
   // STDERR
   int fd_stderr = vfs_open_dev(console_major,console_minor,O_WRONLY,0);
   
-  int fds[NUM_FD];
+  int fds[PROC_NUM_FD];
   int i;
   
   fds[STDIN] = fd_stdin;
   fds[STDOUT] = fd_stdout;
   fds[STDERR] = fd_stderr;
   
-  for(i=3; i < NUM_FD; i++) {
+  for(i=3; i < PROC_NUM_FD; i++) {
     fds[i] = PROC_FD_DEFAULT;
   }
   
   p->fd = fds;
-  p->num_fd = NUM_FD;
+  p->num_fd = PROC_NUM_FD;
 }
 
 /* Create a process by allocating a process table entry and
