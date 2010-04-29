@@ -1,7 +1,6 @@
 
 #ifdef _KERNEL_
 #include <misc.h>
-#include <chardev.h>
 #else
 #include <stdlib.h>
 #include <string.h>
