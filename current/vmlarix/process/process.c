@@ -4,6 +4,7 @@
 #include <process_q.h>
 #include <mmap.h>
 #include <dev_list.h>
+#include <fcntl.h>
 
 #define STDIN 0
 #define STDOUT 1
