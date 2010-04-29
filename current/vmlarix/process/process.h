@@ -30,6 +30,9 @@ typedef struct process_rec {
   struct process_rec *prev;
 }proc_rec;
 
+// initialize the process file descriptors
+int32_t *process_fd_create();
+
 /* Initialize the process table and associated data */
 void process_table_init();
 

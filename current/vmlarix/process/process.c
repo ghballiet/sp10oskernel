@@ -68,7 +68,7 @@ int32_t *process_fd_create() {
     fds[i] = PROC_FD_DEFAULT;
   }
   
-  return fds;  
+  return fds; 
 }
 
 /* Create a process by allocating a process table entry and
