@@ -17,7 +17,7 @@ ssize_t sys_write(int fd, const void *buf, size_t count) {
   int pfd = p->fd[fd];
   kprintf("Writing to %d - %s\n\r",pfd,buf);
   vfs_write(1,(void *)buf,count);
-  return -1;
+  return (ssize_t)0;
 }
 
 int sys_open(const char *pathname, int flags, mode_t mode) {
