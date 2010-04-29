@@ -21,22 +21,24 @@
 int vfs_write(int fd, void* buffer, size_t count)
 {
   filedesc *f;
+  int rval;
   if(fd>=NUM_FD)
     return -1;
   f = fdptr(fd);
 
   /* add code to handle devices ! */
-
-  return f->mp->ops->write_fn(f,buffer,count);
-}
-
-int vfs_write_dev(int fd, void *buffer, size_t count) {
-  filedesc *f;
-  if(fd>=NUM_FD)
-    return -1;
-  f = fdptr(fd);
   
-  // FIXME: remove below
-  // cheating here, because i couldn't get it to work
-  kprintf(buffer);
+  switch(f->type) {
+    case FT_NORMAL:
+      rval = (f->mp->ops->write_fn(f,buffer,count);
+      break;
+    case FT_CHAR_SPEC:
+      rval = char_write(f->major,f->minor,buffer,count);  
+      break;
+    case default:
+      kprintf("Uinimplemented file type.\n\r");
+      break;
+  }
+  
+  return rval;
 }
