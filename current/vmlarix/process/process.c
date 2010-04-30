@@ -94,12 +94,12 @@ proc_rec* process_create(PID_t parent, void *start, void *stack)
      table entry. */
   p_tab[procId].arch = process_arch_create(start,stack);
 
-  // initialize the process file descriptor table
-  kprintf("Setting up file descriptors:\n\r");
-  p_tab[procId].fd = process_fd_create();
-  kprintf("STDIN = %d\n\r",p_tab[procId].fd[0]);
-  kprintf("STDOUT = %d\n\r",p_tab[procId].fd[1]);
-  kprintf("STDERR = %d\n\r\n\r",p_tab[procId].fd[2]);
+  // // initialize the process file descriptor table
+  // kprintf("Setting up file descriptors:\n\r");
+  // p_tab[procId].fd = process_fd_create();
+  // kprintf("STDIN = %d\n\r",p_tab[procId].fd[0]);
+  // kprintf("STDOUT = %d\n\r",p_tab[procId].fd[1]);
+  // kprintf("STDERR = %d\n\r\n\r",p_tab[procId].fd[2]);
 
   /* Set the process state to STARTING. */
   p_tab[procId].state = PROCESS_STARTING;
