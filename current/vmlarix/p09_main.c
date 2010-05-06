@@ -90,6 +90,8 @@ int main()
   /* note: in process_create, the entry point is set to zero.  we rely
      on elf_load to provide the correct entry point.
   */
+  
+  kprintf("Calling process_create...\n\r");
   init_prec = process_create(0, (void*)0, init_stack);
   init_prec->page_table = pt_new();
   init_prec->page_table_virt = (void*)phys_to_virt(kernel_pt,init_prec->page_table);
