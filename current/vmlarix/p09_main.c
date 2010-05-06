@@ -101,11 +101,13 @@ int main()
   fdesc[stdout].in_use++;
   init_prec->fd[2]=stderr;
   fdesc[stderr].in_use++;
+  kprintf("ELF load init...\n\r");
   init_entry = elf_load("/init",init_prec);
   /* reset the entry point to the one that the elf loader gave us.
      this routine has been written in arch/ARM/SA1110/process_arch.c,
      but has not been tested.
   */
+  kprintf("Resetting entry point to %d\n\r...",init_entry);
   process_arch_set_entry(init_prec->arch,init_entry);
 
   kprintf("Setting up interrupt controller\n\r");
