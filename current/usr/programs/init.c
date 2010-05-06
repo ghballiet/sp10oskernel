@@ -8,6 +8,7 @@
 int main()
 {
   int result;
+  printf("Starting init...\n\r");
 
   /* this is where I would read /etc/rc* and do system initialization,
      by forking and initing shell scripts */
@@ -31,6 +32,7 @@ int main()
 	 If the fork fails, then result contiains something less
 	 than zero.
       */
+   printf("Forking the first time...\n\r");
       result = fork();
       while(result<0)
 	{
@@ -43,7 +45,8 @@ int main()
 	     child, or just add the child to my list and
 	     continue checking on all my children.
 	  */
-
+	  
+     printf("Normally, I would wait here...\n\r");
 	  /* wait(result,&status, 0) */
 	  while(1)
 	    printf("exec:parent is running\n\r");
@@ -52,6 +55,7 @@ int main()
 	{
 	  /* this is where I would execve the login program */
 
+    printf("Normally, I would login here...\n\r");
 	  /* execve("/login",NULL,NULL); */
 	  while(1)
 	    printf("child is running\n\r");
