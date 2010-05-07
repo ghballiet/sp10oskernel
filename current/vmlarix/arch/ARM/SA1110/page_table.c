@@ -252,22 +252,14 @@ void *phys_to_virt(phys_addr page_table_phys, phys_addr phys)
    table */
 phys_addr pt_new()
 {
-  // TODO: debug this method
-  kprintf("Entering pt_new...\n\r");
   phys_addr pt;
-  kprintf("phys_addr was fine...\n\r");
   first_level_page_table *vt;
-  kprintf("first_level_page_table was fine...\n\r");
   uint32_t i;
   void *t;
   uint32_t *ti;
   
-  kprintf("Calling pt_l1_alloc...\n\r");
   vt = pt_l1_alloc();
-  kprintf("Got past pt_l1_alloc...\n\r");
   pt = pt_l1_lookup_phys(vt);
-  kprintf("Got past pt_l1_lookup_phys(vt)...\n\r");
-  kprintf("Initializing all the entries...\n\r");
   /* initialize all the entries */
   for(i=0;i<0x800;i++)
     {
