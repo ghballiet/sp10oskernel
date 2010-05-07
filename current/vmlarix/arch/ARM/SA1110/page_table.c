@@ -261,8 +261,10 @@ phys_addr pt_new()
   uint32_t *ti;
 
   vt = pt_l1_alloc();
+  kprintf("Got past pt_l1_alloc...\n\r");
   pt = pt_l1_lookup_phys(vt);
-
+  kprintf("Got past pt_l1_lookup_phys(vt)...\n\r");
+  kprintf("Initializing all the entries...\n\r");
   /* initialize all the entries */
   for(i=0;i<0x800;i++)
     {
