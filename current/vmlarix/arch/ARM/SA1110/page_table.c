@@ -255,7 +255,9 @@ phys_addr pt_new()
   // TODO: debug this method
   kprintf("Entering pt_new...\n\r");
   phys_addr pt;
+  kprintf("phys_addr was fine...\n\r");
   first_level_page_table *vt;
+  kprintf("first_level_page_table was fine...\n\r");
   uint32_t i;
   void *t;
   uint32_t *ti;
