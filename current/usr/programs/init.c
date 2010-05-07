@@ -23,8 +23,7 @@ int main()
      Here is how I do it:
   */
 
-  while(1)
-    {
+   while(1) {
       /* first, I call fork, creating a child process.  The only
 	 difference between the parent and child, is the value
 	 stored in the variable "result".  The parent has the
@@ -32,36 +31,32 @@ int main()
 	 If the fork fails, then result contiains something less
 	 than zero.
       */
-   printf("Forking the first time...\n\r");
-      result = fork();
-      while(result<0)
-	{
-	  printf("Fork failed: code is %d\n\r",result);
-	}
-      
-      if(result>0)
-	{
+    printf("Forking the first time...\n\r");
+    result = fork();
+    while(result<0) {
+      printf("Fork failed: code is %d\n\r",result);
+	  }
+	  
+    if(result>0) {
 	  /* this is where I would do a wait() for the 
 	     child, or just add the child to my list and
 	     continue checking on all my children.
 	  */
 	  
-     printf("Normally, I would wait here...\n\r");
+       printf("Normally, I would wait here...\n\r");
 	  /* wait(result,&status, 0) */
-	  while(1)
-	    printf("exec:parent is running\n\r");
-	}
-      else
-	{
+	  
+	   while(1)
+	     printf("exec:parent is running\n\r");
+	  } else {
 	  /* this is where I would execve the login program */
 
-    printf("Normally, I would login here...\n\r");
+      printf("Normally, I would login here...\n\r");
 	  /* execve("/login",NULL,NULL); */
-	  while(1)
-	    printf("child is running\n\r");
-	}
-    }
+      while(1)
+	      printf("child is running\n\r");
+	  }
+  }
      
-  printf("Something is wrong with init\n\r"); 
-	     
+  printf("Something is wrong with init\n\r");      
 }

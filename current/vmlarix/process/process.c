@@ -37,7 +37,6 @@ void process_table_init()
    created, 0 means no free slots. */
 proc_rec* process_create(PID_t parent, void *start, void *stack)
 {
-  printf("Entering process create...");
   int i;
   PID_t procId;
 
