@@ -387,14 +387,11 @@ first_level_page_table *pt_l1_alloc()
     }
 
   /* initialize the entries */
-  kprintf("Initializing entries...\n\r");
+  kprintf("Initializing entries from %d...\n\r",i);
+  // TODO: wtf is happening with ti here?
   ti = (uint32_t *)retval;
-  kprintf("Length of ti: %d\n\r",sizeof(ti));
   for(i=0;i<4096;i++) {
     ti[i] = 0;
-    if((i%50)==0) {
-      kprintf("%d/4096\n\r");
-    }
   }
   kprintf("Done initializing entries.\n\r");
   return (first_level_page_table *)retval;
