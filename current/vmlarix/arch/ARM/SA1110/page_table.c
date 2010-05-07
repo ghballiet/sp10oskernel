@@ -5,6 +5,7 @@
 #include <linker_vars.h>
 #include <pt_alloc.h>
 #include <page_table.h>
+#include <kprintf.h>
 
 /* Functions to initialize the kernel page table are in mmap.c 
    This file provides functions to manipulate user page tables.
@@ -251,6 +252,8 @@ void *phys_to_virt(phys_addr page_table_phys, phys_addr phys)
    table */
 phys_addr pt_new()
 {
+  // TODO: debug this method
+  kprintf("Entering pt_new...\n\r");
   phys_addr pt;
   first_level_page_table *vt;
   uint32_t i;
