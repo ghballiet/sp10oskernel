@@ -4,7 +4,7 @@
 #include <pt_alloc.h>
 #include <linker_vars.h>
 #include <phys_mem.h>
-
+#include <kprintf.h>
 #include <misc.h>
 
 /* Since a second level page table occupies 1024 bytes, and our page
@@ -335,6 +335,7 @@ void pt_l2_free(phys_addr pt)
    table.  */
 first_level_page_table *pt_l1_alloc()
 {
+  kprintf("Inside of pt_l1_alloc\n\r");
   void *t;
   uint32_t *ti;
   fr_l1_pt *retval;
@@ -345,12 +346,14 @@ first_level_page_table *pt_l1_alloc()
     {
       retval = avail_l1_pts;
       avail_l1_pts = avail_l1_pts->next;
+      kprintf("avail_l1_pts != NULL\n\r");
     }
   else
     {
       /* find an available virtual address between __mml1pagespace_start__
          and __mml1pagespace_end__ for the new page table */
       for(i=0;(i<NUM_LEV_1_PTS)&&(lev_1_pts[i].fault.key!=0);i+=4);
+      kprintf("Got past (possibly infinite) loop.\n\r");
       if(i==NUM_LEV_1_PTS)
         panic("Out of top level page table space.");
 
@@ -364,6 +367,7 @@ first_level_page_table *pt_l1_alloc()
       if(phys_ad == NULL)
         panic("unable to allocate a physical page.");
 
+      kprintf("Mapping the pages...\n\r");
       /* map the pages */
       for(j=i;j<i+4;j++)
         {
@@ -379,13 +383,15 @@ first_level_page_table *pt_l1_alloc()
           ti = (uint32_t *)t;
           SA1110_set_page_table_entry(t, *ti);
         }
+        kprintf("Done mapping the pages.\n\r");
     }
 
   /* initialize the entries */
+  kprintf("Initializing entries...\n\r");
   ti = (uint32_t *)retval;
   for(i=0;i<4096;i++)
     ti[i] = 0;
-
+  kprintf("Done initializing entries.\n\r");
   return (first_level_page_table *)retval;
 }
 

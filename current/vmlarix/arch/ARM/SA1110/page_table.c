@@ -5,7 +5,6 @@
 #include <linker_vars.h>
 #include <pt_alloc.h>
 #include <page_table.h>
-#include <kprintf.h>
 
 /* Functions to initialize the kernel page table are in mmap.c 
    This file provides functions to manipulate user page tables.
