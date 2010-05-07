@@ -254,7 +254,6 @@ phys_addr pt_new()
 {
   // TODO: debug this method
   kprintf("Entering pt_new...\n\r");
-  kprintf("Still working fine here...\n\r");
   phys_addr pt;
   kprintf("phys_addr was fine...\n\r");
   first_level_page_table *vt;
@@ -262,7 +261,8 @@ phys_addr pt_new()
   uint32_t i;
   void *t;
   uint32_t *ti;
-
+  
+  kprintf("Calling pt_l1_alloc...\n\r");
   vt = pt_l1_alloc();
   kprintf("Got past pt_l1_alloc...\n\r");
   pt = pt_l1_lookup_phys(vt);
