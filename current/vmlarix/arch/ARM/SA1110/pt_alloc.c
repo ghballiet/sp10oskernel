@@ -391,7 +391,7 @@ first_level_page_table *pt_l1_alloc()
   // TODO: wtf is happening with ti here?
   ti = (uint32_t *)retval;
   for(i=0;i<4096;i++) {
-    kprintf("%d/4096\n\r",i);    
+    kprintf("%d/4096\t%s\n\r",i,ti);
     ti[i] = 0;
   }
   kprintf("Done initializing entries.\n\r");
