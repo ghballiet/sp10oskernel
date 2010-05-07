@@ -254,6 +254,7 @@ phys_addr pt_new()
 {
   // TODO: debug this method
   kprintf("Entering pt_new...\n\r");
+  kprintf("Still working fine here...\n\r");
   phys_addr pt;
   kprintf("phys_addr was fine...\n\r");
   first_level_page_table *vt;
