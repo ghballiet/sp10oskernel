@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME_DIR='/home/glhunt/svn/sp10oskernel/'
+HOME_DIR='/home/glhunt/svn/sp10oskernel/current/'
 BUILD_DIRS='usr/ vmlarix/'
 
 cd $HOME_DIR
