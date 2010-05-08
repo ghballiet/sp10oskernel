@@ -1,0 +1,14 @@
+#!/bin/bash
+
+HOME_DIR='/home/glhunt/svn/sp10oskernel/'
+BUILD_DIRS='usr/ vmlarix/'
+
+cd $HOME_DIR
+svn up
+for d in $BUILD_DIRS; do
+    echo "Building $d..."
+    cd $d
+    make >/dev/null
+    echo "done."
+    cd $HOME_DIR
+done
