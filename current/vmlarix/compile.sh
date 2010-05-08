@@ -12,3 +12,7 @@ for d in $BUILD_DIRS; do
     echo "done."
     cd $HOME_DIR
 done
+cd $HOME_DIR
+cd vmlarix
+echo "Running simics..."
+./startsimics.sh
