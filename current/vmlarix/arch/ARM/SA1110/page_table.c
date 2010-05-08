@@ -256,7 +256,7 @@ phys_addr pt_new()
   uint32_t i;
   void *t;
   uint32_t *ti;
-  
+  pt_alloc_init();
   vt = pt_l1_alloc();
   pt = pt_l1_lookup_phys(vt);
   /* initialize all the entries */
