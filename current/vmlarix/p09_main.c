@@ -91,10 +91,8 @@ int main()
      on elf_load to provide the correct entry point.
   */
   
-  kprintf("Calling process_create...\n\r");
   init_prec = process_create(0, (void*)0, init_stack);
   // TODO: doesn't look like it's getting beyond this point
-  kprintf("Got past process_create...\n\r");
   init_prec->page_table = pt_new();
   kprintf("Got past pt_new...\n\r");
   init_prec->page_table_virt = (void*)phys_to_virt(kernel_pt,init_prec->page_table);
