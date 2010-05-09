@@ -258,7 +258,9 @@ phys_addr pt_new()
   uint32_t *ti;
   pt_alloc_init();
   vt = pt_l1_alloc();
-  pt = pt_l1_lookup_phys(vt);
+  // pt = pt_l1_lookup_phys(vt);
+  // CHANGED: use virtual instead of physical
+  pt = pt_l1_lookup_virt(vt);
   /* initialize all the entries */
   for(i=0;i<0x800;i++)
     {
