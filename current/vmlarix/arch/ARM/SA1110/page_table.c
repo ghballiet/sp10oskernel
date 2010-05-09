@@ -28,7 +28,7 @@ void pt_add_mapping(phys_addr page_table_phys, void *virt, uint32_t phys)
 
   // tlpt = pt_l1_lookup_virt(page_table_phys);
   // CHANGED: so it uses virtual instead of physical
-  tlpt = proc_rec->page_table_virt;
+  tlpt = curr_proc->page_table_virt;
 
   /* 2. Now calculate the location of the page table entry for
      the virtual address we want to map. */                   
