@@ -95,7 +95,9 @@ int main()
   // TODO: doesn't look like it's getting beyond this point
   init_prec->page_table = pt_new();
   kprintf("Got past pt_new...\n\r");
-  init_prec->page_table_virt = (void*)phys_to_virt(kernel_pt,init_prec->page_table);
+  init_prec->page_table_virt = (void*)phys_to_virt(kernel_pt,init_prec->pt_virt);
+  // CHANGED: passing virtual instead of physical
+  // init_prec->page_table_virt = (void*)phys_to_virt(kernel_pt,init_prec->page_table);
   kprintf("Got past phys_to_virt...\n\r");
   init_prec->fd[0]=stdin;
   fdesc[stdin].in_use++;
